@@ -1,39 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/09 17:32:10 by akloster         ###   ########.fr       */
+/*   Created: 2024/07/09 17:26:54 by akloster          #+#    #+#             */
+/*   Updated: 2024/07/09 20:11:35 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**mini_parser(char *arg)
+static bool	check_word(char *str)
 {
-	char	**args;
-
-	if (ft_strnstr(arg, "echo", ft_strlen(arg)))
-	{
-		//arg_check();
-		if (ft_echo(arg))
-			return (NULL);
-	}
+	if (*str == '<' || *str == '>' || *str == '|' || ft_strnstr(str, "<<", 2)
+			|| ft_strnstr(str, ">>", 2))
+		return (false);
+	return (true);
 }
 
-int	main(void)
+t_data	*lexer(char *arg)
 {
-	char	*arg;
+	int		i;
+	char	**args;
+	t_data	*head;
 
-	while (1)
+	i = -1;
+	while (arg[i])
 	{
-		arg = readline("minishel:");
-		lexer(arg);
-		free(arg);
-		arg = NULL;
+		if (check_word(args[i]))
+		{
+			
+		}	
 	}
-	return (0);
+	return (head);
 }

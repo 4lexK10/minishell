@@ -6,13 +6,13 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/07/04 17:40:37 by akloster         ###   ########.fr        #
+#    Updated: 2024/07/09 16:03:33 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 RM				=	rm -rf
 
-SRC				=	main.c
+SRC				=	main.c /builtins/echo.c
 
 LIBFT			=	libft/libft.a
 
@@ -24,12 +24,11 @@ CC				=	cc
 
 CFLAGS			=	-Wall -Wextra -Werror
 
-NAME			=	pipex
-
+NAME			=	minishell
 
 $(NAME):		$(OBJ_DIR) $(OBJ)
 				make -C./libft
-				$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $@
+				$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $@
 
 all:			$(NAME)
 
