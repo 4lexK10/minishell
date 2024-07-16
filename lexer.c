@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:26:54 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/16 20:41:57 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:44:03 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	init_data(char *arg, t_data **head, int type)
 	}
 }
 
-t_data	*lexer(char *arg)
+t_data	**lexer(char *arg)
 {
 	int		i;
 	char	**args;
@@ -72,5 +72,5 @@ t_data	*lexer(char *arg)
 		else
 			init_data(arg[i], &head, WORD);
 	}
-	return (head);
+	return (&head);
 }

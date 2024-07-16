@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/16 19:07:49 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:44:54 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# define TOKEN	0
+# define WORD	1
+
+// token definition
+
+# define PIPE	1
+# define IN		2
+# define OUT	3
+# define OUT_AP	4
+# define H_DOC	5
 
 typedef struct	s_data
 {
@@ -26,7 +36,8 @@ typedef struct	s_data
 	t_data	*next;
 }				t_data;
 
-int	exec(t_data **arg);
-int	executor(int n_pipe, t_data **arg);
+int		exec(t_data **arg);
+int		executor(int n_pipe, t_data **arg);
+t_data	**lexer(char *arg);
 
 #endif
