@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/16 19:31:39 by akiener          ###   ########.fr       */
+/*   Created: 2024/07/16 19:01:14 by akiener           #+#    #+#             */
+/*   Updated: 2024/07/16 19:05:17 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	parsing(int ac, char **av, char **envp)
+void	ft_error_comm(char *comm)
 {
-	if (ac == 1)
-		return (0);
-	if (ac == 2)
-		if (check_one_command(av[1]) == false)
-			return (-1);
+	printf("minishell: %s: command not found\n", comm);
+	return ;
 }
