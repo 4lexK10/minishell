@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/16 18:44:01 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/16 18:47:35 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	parsing(int ac, char **av, char **envp)
 {
-	
+	ceci est un test;
 }
