@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/16 19:32:59 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:14:41 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ static int  piper(t_data **node)
 	if ((*node)->token == 2) // needs correctiom: pipe token number
 	{
 		*node = (*node)->next;
-		redir_in();
+		redir_in((*node)->word);
 	}
+	
 }
 
 int executor(int n_pipe, t_data **arg)
