@@ -1,41 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/17 17:46:39 by akloster         ###   ########.fr       */
+/*   Created: 2024/07/17 13:55:06 by akloster          #+#    #+#             */
+/*   Updated: 2024/07/17 15:58:00 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* static char	**mini_parser(char *arg)
+void	free_data(t_data **data)
 {
-	char	**args;
+	t_data	*temp;
 
-	if (ft_strnstr(arg, "echo", ft_strlen(arg)))
+	if (!data || !(*data))
+		return ;
+	temp = *data;
+	while (temp)
 	{
-		//arg_check();
-		if (ft_echo(arg))
-			return (NULL);
+		temp = temp->next;
+		(*data)->next = NULL;
+		if ((*data)->word)
+			free((*data)->word);
+		free(*data);
+		*data = temp;
 	}
-} */
+}
 
-int	main(void)
+void free_ptr_array(char ***s)
 {
-	char	*arg;
-	t_data	*data;
+	int	i;
 
-	while (1)
+	i = -1;
+	if (!s || !(*s))
+		return ;
+	if (**s)
 	{
-		arg = readline("minishel:");
-		data = lexer(arg);
-		if (!exec(data))
-			return (1);
-		free_data(&data);
+		while ((*s)[++i])
+		{
+			free((*s)[i]);
+			(*s)[i] = NULL;
+		}
 	}
-	return (0);
+	free(*s);
+	*s = NULL;
 }

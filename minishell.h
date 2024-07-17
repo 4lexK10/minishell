@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/16 20:44:54 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/17 14:55:39 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,15 @@
 
 typedef struct	s_data
 {
-	char	*word;
-	int		token;
-	t_data	*next;
+	char			*word;
+	int				token;
+	struct s_data	*next;
 }				t_data;
 
 int		exec(t_data **arg);
 int		executor(int n_pipe, t_data **arg);
-t_data	**lexer(char *arg);
+t_data	*lexer(char *arg);
+void	free_data(t_data **data);
+void	free_ptr_array(char ***s);
 
 #endif

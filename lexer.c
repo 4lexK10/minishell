@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:26:54 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/16 20:44:03 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:20:30 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	init_data(char *arg, t_data **head, int type)
 	if (!(*head))
 	{
 		*head = (t_data *)malloc(sizeof(t_data));
-		temp = head;
+		temp = *head;
 	}
 	else
 	{
@@ -47,7 +47,7 @@ static void	init_data(char *arg, t_data **head, int type)
 	}
 	if (type == WORD)
 	{
-		temp->word = arg;
+		temp->word = ft_strdup(arg);
 		temp->token = 0;
 	}
 	if (type == TOKEN)
@@ -55,22 +55,29 @@ static void	init_data(char *arg, t_data **head, int type)
 		temp->word = NULL;
 		temp->token = id_token(arg);
 	}
+	temp->next = NULL;
 }
 
-t_data	**lexer(char *arg)
+t_data	*lexer(char *arg)
 {
 	int		i;
 	char	**args;
 	t_data	*head;
 
+	if (!arg)
+		return (NULL);
 	i = -1;
+	args = ft_split(arg, ' ');
+	if (!args)
+		return (NULL);
 	head = NULL;
-	while (arg[++i])
+	while (args[++i])
 	{
-		if (id_token(arg[i]))
-			init_data(arg[i], &head, TOKEN);
+		if (id_token(args[i]))
+			init_data(args[i], &head, TOKEN);
 		else
-			init_data(arg[i], &head, WORD);
+			init_data(args[i], &head, WORD);
 	}
-	return (&head);
+	free_ptr_array(&args);
+	return (head);
 }

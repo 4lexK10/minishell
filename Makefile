@@ -6,13 +6,13 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/07/09 16:03:33 by akloster         ###   ########.fr        #
+#    Updated: 2024/07/17 18:50:54 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 RM				=	rm -rf
 
-SRC				=	main.c /builtins/echo.c
+SRC				=	main.c lexer.c free_functions.c
 
 LIBFT			=	libft/libft.a
 
@@ -26,9 +26,9 @@ CFLAGS			=	-Wall -Wextra -Werror
 
 NAME			=	minishell
 
-$(NAME):		$(OBJ_DIR) $(OBJ)
+$(NAME):		$(OBJ_DIR) $(OBJ) #-g -fsanitize=address
 				make -C./libft
-				$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $@
+				$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $@   
 
 all:			$(NAME)
 
