@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:10:48 by akloster          #+#    #+#             */
-/*   Updated: 2024/04/29 21:40:41 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/17 15:49:55 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,30 +99,32 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	i = 0;
+	i = -1;
 	size = count_split(s, c);
 	arr_str = (char **)malloc((size + 1) * sizeof(char *));
 	if (!arr_str)
 		return (NULL);
 	arr_str2 = fill_split(s, c, arr_str);
+	i = -1;
 	if (!arr_str2)
 	{
-		while (arr_str[i] != NULL)
-			free(arr_str[i++]);
+		while (arr_str[++i] != NULL)
+			free(arr_str[i]);
 		free(arr_str);
+		arr_str = NULL;
 		return (NULL);
 	}
 	return (arr_str2);
 }
 
-/* #include <stdio.h>
-
-int main(int ac, char ** av)
+/* int main(int ac, char ** av)
 {
 	if (ac == 3)
 	{
 		size_t i = 0;
 		char **arr_str = ft_split(av[1], *av[2]);
+		if (!arr_str)
+			return (0);
 		while (arr_str[i] != NULL)
 			printf("%s$\n", arr_str[i++]);
 		if (arr_str)

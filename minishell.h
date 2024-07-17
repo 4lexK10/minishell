@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/17 14:55:39 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/17 20:54:39 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
 # define TOKEN	0
 # define WORD	1
 
@@ -37,9 +38,12 @@ typedef struct	s_data
 }				t_data;
 
 int		exec(t_data **arg);
-int		executor(int n_pipe, t_data **arg);
+int		executor(int n_pipe, t_data **arg, int **pipes);
 t_data	*lexer(char *arg);
 void	free_data(t_data **data);
-void	free_ptr_array(char ***s);
+void	free_ptr_arr(char ***s);
+int		ft_error(char *str);
+void	free_int_arr(int ***arr, int sub_arr_nbr);
+
 
 #endif

@@ -6,13 +6,13 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/07/17 18:50:54 by akloster         ###   ########.fr        #
+#    Updated: 2024/07/17 19:20:10 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 RM				=	rm -rf
 
-SRC				=	main.c lexer.c free_functions.c
+SRC				=	main.c test_lexer.c free_functions.c
 
 LIBFT			=	libft/libft.a
 

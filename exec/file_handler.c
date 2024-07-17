@@ -6,10 +6,10 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/16 19:32:04 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:22:17 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int redir_in()
+/* int redir_in() */
