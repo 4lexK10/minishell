@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/17 16:25:21 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/17 16:46:23 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,41 +25,14 @@ static int	ft_string_len(char *av, int i, char end)
 	int	len;
 
 	len = 0;
-	while (av[++i] != end)
+	while (av[i] != end)
 	{
 		if (av[i] == '\0')
 			return (len);
 		len++;
+		i++;
 	}
 	return (len);
-}
-
-static int	ft_find_string(t_data **data, int *i, char *av, char end)
-{
-	int		y;
-	char	*str;
-
-	y = ft_string_len(av, *i, end);
-	str = malloc(sizeof (char) * (y + 1));
-	if (!str)
-		return (-1);
-	y = 0;
-	if (av[*i] == end)
-		(*i)++;
-	while (av[*i] != end)
-	{
-		if (end == ' ' && (ft_isspace(av[*i]) == 1 || av[*i] == '\0'))
-			break ;
-		if (av[*i] == '\0' && ft_isspace(end) == 0)
-			return (free(str), free_list(data), -1);
-		str[y++] = av[*i];
-		(*i)++;
-	}
-	str[y] = '\0';
-	if (addback_stack(data, str) == -1)
-		return (free(str), free_list(data), -1);
-	free(str);
-	return (0);
 }
 
 static int	check_line(char *av, t_data **data)
