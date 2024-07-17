@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   lexer_tok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/16 19:01:14 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/17 15:21:57 by akiener          ###   ########.fr       */
+/*   Created: 2024/07/17 13:55:50 by akiener           #+#    #+#             */
+/*   Updated: 2024/07/17 14:00:59 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	ft_error_comm(char *comm)
+int	which_token(char *arg, t_data **data)
 {
-	printf("minishell: %s: command not found\n", comm);
-	return ;
+	
 }

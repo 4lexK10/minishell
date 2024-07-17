@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/09 20:15:11 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/17 15:59:19 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,27 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# define TOKEN	0
+
+// token definition
+
+# define PIPE	1
+# define IN		2
+# define OUT	3
+# define OUT_AP	4
+# define H_DOC	5
+# define WORD	6
+# define NUMBER	7
 
 typedef struct	s_data
 {
-	char	*word;
-	int		token;
-	t_data	*next;
-}				t_data;
+	char			*word;
+	int				token;
+	struct s_data	*next;
+}	t_data;
+
+int		exec(t_data **arg);
+int		executor(int n_pipe, t_data **arg);
+t_data	**lexer(char *arg);
 
 #endif
