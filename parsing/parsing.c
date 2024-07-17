@@ -6,13 +6,13 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/17 16:46:23 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/17 19:00:10 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-static int	ft_isspace(int c)
+int	ft_isspace(int c)
 {
 	if (c == '\t' || c == '\n' || c == '\v' || 
 		c == '\f' || c == '\r' || c == ' ')
@@ -20,41 +20,52 @@ static int	ft_isspace(int c)
 	return (0);
 }
 
-static int	ft_string_len(char *av, int i, char end)
+char	*new_ft_join(char *str, char *temp)
 {
-	int	len;
+	char	*res;
+	int 	i;
+	int		y;
 
-	len = 0;
-	while (av[i] != end)
-	{
-		if (av[i] == '\0')
-			return (len);
-		len++;
-		i++;
-	}
-	return (len);
+	res = malloc(sizeof (char) * (ft_strlen(str) + ft_strlen(temp) + 1));
+	if (!res)
+		return (free(str), free(temp), NULL);
+	i = -1;
+	while (str[++i])
+		res[i] = str[i];
+	y = -1;
+	while (temp[++y])
+		res[i++] = temp[y];
+	res[i] = '\0';
+	free(str);
+	free(temp);
+	return (res);
 }
 
 static int	check_line(char *av, t_data **data)
 {
-	int	i;
+	int		i;
+	char	*str;
 
-	i = 0;
-	while (av[i])
+	i = -1;
+	while (av[++i])
 	{
-		if (av[i] == '"' || av[i] == '\'')
+		if (ft_isspace(av[i]) == 1);
+		else
 		{
-			if (ft_find_string(data, &i, av, av[i]) == -1)
+			str = ft_all_string(data, av, &i);
+			if (!str)
 				return (free_list(data), -1);
-		}
-		else if (ft_isprint(av[i]) == 1)
-		{
-			if (ft_isspace(av[i]) == 1);
-			else
-				if (ft_find_string(data, &i, av, ' ') == -1)
+			while ((av[i] == '"' || av[i] == '\'')
+				&& ft_isspace(av[i + 1]) == 0)
+			{
+				str = ft_append_word(data, av, &i, str);
+				if (!str)
 					return (free_list(data), -1);
+			}
+			if (addback_stack(data, str) == -1)
+				return (free_list(data), free(str), -1);
+			free(str);
 		}
-		i++;
 	}
 	return (0);
 }

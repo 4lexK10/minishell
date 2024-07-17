@@ -6,24 +6,26 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:45:30 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/17 17:15:51 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/17 19:02:38 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-//Mieux gerer le cas des doubles quotes avec des mots attaché car ça ne va pas marchercomme ça
+// Mieux gerer le cas des doubles quotes avec des mots attaché car ça ne va pas marcher comme ça
 
 static int	ft_string_len(char *av, int i, char end)
 {
 	int	len;
 
 	len = 0;
+	if (end == ' ')
+		len++;
 	if (av[i] == '"' || av[i] == '\'')
 		i++;
 	while (av[i] != end)
 	{
-		if (av[i] == '\0')
+		if (av[i] == '\0' || (end == ' ' && ft_isspace(av[i]) == 1))
 			return (len);
 		len++;
 		i++;
@@ -31,26 +33,43 @@ static int	ft_string_len(char *av, int i, char end)
 	return (len);
 }
 
-char	*ft_join_word(char *str, char *av, int *i, t_data **data)
+char	*ft_append_word(t_data **data, char *av, int *i, char *str)
 {
+	char	*temp;
 	char	*res;
-	int		y;
 
-	while (av[*i])
-	{
-		if (av[*i] == '"')
-			if (ft_find_quotes(data, i, av, '"') == -1)
-				return (free(str), NULL);
-		if (av[*i] == '\'')
-			if (ft_find_quotes(data, i, av, '\'') == -1)
-				return (free(str), NULL);
-		if (ft_isprint)
-			if (ft_find_word())
-				return (free(str))
-	}
+	(*i)++;
+	temp = ft_all_string(data, av, i);
+	if (!temp)
+		return (free(str), free_list(data), NULL);
+	res = new_ft_join(str, temp);
+	if (!res)
+		return (free_list(data), NULL);
+	return (res);
 }
 
-int	ft_find_quotes(t_data **data, int *i, char *av, char quote)
+char	*ft_find_word(int *i, char *av)
+{
+	int		y;
+	char	*str;
+
+	y = ft_string_len(av, *i, ' ');
+	str = malloc(sizeof (char) * (y + 1));
+	if (!str)
+		return (NULL);
+	y = 0;
+	str[y] = av[*i];
+	while (av[++(*i)])
+	{
+		if (ft_isspace(av[*i]) == 1)
+			break ;
+		str[++y] = av[*i];
+	}
+	str[y] = '\0';
+	return (str);
+}
+
+char	*ft_find_quotes(int *i, char *av, char quote)
 {
 	int		y;
 	char	*str;
@@ -58,21 +77,40 @@ int	ft_find_quotes(t_data **data, int *i, char *av, char quote)
 	y = ft_string_len(av, *i, quote);
 	str = malloc(sizeof (char) * (y + 1));
 	if (!str)
-		return (-1);
+		return (NULL);
 	y = 0;
 	while (av[++(*i)] != quote)
 	{
 		if (av[*i] == '\0')
-			return (free(str), free_list(data), -1);
+			return (free(str), NULL);
 		str[y++] = av[*i];
 	}
-	while (ft_isspace(av[++(*i)]) == 0)
-	{
-		
-	}
 	str[y] = '\0';
-	if (addback_stack(data, str) == -1)
-		return (free(str), free_list(data), -1);
-	free(str);
-	return (0);
+	return (str);
+}
+
+char	*ft_all_string(t_data **data, char *av, int *i)
+{
+	char	*str;
+
+	str = NULL;
+	if (av[*i] == '"')
+	{
+		str = ft_find_quotes(i, av, '"');
+		if (!str)
+			return (free_list(data), NULL);
+	}
+	else if (av[*i] == '\'')
+	{
+		str = ft_find_quotes(i, av, '\'');
+		if (!str)
+			return (free_list(data), NULL);
+	}
+	else if (av[*i])
+	{
+		str = ft_find_word(i, av);
+		if (!str)
+			return (free_list(data), NULL);
+	}
+	return (str);
 }
