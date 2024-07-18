@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/17 20:54:39 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:41:59 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@
 # define OUT_AP	4
 # define H_DOC	5
 
+// readablitlty defines
+
+# define NEED_EXIT	1
+# define NO_EXIT	0	
+
 typedef struct	s_data
 {
 	char			*word;
@@ -37,12 +42,12 @@ typedef struct	s_data
 	struct s_data	*next;
 }				t_data;
 
-int		exec(t_data **arg);
-int		executor(int n_pipe, t_data **arg, int **pipes);
+int		exec(t_data **arg, char **envp);
+int		executor(int n_pipe, t_data **arg, int **pipes, char **envp);
 t_data	*lexer(char *arg);
 void	free_data(t_data **data);
 void	free_ptr_arr(char ***s);
-int		ft_error(char *str);
+int		ft_error(char *str, int need);
 void	free_int_arr(int ***arr, int sub_arr_nbr);
 
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/17 20:54:23 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:41:48 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	**init_pipes(int n_pipe)
 	i = -1;
 	pipes = (int **)malloc(sizeof(int *) * n_pipe);
 	if (!pipes)
-		ft_error("malloc");
+		ft_error("malloc", NEED_EXIT);
 	while (++i < n_pipe)
 	{
 		pipes[i] = (int *)malloc(sizeof(int) * 2); 
@@ -29,8 +29,7 @@ static int	**init_pipes(int n_pipe)
 		if (pipe(pipes[i]) == -1)
 		{
 			free_int_arr(&pipes, i + 1);
-			ft_error("pipe");
-			return (NULL);
+			ft_error("pipe", NEED_EXIT);
 		}
 	}
 	return (pipes);
@@ -52,18 +51,25 @@ static int	pipe_check(t_data **data)
 	return (cnt);
 }
 
-int	exec(t_data **data)
+int	exec(t_data **data, char **envp)
 {
 	int	n_pipe;
 	int	**pipes;
 
 	n_pipe = pipe_check(data);
-	pipes = init_pipes(n_pipe);
-	if (!pipes)
+	if (n_pipe > 0)
+	{	
+		pipes = init_pipes(n_pipe);
+		if (!pipes)
+		{
+			free_data(&data);
+			exit(errno);
+		}
+	}
+	if (executor(n_pipe, data, pipes, envp))
 	{
-		free_data(&data);
+		free_int_arr(&pipes, n_pipe);
 		exit(errno);
 	}
-	executor(n_pipe, data, pipes);
 	
 }
