@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:55:06 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/17 15:58:00 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/18 21:21:20 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	free_data(t_data **data)
 	}
 }
 
-void free_ptr_array(char ***s)
+void free_ptr_arr(char ***s)
 {
 	int	i;
 
@@ -47,4 +47,31 @@ void free_ptr_array(char ***s)
 	}
 	free(*s);
 	*s = NULL;
+}
+
+void free_int_arr(int ***arr, int sub_arr_nbr)
+{
+	int	i;
+
+	i = -1;
+	if (!arr | !(*arr))
+		return ;
+	while (++i < sub_arr_nbr)
+	{
+		free((*arr)[i]);
+		(*arr)[i] = NULL;
+	}
+	free(*arr);
+	*arr = NULL;
+}
+
+char	*free_all_path_info(char **str, char ***arr)
+{
+	if (str)
+	{
+		free(*str);
+		*str = NULL;
+	}
+	free_ptr_arr(arr);
+	return (NULL);
 }
