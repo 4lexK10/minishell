@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:45:30 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/17 19:02:38 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/18 14:25:41 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@ static int	ft_string_len(char *av, int i, char end)
 	int	len;
 
 	len = 0;
-	if (end == ' ')
-		len++;
 	if (av[i] == '"' || av[i] == '\'')
 		i++;
-	while (av[i] != end)
+	while (av[i] && av[i] != end)
 	{
-		if (av[i] == '\0' || (end == ' ' && ft_isspace(av[i]) == 1))
-			return (len);
+		if (av[i] == '\0' || (end == ' ' && (ft_isspace(av[i]) == 1
+			|| av[i + 1] == '"' || av[i + 1] == '\'')))
+			break ;
 		len++;
 		i++;
 	}
@@ -38,13 +37,14 @@ char	*ft_append_word(t_data **data, char *av, int *i, char *str)
 	char	*temp;
 	char	*res;
 
-	(*i)++;
 	temp = ft_all_string(data, av, i);
 	if (!temp)
 		return (free(str), free_list(data), NULL);
 	res = new_ft_join(str, temp);
 	if (!res)
 		return (free_list(data), NULL);
+	if (!av[*i + 1])
+		(*i)++;
 	return (res);
 }
 
@@ -61,11 +61,13 @@ char	*ft_find_word(int *i, char *av)
 	str[y] = av[*i];
 	while (av[++(*i)])
 	{
-		if (ft_isspace(av[*i]) == 1)
+		if (ft_isspace(av[*i]) == 1 || av[*i] == '"' || av[*i] == '\'')
 			break ;
 		str[++y] = av[*i];
 	}
-	str[y] = '\0';
+	str[++y] = '\0';
+	if (!av[*i])
+		(*i)--;
 	return (str);
 }
 
@@ -86,6 +88,7 @@ char	*ft_find_quotes(int *i, char *av, char quote)
 		str[y++] = av[*i];
 	}
 	str[y] = '\0';
+	(*i)++;
 	return (str);
 }
 
@@ -112,5 +115,6 @@ char	*ft_all_string(t_data **data, char *av, int *i)
 		if (!str)
 			return (free_list(data), NULL);
 	}
+	printf("le mot est : %s\n", str);
 	return (str);
 }

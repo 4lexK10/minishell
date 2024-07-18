@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   pars_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 15:50:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/18 14:34:02 by akiener          ###   ########.fr       */
+/*   Created: 2024/07/18 12:36:20 by akiener           #+#    #+#             */
+/*   Updated: 2024/07/18 12:37:22 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int main()
+int	ft_isspace(int c)
 {
-	t_data *data = NULL;
-	char *str = "Coucou C       est MOI\"Pour voir si      marche   \"yo\"test\" ";
-
-	data = parsing(str);
-	if (!data)
-		return (printf("Wesh\n"), 1);
-	t_data *link = data;
-	while (link)
-	{
-		printf("- %s\n", link->word);
-		link = link->next;
-	}
-	free_list(&data);
+	if (c == '\t' || c == '\n' || c == '\v' ||
+		c == '\f' || c == '\r' || c == ' ')
+		return (1);
 	return (0);
 }
