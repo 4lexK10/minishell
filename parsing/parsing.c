@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/18 14:34:57 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/18 15:50:24 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_just_string(t_data **data, char *av, char *str, int *i)
 {
 	str = ft_all_string(data, av, i);
 	if (!str)
-		return (printf("Gere le crash connard\n"), free_list(data), -1);
+		return (free_list(data), -1);
 	while (av[*i] && ft_isspace(av[*i]) == 0)
 	{
 		str = ft_append_word(data, av, i, str);
@@ -80,14 +80,11 @@ static int	check_line(char *av, t_data **data)
 	while (av[++i])
 	{
 		if (ft_isspace(av[i]) == 1);
-		// else if (av[i] != '"' && av[i] != '\'')
-		// {
-		// 	if (ft_just_word(data, av, str, &i) == -1)
-		// 		return (-1);
-		// }
 		else
 			if (ft_just_string(data, av, str, &i) == -1)
-				return (printf("Vraiment\n"), -1);
+				return (-1);
+		if (!av[i])
+			i--;
 	}
 	return (0);
 }

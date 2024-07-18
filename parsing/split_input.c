@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:45:30 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/18 14:25:41 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/18 15:52:51 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,5 @@ char	*ft_all_string(t_data **data, char *av, int *i)
 		if (!str)
 			return (free_list(data), NULL);
 	}
-	printf("le mot est : %s\n", str);
 	return (str);
 }

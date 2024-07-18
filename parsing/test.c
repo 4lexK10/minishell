@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:50:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/18 14:34:02 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/18 15:53:18 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int main()
 {
 	t_data *data = NULL;
-	char *str = "Coucou C       est MOI\"Pour voir si      marche   \"yo\"test\" ";
+	char *str = " ";
 
 	data = parsing(str);
 	if (!data)
