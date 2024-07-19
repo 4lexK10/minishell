@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   check_envp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 15:50:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/19 14:36:13 by akiener          ###   ########.fr       */
+/*   Created: 2024/07/19 13:29:00 by akiener           #+#    #+#             */
+/*   Updated: 2024/07/19 14:49:54 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int main(int ac, char **av, char **envp)
+int	check_envp(t_data **data, char **envp)
 {
-	t_data *data = NULL;
-	char *str = "t\"ester l'en'\"  vie";
+	t_data	*link;
+	int		i;
+	int		y;
 
-	(void)ac;
-	(void)av;
-	data = parsing(str);
-	if (!data)
-		return (printf("Data = NULL\n"), 1);
-	t_data *link = data;
+	link = *data;
 	while (link)
 	{
-		printf("- %s\n", link->word);
-		link = link->next;
+		i = -1;
+		while (link->word[++i])
+		{
+			if (link->word[i] == '$')
+				if (ft_change_dollar(&link, envp) == -1)
+					return (-1);
+		}
 	}
-	int i = -1;
-	while (++i == 0)
-		printf("env : %s\n", envp[i]);
-	free_list(&data);
-	system("leaks a.out");
-	return (0);
 }

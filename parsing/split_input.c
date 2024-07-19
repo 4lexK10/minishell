@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:45:30 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/18 15:52:51 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:35:49 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static int	ft_string_len(char *av, int i, char end)
 		i++;
 	while (av[i] && av[i] != end)
 	{
-		if (av[i] == '\0' || (end == ' ' && (ft_isspace(av[i]) == 1
-			|| av[i + 1] == '"' || av[i + 1] == '\'')))
+		if (end == ' ' && (ft_isspace(av[i]) == 1 || av[i + 1] == '"'
+				|| av[i + 1] == '\''))
 			break ;
 		len++;
 		i++;
@@ -43,8 +43,8 @@ char	*ft_append_word(t_data **data, char *av, int *i, char *str)
 	res = new_ft_join(str, temp);
 	if (!res)
 		return (free_list(data), NULL);
-	if (!av[*i + 1])
-		(*i)++;
+	// if (!av[*i + 1])
+	// 	(*i)++;
 	return (res);
 }
 
@@ -66,8 +66,9 @@ char	*ft_find_word(int *i, char *av)
 		str[++y] = av[*i];
 	}
 	str[++y] = '\0';
-	if (!av[*i])
-		(*i)--;
+	printf("str = %s\n", str);
+	// if (!av[*i])
+	// 	(*i)--;
 	return (str);
 }
 

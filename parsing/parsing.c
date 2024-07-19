@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/18 15:50:24 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/19 15:13:39 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,11 @@ char	*new_ft_join(char *str, char *temp)
 	return (res);
 }
 
-int	ft_just_string(t_data **data, char *av, char *str, int *i)
+static int	ft_just_string(t_data **data, char *av, int *i)
 {
+	char	*str;
+
+	str = NULL;
 	str = ft_all_string(data, av, i);
 	if (!str)
 		return (free_list(data), -1);
@@ -50,38 +53,18 @@ int	ft_just_string(t_data **data, char *av, char *str, int *i)
 	return (0);
 }
 
-int	ft_just_word(t_data **data, char *av, char *str, int *i)
-{
-	str = ft_all_string(data, av, i);
-	if (!str)
-		return (free_list(data), -1);
-	while (av[*i] && ft_isspace(av[*i]) == 0
-		&& (av[*i + 1] == '"' || av[*i + 1] == '\''))
-	{
-		(*i)++;
-		str = ft_append_word(data, av, i, str);
-		if (!str)
-			return (free_list(data), -1);
-	}
-	if (addback_stack(data, str) == -1)
-		return (free_list(data), free(str), -1);
-	free(str);
-	str = NULL;
-	return (0);
-}
-
 static int	check_line(char *av, t_data **data)
 {
 	int		i;
-	char	*str;
+	int		flag;
 
+	flag = 0;
 	i = -1;
-	str = NULL;
 	while (av[++i])
 	{
 		if (ft_isspace(av[i]) == 1);
 		else
-			if (ft_just_string(data, av, str, &i) == -1)
+			if (ft_just_string(data, av, &i) == -1)
 				return (-1);
 		if (!av[i])
 			i--;
@@ -96,5 +79,6 @@ t_data	*parsing(char *av)
 	data = NULL;
 	if (check_line(av, &data) == -1)
 		return (NULL);
+	
 	return (data);
 }
