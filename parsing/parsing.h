@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:32:09 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/20 11:50:57 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/20 13:13:57 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft/libft.h"
 # include "../minishell.h"
 # include <stdio.h>
+# include <stdlib.h>
 # include <stdbool.h>
 
 typedef struct s_token

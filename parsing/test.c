@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:50:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/20 11:51:22 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/20 13:20:39 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int main(int ac, char **av, char **envp)
 	int i = -1;
 	while (test[++i])
 		printf("env : %s\n", test[i]);
+	char *temp = getenv("USER");
+	printf("USER = %s\n", temp);
 	free_list(&data);
 	system("leaks a.out");
 	return (0);
