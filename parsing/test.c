@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:50:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/19 14:36:13 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/20 11:51:22 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 int main(int ac, char **av, char **envp)
 {
 	t_data *data = NULL;
-	char *str = "t\"ester l'en'\"  vie";
+	char *str = "toujou'rs'      t\"ester l'en'\"vie";
 
 	(void)ac;
 	(void)av;
-	data = parsing(str);
+	char **test = envp;
+	data = parsing(str, envp);
 	if (!data)
 		return (printf("Data = NULL\n"), 1);
 	t_data *link = data;
@@ -29,8 +30,8 @@ int main(int ac, char **av, char **envp)
 		link = link->next;
 	}
 	int i = -1;
-	while (++i == 0)
-		printf("env : %s\n", envp[i]);
+	while (test[++i])
+		printf("env : %s\n", test[i]);
 	free_list(&data);
 	system("leaks a.out");
 	return (0);

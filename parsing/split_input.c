@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:45:30 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/19 14:35:49 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/20 11:48:20 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,43 +32,46 @@ static int	ft_string_len(char *av, int i, char end)
 	return (len);
 }
 
-char	*ft_append_word(t_data **data, char *av, int *i, char *str)
-{
-	char	*temp;
-	char	*res;
-
-	temp = ft_all_string(data, av, i);
-	if (!temp)
-		return (free(str), free_list(data), NULL);
-	res = new_ft_join(str, temp);
-	if (!res)
-		return (free_list(data), NULL);
-	// if (!av[*i + 1])
-	// 	(*i)++;
-	return (res);
-}
-
-char	*ft_find_word(int *i, char *av)
+char	*ft_find_word(int *i, t_arg arg_env)
 {
 	int		y;
 	char	*str;
 
-	y = ft_string_len(av, *i, ' ');
+	y = ft_string_len(arg_env.arg, *i, ' ');
 	str = malloc(sizeof (char) * (y + 1));
 	if (!str)
 		return (NULL);
 	y = 0;
-	str[y] = av[*i];
-	while (av[++(*i)])
+	str[y] = arg_env.arg[*i];
+	while (arg_env.arg[++(*i)])
 	{
-		if (ft_isspace(av[*i]) == 1 || av[*i] == '"' || av[*i] == '\'')
+		if (ft_isspace(arg_env.arg[*i]) == 1 || arg_env.arg[*i] == '"'
+			|| arg_env.arg[*i] == '\'')
 			break ;
-		str[++y] = av[*i];
+		str[++y] = arg_env.arg[*i];
 	}
 	str[++y] = '\0';
-	printf("str = %s\n", str);
-	// if (!av[*i])
-	// 	(*i)--;
+	return (str);
+}
+
+char	*ft_find_dbl_quotes(int *i, t_arg arg_env, char quote)
+{
+	int		y;
+	char	*str;
+
+	y = ft_string_len(arg_env.arg, *i, quote);
+	str = malloc(sizeof (char) * (y + 1));
+	if (!str)
+		return (NULL);
+	y = 0;
+	while (arg_env.arg[++(*i)] != quote)
+	{
+		if (arg_env.arg[*i] == '\0')
+			return (free(str), NULL);
+		str[y++] = arg_env.arg[*i];
+	}
+	str[y] = '\0';
+	(*i)++;
 	return (str);
 }
 
@@ -93,26 +96,26 @@ char	*ft_find_quotes(int *i, char *av, char quote)
 	return (str);
 }
 
-char	*ft_all_string(t_data **data, char *av, int *i)
+char	*ft_all_string(t_data **data, t_arg arg_env, int *i)
 {
 	char	*str;
 
 	str = NULL;
-	if (av[*i] == '"')
+	if (arg_env.arg[*i] == '"')
 	{
-		str = ft_find_quotes(i, av, '"');
+		str = ft_find_dbl_quotes(i, arg_env, '"');
 		if (!str)
 			return (free_list(data), NULL);
 	}
-	else if (av[*i] == '\'')
+	else if (arg_env.arg[*i] == '\'')
 	{
-		str = ft_find_quotes(i, av, '\'');
+		str = ft_find_quotes(i, arg_env.arg, '\'');
 		if (!str)
 			return (free_list(data), NULL);
 	}
-	else if (av[*i])
+	else if (arg_env.arg[*i])
 	{
-		str = ft_find_word(i, av);
+		str = ft_find_word(i, arg_env);
 		if (!str)
 			return (free_list(data), NULL);
 	}
