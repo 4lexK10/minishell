@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/18 21:32:03 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:21:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	**init_pipes(int n_pipe)
+static int	***init_pipes(int n_pipe)
 {
 	int	**pipes;
 	int	i;
@@ -54,7 +54,7 @@ static int	pipe_check(t_data **data)
 int	exec(t_data **data, char **envp)
 {
 	int	n_pipe;
-	int	**pipes;
+	int	***pipes;
 
 	pipes = NULL;
 	n_pipe = pipe_check(data);
@@ -69,7 +69,7 @@ int	exec(t_data **data, char **envp)
 	}
 	if (executor(n_pipe, data, pipes, envp))
 	{
-		free_int_arr(&pipes, n_pipe);
+		free_int_arr(pipes, n_pipe);
 		exit(errno);
 	}
 	return (1);

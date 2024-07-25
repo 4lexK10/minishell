@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:55:06 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/18 21:21:20 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:22:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void free_int_arr(int ***arr, int sub_arr_nbr)
 	int	i;
 
 	i = -1;
-	if (!arr | !(*arr))
+	if (!arr || !(*arr))
 		return ;
 	while (++i < sub_arr_nbr)
 	{

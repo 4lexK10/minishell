@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/18 22:25:57 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:22:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,37 @@
 	
 } */
 
-static pid_t	*ft_fork(int n_pipe)
+int	ft_fork(int n_pipe);
 {
-	pid_t	*pids;
-	int		i;
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		ft_error("fork", NO_EXIT);
+		return (-1);
+	}
+	return (pid);
+}
+// forker ----- needs a check if forks are needed before calling forker()
+static int	**forker(int n_pipe)
+{
+	int	*pids;
+	int	i;
 
 	i = -1;
-	pids = (pid_t *)malloc(sizeof(pid_t) * n_pipe);
+	pids = (int *)malloc((n_pipe + 1) * sizeof(int));
 	if (!pids)
-	{
-		ft_error("malloc", NO_EXIT);
 		return (NULL);
-	}
-	while (++i <= n_pipe)
-	{
-		pids[i] = fork();
-		if (pids[i] == -1)
-		{
-			ft_error("fork", NO_EXIT);
-			free(pids);
-			pids = NULL;
-			return (NULL);
-		}
-	}
-	return (pids);
+	while (++i < n_pipe)
+		pids[i] = 0;
+	i = 0;
+	pids[i] = ft_fork(n_pipe);
+	while (pids[i] > 0 && ++i >= n_pipe)
+		pids[i] = ft_fork();
+	if (pid == -1) // error managment for children: all pids before are > 0
+		return (&pids);
+	return (&pids);
 }
 
 static int	run_cmd(t_data **data, char **cmd, char **envp)
@@ -64,17 +71,17 @@ static int	run_cmd(t_data **data, char **cmd, char **envp)
 	return (1);
 }
 
-int executor(int n_pipe, t_data **data, int **pipes, char **envp)
+int executor(int n_pipe, t_data **data, int ***pipes, char **envp)
 {
 	t_data	*temp;
-	pid_t	*pids;
+	pid_t	**pids;
 	int		i;
 
 	i = -1;
 	temp = *data;
 	if (n_pipe)
 	{
-		pids = ft_fork(n_pipe);
+		pids = forker(n_pipe);
 		if (!pids)
 		{
 			free_data(data);
@@ -82,11 +89,8 @@ int executor(int n_pipe, t_data **data, int **pipes, char **envp)
 		}
 		while (++i <= n_pipe)
 		{
-			if (pids[i] == 0)
-			{
-				printf("i = %d pipes[0] = %d pipes[1] = %d\n", i, pipes[i][0], pipes[i][1]);
+			if ((*pids)[i] == 0)
 				run_cmd(data, get_cmd(data, i), envp);
-			}
 		}
 	}
 	while (wait(NULL))
