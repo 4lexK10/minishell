@@ -14,9 +14,32 @@
 
 // Comprendre comment refaire le nouveau mot mais normalement tout devrait etre ok !!
 
-char	*put_env_in_word(t_data **data, int *i)
+char	*put_env_in_word(t_data **data, int i, char *env_var)
 {
+	char	*final;
+	int		y;
+	int		z;
 
+	y = ft_strlen((*data)->word) + 1;
+	final = malloc(sizeof (char) * (ft_strlen(env_var) + y));
+	if (!final)
+		return (NULL);
+	y = -1;
+	while (++y < i)
+		final[y] = (*data)->word[y];
+	z = -1;
+	while (env_var[++z])
+		final[y++] = env_var[z];
+	while ((*data)->word[i] && ft_isspace((*data)->word[i]) == 0
+		&& (*data)->word[i] != '$')
+		i++;
+	if (!(*data)->word[i])
+		return (free((*data)->word), final[y] = '\0', final);
+	i--;
+	while ((*data)->word[++i])
+		final[y++] = (*data)->word[i];
+	final[y] = '\0';
+	return (free((*data)->word), final);
 }
 
 int	env_name_len(char *word, int i)
@@ -48,9 +71,7 @@ char	*inside_env(char *word, int i)
 	y = -1;
 	temp = i + 1;
 	while (word[temp] && ft_isspace(word[temp]) == 0 && word[temp] !='$')
-	{
 		env_name[++y] = word[temp++];
-	}
 	env_name[++y] = '\0';
 	env_var = getenv(env_name);
 	free(env_name);
@@ -69,10 +90,10 @@ char	*change_dollar(t_data **data, char **envp, int *i)
 	else
 	{
 		// Est ce que getenv(char *name) marche ?? a tester 
-		res = inside_env((*data)->word, *i); // get_env ne renvoie pas de chaine allouee dynamiquement
+		res = inside_env((*data)->word, *i); // get_env ne renvoie pas de chaine allouee dynamiquement donc pas de free
 		if (!res)
 			return (free((*data)->word), (*data)->word = NULL, NULL);
-		final = put_env_in_word(data, i);
+		(*data)->word = put_env_in_word(data, *i, res);
 	}
 }
 
