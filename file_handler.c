@@ -6,10 +6,121 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/17 19:22:17 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/28 02:24:53 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 /* int redir_in() */
+
+int	close_pipes(int **pipes, int n_pipes)
+{
+	int	i;
+
+	i = -1;
+	while (++i < n_pipes)
+	{
+		if (close(pipes[i][0]) == -1)
+			return (ft_error("close", NO_EXIT));
+		if (close(pipes[i][1]) == -1)
+			return (ft_error("close", NO_EXIT));
+	}
+	return (0);
+}
+
+static int	extrma_fork(int i, int **pipes, int last)
+{
+	if (last)
+	{
+		if (dup2(pipes[i][0], STDIN_FILENO) == -1)
+			return (ft_error("dup2", NO_EXIT));
+	}
+	else
+	{
+		if (dup2(pipes[i][1], STDOUT_FILENO) == -1)
+			return (ft_error("dup2", NO_EXIT));
+	}
+	return (0);
+}
+
+/*
+                    stdin  -->  cat   1 | 0    cat   1 |   cat   1 | 0  cat --> stdout
+*/
+
+
+static int	body_fork(int i, int **pipes)
+{
+	if (pids[i] == 0 && pids[i - 1] > 0)
+	{
+		if (dup2(pipes[i][0], STDIN_FILENO) == -1)
+			return (ft_error("dup2", NO_EXIT));
+		if (dup2(pipes[i][1], STDOUT_FILENO) == -1)
+			return (ft_error("dup2", NO_EXIT));		
+	}
+	if (pids[i + 1] == 0 && pids[i] > 0)
+	{
+		if (body_fork(i, pipes))
+			return (1);
+	}
+	return (0);
+}
+
+/* void put_str_fd(char *str) // <<<------- DELETE THIS
+{
+	while (*str)
+	{
+		write(2, &(*str), 1);
+		++str;
+	}
+	write(2, "\n", 1);
+} */
+
+/* void put_int_fd(int nbr) // <<<------- DELETE THIS
+{
+	char c;
+
+	nbr = nbr + 48;
+	c = (int) nbr;
+	write(2, &c, 1);
+	write(2, "\n", 1);
+} */
+
+
+
+int	file_handler(int *pids, int **pipes, int n_pipe)
+{
+	int	i;
+
+	i = 0;
+/* 	for (int i = 0; pids[i]; ++i)
+		printf("%d\n", pids[i]); */
+	/* printf("end\n"); */
+/* 	for (int i = 0; i < n_pipe; ++i)
+		printf("w_end: %d r_end %d\n", pipes[i][1], pipes[i][0]); */
+	/* write(2, "test\n", 5); */
+	if (pids[i] == 0)
+	{
+		if (extrma_fork(i, pipes, FIRST))
+			return (1);
+	}
+	while (++i < n_pipe)
+	{
+		if (body_fork())
+			return (1);
+	}
+	if (pids[i] == 0 && pids[i - 1] > 0)
+	{
+		if (extrma_fork(i, pipes, LAST))
+			return (1);
+	}
+	if (close_pipes(pipes, n_pipe))
+		return (1);
+	return (0);
+}
+/*
+
+            
+				                      
+
+*/

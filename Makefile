@@ -6,13 +6,14 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/07/18 13:37:12 by akloster         ###   ########.fr        #
+#    Updated: 2024/07/27 17:51:57 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 RM				=	rm -rf
 
-SRC				=	main.c utils/test_lexer.c utils/free_functions.c
+SRC				=	main.c lexer.c error_handler.c execution.c executor.c \
+					free_functions.c get_exec_info.c file_handler.c
 
 LIBFT			=	libft/libft.a
 
@@ -22,7 +23,7 @@ OBJ				=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
 CC				=	cc
 
-CFLAGS			=	-Wall -Wextra -Werror
+CFLAGS			=	#-Wall -Wextra -Werror
 
 NAME			=	minishell
 

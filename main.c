@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/18 22:35:10 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/28 02:33:02 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ int	main(int ac, char **av, char **envp)
 	char	*arg;
 	t_data	*data;
 
-	if (ac != 1 && !av)
-		return (0);
+	(void)ac;
+	(void)av;
 	while (1)
 	{
-		arg = readline("minishel:");
+		arg = readline("minishel: ");
 		data = lexer(arg);
 		exec(&data, envp);
 		free_data(&data);

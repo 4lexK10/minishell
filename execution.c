@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/25 17:21:28 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/27 17:55:35 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	***init_pipes(int n_pipe)
+static int	**init_pipes(int n_pipe)
 {
 	int	**pipes;
 	int	i;
@@ -23,7 +23,7 @@ static int	***init_pipes(int n_pipe)
 		ft_error("malloc", NEED_EXIT);
 	while (++i < n_pipe)
 	{
-		pipes[i] = (int *)malloc(sizeof(int) * 2); 
+		pipes[i] = (int *)malloc(sizeof(int) * 2);
 		if (!pipes[i])
 			free_int_arr(&pipes, i);
 		if (pipe(pipes[i]) == -1)
@@ -44,7 +44,7 @@ static int	pipe_check(t_data **data)
 	cnt = 0;
 	while (temp)
 	{
-		if (temp->token == 1) // needs correctiom: pipe token number
+		if (temp->token == PIPE) // needs correctiom: pipe token number
 			++cnt;
 		temp = temp->next;
 	}
@@ -54,7 +54,7 @@ static int	pipe_check(t_data **data)
 int	exec(t_data **data, char **envp)
 {
 	int	n_pipe;
-	int	***pipes;
+	int	**pipes;
 
 	pipes = NULL;
 	n_pipe = pipe_check(data);
@@ -64,13 +64,11 @@ int	exec(t_data **data, char **envp)
 		if (!pipes)
 		{
 			free_data(data);
-			exit(errno);
+			exit(1);
 		}
 	}
-	if (executor(n_pipe, data, pipes, envp))
-	{
-		free_int_arr(pipes, n_pipe);
-		exit(errno);
-	}
+	executor(n_pipe, data, pipes, envp);
+	free_int_arr(&pipes, n_pipe);
+	exit(1);  // MAYBE EXIT LATER?
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:47:18 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/18 22:33:57 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/27 19:16:57 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,22 @@ static char	*put_slash(char *cmd)
 
 static int	*check_cmd(char *cmd, char *cmd_path, char **path, int *i)
 {
+	char *str;
+
 	*i = 0;
 	while (path[++(*i)])
 	{
-		if (access(cmd_path, F_OK | X_OK) == 1)
+		str = ft_strjoin(path[*i], cmd_path);
+		if (access(str, F_OK | X_OK) == 0)
+		{
+			free(str);
+			str = NULL;
 			return (i);
+		}
 	}
 	ft_error(cmd, NO_EXIT);
+	free(str);
+	str = NULL;
 	return (NULL);
 }
 

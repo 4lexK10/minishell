@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:26:54 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/17 17:20:30 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/25 20:46:09 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ t_data	*lexer(char *arg)
 		else
 			init_data(args[i], &head, WORD);
 	}
-	free_ptr_array(&args);
+	free_ptr_arr(&args);
 	return (head);
 }
