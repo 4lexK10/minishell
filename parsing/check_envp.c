@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:29:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/20 13:15:14 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/28 15:04:15 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,58 @@
 
 // Comprendre comment refaire le nouveau mot mais normalement tout devrait etre ok !!
 
-char	*put_env_in_word(t_data **data, int i, char *env_var)
+static char	*no_env(char *str, int i)
+{
+	int		y;
+	int		len_less;
+	char	*res;
+
+	len_less = env_name_len(str, i) + 1;
+	res = malloc(sizeof (str) - (sizeof (char) * len_less));
+	if (!res)
+		return (free(str), NULL);
+	y = -1;
+	while (++y < i)
+		res[y] = str[y];
+	while (str[i] && ft_isspace(str[i]) == 0 && str[i] != '$')
+		i++;
+	while (str[i])
+		res[y++] = str[i++];
+	res[y] = '\0';
+	free(str);
+	return (res);
+}
+
+static char	*put_env_in_word(char *str, int i, char *env_var)
 {
 	char	*final;
 	int		y;
 	int		z;
 
-	y = ft_strlen((*data)->word) + 1;
+	if (!env_var[0])
+		return (no_env(str, i));
+	y = ft_strlen(str) + 1;
 	final = malloc(sizeof (char) * (ft_strlen(env_var) + y));
 	if (!final)
-		return (NULL);
+		return (free(str), NULL);
 	y = -1;
 	while (++y < i)
-		final[y] = (*data)->word[y];
+		final[y] = str[y];
 	z = -1;
 	while (env_var[++z])
 		final[y++] = env_var[z];
-	while ((*data)->word[i] && ft_isspace((*data)->word[i]) == 0
-		&& (*data)->word[i] != '$')
+	while (str[i] && ft_isspace(str[i]) == 0 && str[i] != '$')
 		i++;
-	if (!(*data)->word[i])
-		return (free((*data)->word), final[y] = '\0', final);
+	if (!str[i])
+		return (free(str), final[y] = '\0', final);
 	i--;
-	while ((*data)->word[++i])
-		final[y++] = (*data)->word[i];
+	while (str[++i])
+		final[y++] = str[i];
 	final[y] = '\0';
-	return (free((*data)->word), final);
+	return (free(str), final);
 }
 
-int	env_name_len(char *word, int i)
-{
-	int	len;
-
-	len = 0;
-	i++;
-	while (word[i] && ft_isspace(word[i]) == 0 && word[i] != '$')
-	{
-		len++;
-		i++;
-	}
-	return (len);
-}
-
-char	*inside_env(char *word, int i)
+static char	*inside_env(char *word, int i)
 {
 	char	*env_name;
 	char	*env_var;
@@ -65,6 +74,8 @@ char	*inside_env(char *word, int i)
 
 	y = env_name_len(word, i);
 	// Potentiellement mettre un flag pour si il n'y a rien apres le $ ???
+	if (y == 0)
+		return ("$");
 	env_name = malloc(sizeof (char) * (y + 1));
 	if (!env_name)
 		return (NULL);
@@ -75,41 +86,44 @@ char	*inside_env(char *word, int i)
 	env_name[++y] = '\0';
 	env_var = getenv(env_name);
 	free(env_name);
+	if (!env_var)
+		env_var = "";
 	return (env_var);
 }
 
-char	*change_dollar(t_data **data, char **envp, int *i)
+static char	*change_dollar(char *str, char **envp, int *i)
 {
 	int		y;
 	char	*res;
 	char	*final;
 
 	final = NULL;
-	if ((*data)->word[*i + 1] == '?' || (*data)->word[*i + 1] == '$');
+	if (str[*i + 1] == '?' || str[*i + 1] == '$');
 		// trouver un moyen de mettre le dernier renvoie d'erreur ou le pid de minishell, puis return (nouvelle structure dans le main ??)
 	else
 	{
-		// Est ce que getenv(char *name) marche ?? a tester 
-		res = inside_env((*data)->word, *i); // get_env ne renvoie pas de chaine allouee dynamiquement donc pas de free
+		res = inside_env(str, *i); // get_env ne renvoie pas de chaine allouee dynamiquement donc pas de free
 		if (!res)
-			return (free((*data)->word), (*data)->word = NULL, NULL);
-		(*data)->word = put_env_in_word(data, *i, res);
+			return (free(str), NULL);
+		str = put_env_in_word(str, *i, res);
+		if (!str)
+			return (NULL);
 	}
 }
 
-int	check_envp(t_data **data, char **envp)
+char	*check_envp(char *str, char **envp)
 {
 	int		i;
 
 	i = -1;
-	while ((*data)->word[++i])
+	while (str[++i])
 	{
-		if ((*data)->word[i] == '$')
+		if (str[i] == '$')
 		{
-			(*data)->word = change_dollar(data, envp, &i);
-			if (!(*data)->word)
-				return (free_list(data), -1);
+			str = change_dollar(str, envp, &i);
+			if (!str)
+				return (NULL);
 		}
 	}
-	return (0);
+	return (NULL);
 }

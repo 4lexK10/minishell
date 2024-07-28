@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:32:09 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/20 13:13:57 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/28 15:51:31 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <stddef.h>
 
 typedef struct s_token
 {
@@ -44,5 +45,7 @@ t_data	*parsing(char *av, char **envp);
 char	*ft_all_string(t_data **data, t_arg arg_env, int *i);
 char	*ft_append_word(t_data **data, t_arg arg_env, int *i, char *str);
 char	*new_ft_join(char *str, char *temp);
+int		env_name_len(char *word, int i);
+char	*check_envp(char *str, char **envp);
 
 #endif

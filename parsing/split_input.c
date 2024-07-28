@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:45:30 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/20 11:48:20 by akiener          ###   ########.fr       */
+/*   Updated: 2024/07/28 15:43:23 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ char	*ft_find_word(int *i, t_arg arg_env)
 		str[++y] = arg_env.arg[*i];
 	}
 	str[++y] = '\0';
+	str = check_envp(str, arg_env.env);
+	if (!str)
+		return (NULL);
 	return (str);
 }
 
