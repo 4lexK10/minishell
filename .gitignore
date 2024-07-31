@@ -1,0 +1,5 @@
+tester_lexer.c
+*.swp
+builtins/
+obj/
+libft/
