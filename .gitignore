@@ -1,5 +1,3 @@
-tester_lexer.c
-*.swp
-builtins/
-obj/
-libft/
+*.o
+minishell
+*.a

@@ -6,12 +6,12 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:49:47 by akloster          #+#    #+#             */
-/*   Updated: 2023/10/31 13:19:43 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/30 02:13:56 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#ifndef LIBft_H
+# define LIBft_H
 
 # include <stdlib.h>
 # include <unistd.h>

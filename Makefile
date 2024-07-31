@@ -6,7 +6,7 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/07/27 17:51:57 by akloster         ###   ########.fr        #
+#    Updated: 2024/07/30 22:28:46 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ RM				=	rm -rf
 SRC				=	main.c lexer.c error_handler.c execution.c executor.c \
 					free_functions.c get_exec_info.c file_handler.c
 
-LIBFT			=	libft/libft.a
+LIBft			=	libft/libft.a
 
 OBJ_DIR			=	objs/
 
@@ -29,7 +29,7 @@ NAME			=	minishell
 
 $(NAME):		$(OBJ_DIR) $(OBJ) #-g -fsanitize=address
 				make -C./libft
-				$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $@   
+				$(CC) $(CFLAGS) $(OBJ) $(LIBft) -lreadline -o $@   
 
 all:			$(NAME)
 

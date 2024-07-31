@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/28 02:33:02 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/30 22:28:10 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	while (1)
 	{
-		arg = readline("minishel: ");
+		arg = readline("minishell: ");
 		data = lexer(arg);
+/* 		if (!data)
+			continue ; */
 		exec(&data, envp);
 		free_data(&data);
 	}

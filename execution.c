@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/27 17:55:35 by akloster         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:49:25 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ int	exec(t_data **data, char **envp)
 	}
 	executor(n_pipe, data, pipes, envp);
 	free_int_arr(&pipes, n_pipe);
-	exit(1);  // MAYBE EXIT LATER?
+	/* exit(1);  // MAYBE EXIT LATER? */
 	return (1);
 }
