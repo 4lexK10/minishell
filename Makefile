@@ -6,14 +6,15 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/07/30 22:28:46 by akloster         ###   ########.fr        #
+#    Updated: 2024/08/01 01:19:46 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 RM				=	rm -rf
 
-SRC				=	main.c lexer.c error_handler.c execution.c executor.c \
-					free_functions.c get_exec_info.c file_handler.c
+SRC				=	main.c lexer.c error_handler.c execution.c executor.c	\
+					free_functions.c get_exec_info.c file_handler.c			\
+					wrapper_fcts.c
 
 LIBft			=	libft/libft.a
 

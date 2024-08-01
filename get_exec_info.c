@@ -6,13 +6,13 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:47:18 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/30 02:13:56 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/01 01:49:15 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**get_cmd(t_data **data, int pipe_i)
+static char	**get_cmd(t_data **data, int pipe_i)
 {
 	t_data	*temp;
     char	**cmd;
@@ -22,7 +22,7 @@ char	**get_cmd(t_data **data, int pipe_i)
 		temp = temp->next->next;
 	cmd = ft_split(temp->word, ' ');
     if (!cmd)
-		ft_error("malloc", NO_EXIT);	
+		ft_error("malloc", NO_EXIT);
 	return (cmd);
 }
 
@@ -57,7 +57,7 @@ static int	*check_cmd(char *cmd, char *cmd_path, char **path, int *i)
 	return (NULL);
 }
 
-char	*get_path(char **cmd, char **envp)
+static char	*get_path(char **cmd, char **envp)
 {
 	int		i;
 	char	**path;
@@ -79,7 +79,36 @@ char	*get_path(char **cmd, char **envp)
 		free_ptr_arr(&path);
 		return (NULL);
 	}
-	if (check_cmd(cmd[0], bin, path, &i))
+	if (!check_cmd(cmd[0], bin, path, &i))
 		return (free_all_path_info(&bin, &path));
 	return (ft_strjoin(path[i], bin));
+}
+
+static void put_str_fd(char *str) // <<<------- DELETE THIS
+{
+	while (*str)
+	{
+		write(2, &(*str), 1);
+		++str;
+	}
+	write(2, "\n", 1);
+}
+
+int	run_cmd(t_data **data, char **envp, int i)
+{
+	char	*path;
+	char	**cmd;
+	/* write(2, "test\n", 5); */
+	cmd = get_cmd(data, i);
+	if (!cmd)
+		return (1);
+	path = get_path(cmd, envp);
+	if (!path)
+		return (1);
+	/* put_str_fd(cmd[1]); */
+	execve(path, cmd, envp);
+	free_data(data);
+	free_ptr_arr(&cmd);
+	ft_error("execve", NEED_EXIT);
+	return (1);
 }

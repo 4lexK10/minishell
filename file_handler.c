@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/30 22:44:39 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/01 01:48:06 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,7 @@ static int	extrma_fork(int i, int **pipes, int last)
 */
 
 
-static int	body_fork(int i, int **pipes, int *pids)
-{
-	if (dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
-		return (ft_error("dup2", NO_EXIT));
-	if (dup2(pipes[i][1], STDOUT_FILENO) == -1)
-		return (ft_error("dup2", NO_EXIT));
-	return (0);
-}
-
-/* void put_str_fd(char *str) // <<<------- DELETE THIS
+/* static void put_str_fd(char *str) // <<<------- DELETE THIS
 {
 	while (*str)
 	{
