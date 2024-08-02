@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/01 04:56:33 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/02 10:54:36 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
 
 // token definition
 
-# define PIPE	1
-# define IN		2
-# define OUT	3
-# define OUT_AP	4
-# define H_DOC	5
+# define PIPE		1
+# define IN			2
+# define OUT		3
+# define OUT_ADD	4
+# define H_DOC		5
 
 // readablitlty defines
 
@@ -45,6 +45,15 @@ typedef struct	s_data
 	int				token;
 	struct s_data	*next;
 }				t_data;
+
+typedef struct	s_redir
+{
+	bool			here_doc;
+	char			*stop;
+	char			*out;
+	char			*in;
+	struct s_redir	*next;
+}				t_redir;
 
 int		exec(t_data **arg, char **envp);
 int		executor(int n_pipes, t_data **arg, int **pipes, char **envp);

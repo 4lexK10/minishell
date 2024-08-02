@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:26:54 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/02 05:48:18 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:50:20 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,13 @@ t_data	*lexer(char *arg)
 			init_data(args[i], &head, WORD);
 	}
 	free_ptr_arr(&args);
+	i = -1;
+/* 	for (t_data *test = head; test; test = test->next)
+	{
+		if (test->token >  0)
+			printf("%d: %d\n", ++i, test->token);
+		else
+			printf("%d: |%s|\n", ++i, test->word);
+	} */
 	return (head);
 }

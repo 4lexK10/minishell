@@ -6,13 +6,54 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/02 04:40:43 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:07:58 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* int redir_in() */
+
+t_redir	*redir_check(t_data *data, int n_pipes)
+{
+	int		n_redir;
+	int		i;
+	t_redir	*redir_data;
+	int		*redir;
+
+	n_redir = 0;
+	i = 0;
+	redir_data = NULL;
+	while (n_pipes-- >= 0)
+	{
+		redir_data = (t_redir *)malloc(sizeof(t_redir) * (n_pipes + 1));
+		if (!redir_data)
+		{
+			ft_error("malloc", NO_EXIT);
+			return (NULL);
+		}
+		while (data && data->token != PIPE)
+		{
+			if (data->token == H_DOC)
+			{
+				redir_data->here_doc == true;
+				redir_data->stop = data->next->word;
+				data = data->next->next;
+			}
+			else if (data->token == IN)
+			{
+				redir_data->in = data->next->word;
+				data = data->next->next;
+			}
+			else
+			{
+				redir_data->here_doc == false;
+				redir_data->in == NULL;
+				redir_data->stop == NULL;
+			}
+		}
+	}
+}
 
 static int	extrma_fork(int i, int **pipes, int n_pipes, int last)
 {

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/02 06:33:24 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/02 10:01:57 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int executor(int n_pipes, t_data **data, int **pipes, char **envp)
 
 	i = -1;
 	temp = *data;
+	redir_check()
  //GOOD ,but needs error managment for failed fork()
 	/* printf("n_pipes = %d\n", n_pipes); */
 /* 	printf("pid[0] = %d\n", pids[0]); */
