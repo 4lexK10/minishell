@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/01 01:48:06 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/02 04:40:43 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,17 @@
 
 /* int redir_in() */
 
-static int	extrma_fork(int i, int **pipes, int last)
+static int	extrma_fork(int i, int **pipes, int n_pipes, int last)
 {
+	/* printf("extrema -> %d %d\n", pipes[i][0], pipes[i][1]); */
 	if (last)
 	{
-		/* printf("extrema -> %d %d\n", pipes[i][0], pipes[i][1]); */
+		
 		if (dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
 			return (ft_error("dup2", NO_EXIT));
 		if (close(pipes[i - 1][1]) == -1)
 			return (ft_error("close", NO_EXIT));
+		pipe_cleaner(pipes, n_pipes, i - 1, SINGLE);
 	}
 	else
 	{
@@ -30,6 +32,7 @@ static int	extrma_fork(int i, int **pipes, int last)
 			return (ft_error("dup2", NO_EXIT));
 		if (close(pipes[i][0]) == -1)
 			return (ft_error("close", NO_EXIT));
+		pipe_cleaner(pipes, n_pipes, i, SINGLE);
 	}
 	return (0);
 }
@@ -38,6 +41,41 @@ static int	extrma_fork(int i, int **pipes, int last)
                     stdin  -->  cat   1 | 0    cat   1 | 0  cat   1 | 0  cat --> stdout
 */
 
+int	file_handler(int **pipes, int *pids, int n_pipes)
+{
+	int	i;
+
+	i = 0;
+/* 	for (int i = 0; pids[i]; ++i)
+		printf("%d\n", pids[i]); */
+	/* printf("end\n"); */
+/* 	for (int i = 0; i < n_pipes; ++i)
+		printf("w_end: %d r_end %d\n", pipes[i][1], pipes[i][0]); */
+	/* write(2, "test\n", 5); */
+	if (pids[i] == 0)
+	{
+		if (extrma_fork(i, pipes, n_pipes, FIRST)) // WORKS
+			return (1);
+		return (0);
+	}
+	else if (pids[n_pipes] > 0)
+		return (0);
+	while (++i < n_pipes) //n_pipes = 3, 
+						 //	i = 1
+	{
+		if (pids[i] == 0 && pids[i - 1] > 0)
+		{
+			if (body_fork(i, pipes, n_pipes))
+				return (1);
+			return (0);
+		}
+	}
+	if (extrma_fork(i, pipes, n_pipes, LAST))
+			return (1);
+/* 	if (close_pipes(pipes, n_pipes))
+		return (1); */
+	return (0);
+}
 
 /* static void put_str_fd(char *str) // <<<------- DELETE THIS
 {
@@ -51,54 +89,10 @@ static int	extrma_fork(int i, int **pipes, int last)
 
 /* void put_int_fd(int nbr) // <<<------- DELETE THIS
 {
-	char c;
-
-	nbr = nbr + 48;
-	c = (int) nbr;
+	itoa()
+	
 	write(2, &c, 1);
 	write(2, "\n", 1);
-} */
-
-
-
-int	file_handler(int *pids, int **pipes, int n_pipe)
-{
-	int	i;
-
-	i = 0;
-/* 	for (int i = 0; pids[i]; ++i)
-		printf("%d\n", pids[i]); */
-	/* printf("end\n"); */
-/* 	for (int i = 0; i < n_pipe; ++i)
-		printf("w_end: %d r_end %d\n", pipes[i][1], pipes[i][0]); */
-	/* write(2, "test\n", 5); */
-	if (pids[i] == 0)
-	{
-		if (extrma_fork(i, pipes, FIRST)) // WORKS
-			return (1);
-		return (0);
-	}
-	else if (pids[n_pipe] > 0)
-		return (0);
-	while (++i < n_pipe) //n_pipe = 3, 
-						 //	i = 1
-	{
-		if (pids[i] == 0 && pids[i - 1] > 0)
-		{
-			if (body_fork(i, pipes, pids))
-				return (1);
-			return (0);
-		}
-	}
-	if (extrma_fork(i, pipes, LAST))
-			return (1);
-/* 	if (close_pipes(pipes, n_pipe))
-		return (1); */
-	return (0);
-}
-/*
-
-            
-				                      
-
+} 
 */
+

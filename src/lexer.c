@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tester_lexer.c                                     :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:26:54 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/30 02:13:56 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/02 05:48:18 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 static int	id_token(char *str)
 {
@@ -64,10 +64,10 @@ t_data	*lexer(char *arg)
 	char	**args;
 	t_data	*head;
 
-	if (!arg)
+	if (!arg || !(*arg))
 		return (NULL);
 	i = -1;
-	args = ft_split(arg, ' ');
+	args = ft_split(arg, ' ');	
 	if (!args)
 		return (NULL);
 	head = NULL;

@@ -6,22 +6,22 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/30 19:49:25 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/02 06:33:53 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	**init_pipes(int n_pipe)
+static int	**init_pipes(int n_pipes)
 {
 	int	**pipes;
 	int	i;
 
 	i = -1;
-	pipes = (int **)malloc(sizeof(int *) * n_pipe);
+	pipes = (int **)malloc(sizeof(int *) * n_pipes);
 	if (!pipes)
 		ft_error("malloc", NEED_EXIT);
-	while (++i < n_pipe)
+	while (++i < n_pipes)
 	{
 		pipes[i] = (int *)malloc(sizeof(int) * 2);
 		if (!pipes[i])
@@ -53,22 +53,23 @@ static int	pipe_check(t_data **data)
 
 int	exec(t_data **data, char **envp)
 {
-	int	n_pipe;
+	int	n_pipes;
 	int	**pipes;
 
 	pipes = NULL;
-	n_pipe = pipe_check(data);
-	if (n_pipe > 0)
+	n_pipes = pipe_check(data);
+	/* printf("n_pipe = %d\n", n_pipes); */
+	if (n_pipes > 0)
 	{
-		pipes = init_pipes(n_pipe);
+		pipes = init_pipes(n_pipes);
 		if (!pipes)
 		{
 			free_data(data);
 			exit(1);
 		}
 	}
-	executor(n_pipe, data, pipes, envp);
-	free_int_arr(&pipes, n_pipe);
+	executor(n_pipes, data, pipes, envp);
+	free_int_arr(&pipes, n_pipes);
 	/* exit(1);  // MAYBE EXIT LATER? */
-	return (1);
+	return (0);
 }

@@ -6,16 +6,16 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:24:08 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/30 02:13:56 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/01 03:34:53 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
 int	ft_error(char *str, int need)
 {
-	ft_putstr_fd("minishell: ", 2);
 	perror(str);
 	if (need == NEED_EXIT)
-		exit(errno);
+		exit(1);
+	return (1);
 }

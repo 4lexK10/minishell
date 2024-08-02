@@ -6,11 +6,11 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:55:06 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/17 20:33:59 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/01 03:30:36 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 void	free_data(t_data **data)
 {
@@ -54,7 +54,7 @@ void free_int_arr(int ***arr, int sub_arr_nbr)
 	int	i;
 
 	i = -1;
-	if (!arr | !(*arr))
+	if (!arr || !(*arr))
 		return ;
 	while (++i < sub_arr_nbr)
 	{
@@ -63,4 +63,15 @@ void free_int_arr(int ***arr, int sub_arr_nbr)
 	}
 	free(*arr);
 	*arr = NULL;
+}
+
+char	*free_all_path_info(char **str, char ***arr)
+{
+	if (str)
+	{
+		free(*str);
+		*str = NULL;
+	}
+	free_ptr_arr(arr);
+	return (NULL);
 }

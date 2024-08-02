@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/01 01:47:57 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/02 06:33:24 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	*forker(int n_fork)
 	int	i;
 
 	i = -1;
-	pids = (int *)malloc((n_fork + 1) * sizeof(int)); //     n + 1 for n childs (execs) + 1 parent
+	pids = (int *)malloc((n_fork + 1) * sizeof(int)); //     n + 1 ---> n childs (execs) + 1 parent
 	if (!pids)
 		return (NULL);
 	while (++i <= n_fork)
@@ -47,7 +47,7 @@ static int	*forker(int n_fork)
 	return (pids);
 }
 
-static void put_str_fd(char *str) // <<<------- DELETE THIS
+/* static void put_str_fd(char *str) // <<<------- DELETE THIS
 {
 	while (*str)
 	{
@@ -55,7 +55,7 @@ static void put_str_fd(char *str) // <<<------- DELETE THIS
 		++str;
 	}
 	write(2, "\n", 1);
-}
+} */
 
 /* no_pipe_exec(t_data, char **envp)
 {
@@ -73,8 +73,20 @@ static void put_str_fd(char *str) // <<<------- DELETE THIS
 
 
 
-static int	no_pipe_exec(t_data **data, char **envp, int *pids)
+static int	no_pipe_exec(t_data **data, char **envp)
 {
+	int	*pids;
+
+	if (data != NULL)
+	{
+		pids = forker(0);
+		if (!pids)
+		{
+			free_data(data);
+			exit(1);
+		}
+		/* printf("%d %d %d\n", pids[0], pids[1], pids[2]); */
+	}
 	if (pids[0] == 0)
 	{
 		run_cmd(data, envp, 0);
@@ -85,22 +97,32 @@ static int	no_pipe_exec(t_data **data, char **envp, int *pids)
 	return (0);
 }
 
-static int	parent_close_wait(int **pipes, int *pids, int n_pipe)
+static int	parent_close_wait(int **pipes, int *pids, int n_pipes)
 {
 	int	i;
 
 	i = -1;
-	if (close_pipes(pipes, n_pipe))
+	if (pipe_cleaner(pipes, n_pipes, -1, 0))
 		return (1);
-	while (++i <= n_pipe) // maybe not
+	while (wait(NULL) > 0)
+		;
+/* 	while (++i < n_pipes)
 	{
-		if (waitpid(pids[i], NULL, 0) == -1)
-			return (ft_error("waitpid", NO_EXIT));
-	}
+		while (waitpid(pids[i], NULL, 0) > 0)
+			;
+	} */
 	return (0);
 }
+void put_int_fd(int nbr) // <<<------- DELETE THIS
+{
+	char c;
 
-int executor(int n_pipe, t_data **data, int **pipes, char **envp)
+	nbr = nbr + 48;
+	c = (int) nbr;
+	write(2, &c, 1);
+	write(2, "\n", 1);
+}
+int executor(int n_pipes, t_data **data, int **pipes, char **envp)
 {
 	t_data	*temp;
 	pid_t	*pids;
@@ -108,20 +130,29 @@ int executor(int n_pipe, t_data **data, int **pipes, char **envp)
 
 	i = -1;
 	temp = *data;
-	pids = forker(n_pipe); //GOOD ,but needs error managment for failed fork()
-/* 	printf("n_pipe = %d\n", n_pipe);
-	printf("pid[0] = %d\n", pids[0]); */
-	if (!pids)
+ //GOOD ,but needs error managment for failed fork()
+	/* printf("n_pipes = %d\n", n_pipes); */
+/* 	printf("pid[0] = %d\n", pids[0]); */
+	if (n_pipes)
 	{
-		free_data(data);
-		exit(1);
-	}
-	if (n_pipe)
-	{
-		/* printf("%d %d %d %d\n", pids[0], pids[1], pids[2], pids[3]); */
-		if (file_handler(pids, pipes, n_pipe)) //PRBLEM
+		pids = forker(n_pipes);
+		if (!pids)
+		{
+			free_data(data);
+			exit(1);
+		}
+		/* printf("%d %d %d\n", pids[0], pids[1], pids[2]); */
+		if (file_handler(pipes, pids, n_pipes)) //PRBLEM
 			return (1);
-		while (++i <= n_pipe)
+/* 		if (pids[0] == 0)
+			write(2, "cat process\n", 12);
+		else if (pids[1] == 0)
+			write(2, "cat process\n", 12);
+		else if (pids[2] == 0)
+			write(2, "pwd process\n", 12);
+		else
+			write(2, "parent process\n", ft_strlen("parent process\n")); */
+		while (++i <= n_pipes)
 		{
 			if (pids[i] == 0) // GOOD
 			{
@@ -129,10 +160,10 @@ int executor(int n_pipe, t_data **data, int **pipes, char **envp)
 				exit(1);
 			}
 		}
-		if (pids[n_pipe] > 0)
-			return (parent_close_wait(pipes, pids, n_pipe));
+		if (pids[n_pipes] > 0)
+			return (parent_close_wait(pipes, pids, n_pipes));
 	}
 	else
-		return (no_pipe_exec(data, envp, pids));	
+		return (no_pipe_exec(data, envp));
 	return (0);
 }
