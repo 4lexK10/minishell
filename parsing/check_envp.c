@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:29:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/05 12:44:06 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/05 14:20:43 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,21 @@ static char	*no_env(char *str, int i)
 	int		len_less;
 	char	*res;
 
-	len_less = env_name_len(str, i) + 1;
-	res = malloc(sizeof (str) - (sizeof (char) * len_less));
+	len_less = env_name_len(str, i);
+	res = malloc((sizeof (char) * ft_strlen(str)) - (sizeof (char) * len_less));
 	if (!res)
 		return (free(str), NULL);
 	y = -1;
 	while (++y < i)
 		res[y] = str[y];
+	i++;
 	while (str[i] && ft_isspace(str[i]) == 0 && str[i] != '$')
 		i++;
 	while (str[i])
 		res[y++] = str[i++];
 	res[y] = '\0';
 	free(str);
+	printf("test : res = %s\n", res);
 	return (res);
 }
 

@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:50:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/05 12:45:34 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/05 14:21:38 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int main(int ac, char **av, char **envp)
 {
 	t_data *data = NULL;
-	char *str = "toujou'rs$USER' $USER      t\"ester$PWD l$test 'en'\"vie$LOGNAME";
+	char *str = "toujou'rs$USER' $USER      t\"ester$PWD l$test 'en'\"vie$LOGNAME$PAGER";
 
 	(void)ac;
 	(void)av;
@@ -35,6 +35,6 @@ int main(int ac, char **av, char **envp)
 	char *temp = getenv("USER");
 	printf("USER = %s\n", temp);
 	free_list(&data);
-	system("leaks a.out");
+	// system("leaks a.out");
 	return (0);
 }
