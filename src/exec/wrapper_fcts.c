@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 01:17:40 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/02 06:13:20 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/05 06:34:55 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ int	pipe_cleaner(int **pipes, int n_pipes, int i_skip, int skip_2x)
 				++i;
 			continue ;
 		}
+/* 		ft_putnbr_fd(pipes[i][0], 2);
+		ft_putstr_fd("\n", 2);
+		ft_putnbr_fd(pipes[i][1], 2);
+		ft_putstr_fd("\n", 2); */
 		if (close(pipes[i][0]) == -1)
 			return (ft_error("close", NO_EXIT));
 		if (close(pipes[i][1]) == -1)

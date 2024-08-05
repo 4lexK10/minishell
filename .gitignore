@@ -2,3 +2,5 @@
 minishell
 *.a
 *.txt
+out*
+in

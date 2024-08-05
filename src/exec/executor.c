@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/02 10:01:57 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/05 07:03:42 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,7 @@ static int	parent_close_wait(int **pipes, int *pids, int n_pipes)
 		;
 /* 	while (++i < n_pipes)
 	{
-		while (waitpid(pids[i], NULL, 0) > 0)
-			;
+		waitpid(pids[i], NULL, 0);
 	} */
 	return (0);
 }
@@ -130,7 +129,7 @@ int executor(int n_pipes, t_data **data, int **pipes, char **envp)
 
 	i = -1;
 	temp = *data;
-	redir_check()
+	/* redir_check(); */
  //GOOD ,but needs error managment for failed fork()
 	/* printf("n_pipes = %d\n", n_pipes); */
 /* 	printf("pid[0] = %d\n", pids[0]); */
@@ -158,6 +157,7 @@ int executor(int n_pipes, t_data **data, int **pipes, char **envp)
 			if (pids[i] == 0) // GOOD
 			{
 				run_cmd(data, envp, i);
+				ft_putstr_fd("hello\n", 2);
 				exit(1);
 			}
 		}

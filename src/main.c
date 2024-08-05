@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/02 08:59:57 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/05 06:40:56 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	while (1)
 	{
-		arg = readline("minishell-1.0$ ");
+		arg = readline("Minish-1.0$ ");
 		data = lexer(arg);
 		if (!data) // NEEDS fix for ctl + D (has to exit minishell)
 			return (0);
