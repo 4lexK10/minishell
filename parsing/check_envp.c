@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:29:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/28 15:04:15 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/05 12:44:06 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static char	*put_env_in_word(char *str, int i, char *env_var)
 	z = -1;
 	while (env_var[++z])
 		final[y++] = env_var[z];
+	i++;
 	while (str[i] && ft_isspace(str[i]) == 0 && str[i] != '$')
 		i++;
 	if (!str[i])
@@ -61,8 +62,7 @@ static char	*put_env_in_word(char *str, int i, char *env_var)
 	i--;
 	while (str[++i])
 		final[y++] = str[i];
-	final[y] = '\0';
-	return (free(str), final);
+	return (final[y] = '\0', free(str), final);
 }
 
 static char	*inside_env(char *word, int i)
@@ -73,7 +73,6 @@ static char	*inside_env(char *word, int i)
 	int		temp;
 
 	y = env_name_len(word, i);
-	// Potentiellement mettre un flag pour si il n'y a rien apres le $ ???
 	if (y == 0)
 		return ("$");
 	env_name = malloc(sizeof (char) * (y + 1));
@@ -91,9 +90,8 @@ static char	*inside_env(char *word, int i)
 	return (env_var);
 }
 
-static char	*change_dollar(char *str, char **envp, int *i)
+static char	*change_dollar(char *str, int *i)
 {
-	int		y;
 	char	*res;
 	char	*final;
 
@@ -108,10 +106,13 @@ static char	*change_dollar(char *str, char **envp, int *i)
 		str = put_env_in_word(str, *i, res);
 		if (!str)
 			return (NULL);
+		*i += ft_strlen(res);
+		res = NULL;
 	}
+	return (str);
 }
 
-char	*check_envp(char *str, char **envp)
+char	*check_envp(char *str)
 {
 	int		i;
 
@@ -120,10 +121,10 @@ char	*check_envp(char *str, char **envp)
 	{
 		if (str[i] == '$')
 		{
-			str = change_dollar(str, envp, &i);
+			str = change_dollar(str, &i);
 			if (!str)
 				return (NULL);
 		}
 	}
-	return (NULL);
+	return (str);
 }

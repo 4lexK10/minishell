@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/20 11:49:25 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/05 11:17:38 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,5 @@ t_data	*parsing(char *av, char **envp)
 	arg_env.env = envp;
 	if (check_line(arg_env, &data) == -1)
 		return (NULL);
-	
 	return (data);
 }

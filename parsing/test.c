@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:50:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/20 13:20:39 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/05 12:45:34 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int main(int ac, char **av, char **envp)
 {
 	t_data *data = NULL;
-	char *str = "toujou'rs'      t\"ester l'en'\"vie";
+	char *str = "toujou'rs$USER' $USER      t\"ester$PWD l$test 'en'\"vie$LOGNAME";
 
 	(void)ac;
 	(void)av;

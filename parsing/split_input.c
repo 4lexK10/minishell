@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:45:30 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/28 15:43:23 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/05 12:24:37 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ char	*ft_find_word(int *i, t_arg arg_env)
 		str[++y] = arg_env.arg[*i];
 	}
 	str[++y] = '\0';
-	str = check_envp(str, arg_env.env);
+	str = check_envp(str);
 	if (!str)
-		return (NULL);
+		return (printf("MAMAMIA\n"), NULL);
 	return (str);
 }
 
@@ -74,6 +74,9 @@ char	*ft_find_dbl_quotes(int *i, t_arg arg_env, char quote)
 		str[y++] = arg_env.arg[*i];
 	}
 	str[y] = '\0';
+	str = check_envp(str);
+	if (!str)
+		return (printf("MAMAMIA 2\n"), NULL);
 	(*i)++;
 	return (str);
 }
