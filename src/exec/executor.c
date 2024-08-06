@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/05 07:03:42 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/06 06:46:58 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,22 +142,13 @@ int executor(int n_pipes, t_data **data, int **pipes, char **envp)
 			exit(1);
 		}
 		/* printf("%d %d %d\n", pids[0], pids[1], pids[2]); */
-		if (file_handler(pipes, pids, n_pipes)) //PRBLEM
+		if (pipe_handler(pipes, pids, n_pipes)) //PRBLEM
 			return (1);
-/* 		if (pids[0] == 0)
-			write(2, "cat process\n", 12);
-		else if (pids[1] == 0)
-			write(2, "cat process\n", 12);
-		else if (pids[2] == 0)
-			write(2, "pwd process\n", 12);
-		else
-			write(2, "parent process\n", ft_strlen("parent process\n")); */
 		while (++i <= n_pipes)
 		{
 			if (pids[i] == 0) // GOOD
 			{
 				run_cmd(data, envp, i);
-				ft_putstr_fd("hello\n", 2);
 				exit(1);
 			}
 		}

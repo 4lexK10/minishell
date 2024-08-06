@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/02 10:54:36 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/06 06:46:58 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,13 @@ int		exec(t_data **arg, char **envp);
 int		executor(int n_pipes, t_data **arg, int **pipes, char **envp);
 t_data	*lexer(char *arg);
 int		ft_error(char *str, int need);
-int		file_handler(int **pipes, int *pids, int n_pipes);
+int		pipe_handler(int **pipes, int *pids, int n_pipes);
 int		run_cmd(t_data **data, char **envp, int i);
 char	*free_all_path_info(char **str, char ***arr);
 void	free_int_arr(int ***arr, int sub_arr_nbr);
 void	free_data(t_data **data);
 void	free_ptr_arr(char ***s);
 int		ft_fork(void);
-int		body_fork(int i, int **pipes, int n_pipes);
 int		pipe_cleaner(int **pipes, int n_pipes, int i_skip, int skip_2x);
 
 #endif
