@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:29:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/05 14:20:43 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/07 14:18:53 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ char	*check_envp(char *str)
 			str = change_dollar(str, &i);
 			if (!str)
 				return (NULL);
+			i--;
 		}
 	}
 	return (str);
