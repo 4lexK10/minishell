@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/05 11:17:38 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/07 16:57:51 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,14 @@ static int	check_line(t_arg arg_env, t_data **data)
 	while (arg_env.arg[++i])
 	{
 		if (ft_isspace(arg_env.arg[i]) == 1);
+		else if (ft_is_redir_or_pipe(arg_env.arg[i]) == 1)
+		{
+			if (add_redir_or_pipe(data, arg_env.arg, &i) == -1)
+				return (free_list(data), -1);
+		}
 		else
 			if (ft_just_string(data, arg_env, &i) == -1)
-				return (-1);
+				return (free_list(data), -1);
 		if (!arg_env.arg[i])
 			i--;
 	}
