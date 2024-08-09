@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_handler.c                                     :+:      :+:    :+:   */
+/*   pipe_handler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/06 06:46:58 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:04:36 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,10 @@ static int	extrma_fork(int **pipes, int n_pipes, int last)
 	return (0);
 }
 
-read_end()
+/* read_end()
 {
 	
-}
+} */
 
 static int	body_fork(int i, int **pipes, int n_pipes)
 {

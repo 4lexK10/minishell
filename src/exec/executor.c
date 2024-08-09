@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/06 06:46:58 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:18:02 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,12 @@ static int	parent_close_wait(int **pipes, int *pids, int n_pipes)
 	i = -1;
 	if (pipe_cleaner(pipes, n_pipes, -1, 0))
 		return (1);
-	while (wait(NULL) > 0)
-		;
-/* 	while (++i < n_pipes)
+/* 	while (wait(NULL) > 0)
+		; */
+	while (++i <= n_pipes)
 	{
 		waitpid(pids[i], NULL, 0);
-	} */
+	}
 	return (0);
 }
 void put_int_fd(int nbr) // <<<------- DELETE THIS
@@ -133,6 +133,7 @@ int executor(int n_pipes, t_data **data, int **pipes, char **envp)
  //GOOD ,but needs error managment for failed fork()
 	/* printf("n_pipes = %d\n", n_pipes); */
 /* 	printf("pid[0] = %d\n", pids[0]); */
+	
 	if (n_pipes)
 	{
 		pids = forker(n_pipes);
@@ -141,6 +142,7 @@ int executor(int n_pipes, t_data **data, int **pipes, char **envp)
 			free_data(data);
 			exit(1);
 		}
+		/* printf("[%d %d] [%d %d]\n",pipes[0][0], pipes[0][1], pipes[1][0], pipes[1][1]); */
 		/* printf("%d %d %d\n", pids[0], pids[1], pids[2]); */
 		if (pipe_handler(pipes, pids, n_pipes)) //PRBLEM
 			return (1);

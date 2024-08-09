@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/06 05:28:24 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:21:27 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	**init_pipes(int n_pipes)
 	i = -1;
 	pipes = (int **)malloc(sizeof(int *) * n_pipes);
 	if (!pipes)
-		ft_error("malloc", NEED_EXIT);
+		ft_error("malloc", NEED_EXIT);  // BAD EXIT NEEDS t_data free !!!!
 	while (++i < n_pipes)
 	{
 		pipes[i] = (int *)malloc(sizeof(int) * 2);
@@ -29,7 +29,7 @@ static int	**init_pipes(int n_pipes)
 		if (pipe(pipes[i]) == -1)
 		{
 			free_int_arr(&pipes, i + 1);
-			ft_error("pipe", NEED_EXIT);
+			ft_error("pipe", NEED_EXIT); // BAD EXIT NEEDS t_data free !!!!
 		}
 	}
 	return (pipes);
