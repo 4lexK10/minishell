@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/07 16:57:51 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/09 13:42:36 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static int	ft_just_string(t_data **data, t_arg arg_env, int *i)
 	str = ft_all_string(data, arg_env, i);
 	if (!str)
 		return (free_list(data), -1);
-	while (arg_env.arg[*i] && ft_isspace(arg_env.arg[*i]) == 0)
+	while (arg_env.arg[*i] && ft_isspace(arg_env.arg[*i]) == 0
+		&& ft_is_redir_or_pipe(arg_env.arg[*i]) == 0)
 	{
 		str = ft_append_word(data, arg_env, i, str);
 		if (!str)
@@ -72,20 +73,25 @@ static int	check_line(t_arg arg_env, t_data **data)
 	int		i;
 	int		flag;
 
-	flag = 0;
 	i = -1;
 	while (arg_env.arg[++i])
 	{
+		flag = 0;
 		if (ft_isspace(arg_env.arg[i]) == 1);
 		else if (ft_is_redir_or_pipe(arg_env.arg[i]) == 1)
 		{
 			if (add_redir_or_pipe(data, arg_env.arg, &i) == -1)
 				return (free_list(data), -1);
+			if (ft_isspace(arg_env.arg[i]) == 0)
+				flag = 1;
 		}
 		else
+		{
 			if (ft_just_string(data, arg_env, &i) == -1)
 				return (free_list(data), -1);
-		if (!arg_env.arg[i])
+		}
+		if (!arg_env.arg[i] || ft_is_redir_or_pipe(arg_env.arg[i]) == 1
+			|| flag == 1)
 			i--;
 	}
 	return (0);

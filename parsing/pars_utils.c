@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:36:20 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/07 16:56:19 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/09 13:29:24 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ static char	*red_to_string(char *arg, int *i)
 	y = 0;
 	str[y++] = arg[*i];
 	if (arg[*i] == arg[*i + 1])
-		str[y++] == arg[(*i)++];
+	{
+		str[y++] = arg[(*i)++];
+		(*i)++;
+	}
 	str[y] = '\0';
 	return (str);
 }
@@ -49,7 +52,6 @@ static char	*red_to_string(char *arg, int *i)
 int	add_redir_or_pipe(t_data **data, char *arg, int *i)
 {
 	char	*str;
-	int		y;
 
 	str = NULL;
 	if (arg[*i] == '>' || arg[*i] == '<')
@@ -68,5 +70,6 @@ int	add_redir_or_pipe(t_data **data, char *arg, int *i)
 	str[1] = '\0';
 	if (addback_stack(data, str) == -1)
 		return (free(str), -1);
+	(*i)++;
 	return (free(str), 0);
 }

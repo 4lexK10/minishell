@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:50:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/07 14:21:26 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/09 13:42:48 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int main(int ac, char **av, char **envp)
 {
 	t_data *data = NULL;
-	char *str = "toujou'rs$USER' $USER      t\"ester$PWD l$test 'en'\"vie$LOGNAME $PAG";
+	char *str = "echo caca|cat -e";
 
 	(void)ac;
 	(void)av;
-	char **test = envp;
+	(void)envp;
 	data = parsing(str, envp);
 	if (!data)
 		return (printf("Data = NULL\n"), 1);
@@ -29,10 +29,10 @@ int main(int ac, char **av, char **envp)
 		printf("- %s\n", link->word);
 		link = link->next;
 	}
-	int i = -1;
-	while (test[++i])
-		printf("env : %s\n", test[i]);
-	free_list(&data);
+	// int i = -1;
+	// while (test[++i])
+	// 	printf("env : %s\n", test[i]);
+	// free_list(&data);
 	// system("leaks a.out");
 	return (0);
 }
