@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/09 13:42:36 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/09 14:00:52 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*new_ft_join(char *str, char *temp)
 {
 	char	*res;
-	int 	i;
+	int		i;
 	int		y;
 
 	res = malloc(sizeof (char) * (ft_strlen(str) + ft_strlen(temp) + 1));
@@ -77,7 +77,8 @@ static int	check_line(t_arg arg_env, t_data **data)
 	while (arg_env.arg[++i])
 	{
 		flag = 0;
-		if (ft_isspace(arg_env.arg[i]) == 1);
+		if (ft_isspace(arg_env.arg[i]) == 1)
+			;
 		else if (ft_is_redir_or_pipe(arg_env.arg[i]) == 1)
 		{
 			if (add_redir_or_pipe(data, arg_env.arg, &i) == -1)
@@ -86,10 +87,8 @@ static int	check_line(t_arg arg_env, t_data **data)
 				flag = 1;
 		}
 		else
-		{
 			if (ft_just_string(data, arg_env, &i) == -1)
 				return (free_list(data), -1);
-		}
 		if (!arg_env.arg[i] || ft_is_redir_or_pipe(arg_env.arg[i]) == 1
 			|| flag == 1)
 			i--;

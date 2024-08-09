@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:50:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/09 13:42:48 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/09 14:07:55 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int main(int ac, char **av, char **envp)
 {
 	t_data *data = NULL;
-	char *str = "echo caca|cat -e";
+	char *str = "echo caca $TEST cat -e << FIN>>test.txt";
 
 	(void)ac;
 	(void)av;

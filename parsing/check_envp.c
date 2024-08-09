@@ -6,13 +6,11 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:29:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/07 14:18:53 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/09 13:52:17 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-// Comprendre comment refaire le nouveau mot mais normalement tout devrait etre ok !!
 
 static char	*no_env(char *str, int i)
 {
@@ -82,7 +80,7 @@ static char	*inside_env(char *word, int i)
 		return (NULL);
 	y = -1;
 	temp = i + 1;
-	while (word[temp] && ft_isspace(word[temp]) == 0 && word[temp] !='$')
+	while (word[temp] && ft_isspace(word[temp]) == 0 && word[temp] != '$')
 		env_name[++y] = word[temp++];
 	env_name[++y] = '\0';
 	env_var = getenv(env_name);
