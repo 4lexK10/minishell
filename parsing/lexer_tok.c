@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:55:50 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/13 16:17:16 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/14 15:08:44 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,41 @@
 
 // Comment faire en sorte que cela check toutes les possibilites ??
 
-int	ft_is_command(char *arg)
+static int	compar_comm(char *arg, char *comm)
 {
-	int	l;
-	
-	l = ft_strlen(arg);
-	if (ft_strncmp(arg, "echo", l) == 0 || ft_strncmp(arg, "cd", l) == 0
-		|| ft_strncmp(arg, "pwd", l) == 0 || ft_strncmp(arg, "export", l) == 0
-		|| ft_strncmp(arg, "unset", l) == 0 || ft_strncmp(arg, "env", l) == 0
-		|| ft_strncmp(arg, "exit", l) == 0)
-		return (COMM);
-	
+	int	len;
+
+	len = (int) ft_strlen(arg);
+	if (len != (int) ft_strlen(comm))
+		return (-1);
+	return (ft_strncmp(arg, comm, len));
 }
 
-int	check_command(char *arg)
+static int	check_command(char *arg)
 {
-	if (ft_is_command(arg) == 1)
+	int	i;
+
+	if (compar_comm(arg, "echo") == 0 || compar_comm(arg, "cd") == 0
+		|| compar_comm(arg, "pwd") == 0 || compar_comm(arg, "export") == 0
+		|| compar_comm(arg, "unset") == 0 || compar_comm(arg, "env") == 0
+		|| compar_comm(arg, "exit") == 0)
 		return (COMM);
+	i = -1;
+	while (arg[++i])
+		if (ft_isdigit(arg[i]) == 0)
+			return (STRING);
+	if (!arg[i])
+		return (NUMBER);
+	return (TOKEN);
 }
 
 int	which_token(char *arg)
 {
 	if (ft_is_redir_or_pipe(arg[0]) == 1)
 	{
-		if ((arg[0] == '>'))
+		if (arg[0] == '>')
 		{
-			if (ft_strlen((arg) == 2))
+			if (ft_strlen(arg) == 2)
 				return (OUT_AP);
 			return (OUT);
 		}

@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:45:30 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/09 13:09:38 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/14 14:22:09 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,21 @@ char	*ft_find_word(int *i, char *arg)
 	return (str);
 }
 
-char	*ft_find_dbl_quotes(int *i, t_arg arg_env, char quote)
+char	*ft_find_dbl_quotes(int *i, char *arg, char quote)
 {
 	int		y;
 	char	*str;
 
-	y = ft_string_len(arg_env.arg, *i, quote);
+	y = ft_string_len(arg, *i, quote);
 	str = malloc(sizeof (char) * (y + 1));
 	if (!str)
 		return (NULL);
 	y = 0;
-	while (arg_env.arg[++(*i)] != quote)
+	while (arg[++(*i)] != quote)
 	{
-		if (arg_env.arg[*i] == '\0')
+		if (arg[*i] == '\0')
 			return (free(str), NULL);
-		str[y++] = arg_env.arg[*i];
+		str[y++] = arg[*i];
 	}
 	str[y] = '\0';
 	str = check_envp(str);
@@ -102,26 +102,26 @@ char	*ft_find_quotes(int *i, char *av, char quote)
 	return (str);
 }
 
-char	*ft_all_string(t_data **data, t_arg arg_env, int *i)
+char	*ft_all_string(t_data **data, char *arg, int *i)
 {
 	char	*str;
 
 	str = NULL;
-	if (arg_env.arg[*i] == '"')
+	if (arg[*i] == '"')
 	{
-		str = ft_find_dbl_quotes(i, arg_env, '"');
+		str = ft_find_dbl_quotes(i, arg, '"');
 		if (!str)
 			return (free_list(data), NULL);
 	}
-	else if (arg_env.arg[*i] == '\'')
+	else if (arg[*i] == '\'')
 	{
-		str = ft_find_quotes(i, arg_env.arg, '\'');
+		str = ft_find_quotes(i, arg, '\'');
 		if (!str)
 			return (free_list(data), NULL);
 	}
-	else if (arg_env.arg[*i])
+	else if (arg[*i])
 	{
-		str = ft_find_word(i, arg_env.arg);
+		str = ft_find_word(i, arg);
 		if (!str)
 			return (free_list(data), NULL);
 	}
