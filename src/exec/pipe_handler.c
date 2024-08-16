@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/09 14:04:36 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/16 04:31:28 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ ft_putstr_fd("\n", 2);
 
 */
 
-static int	extrma_fork(int **pipes, int n_pipes, int last)
+int	extrma_fork(int **pipes, int n_pipes, int last)
 {
-	/* printf("extrema -> %d %d\n", pipes[i][0], pipes[i][1]); */
+	/* printf("extrma -> %d %d\n", pipes[i][0], pipes[i][1]); */
 	if (last)
 	{
 	// READ end
@@ -101,7 +101,7 @@ static int	extrma_fork(int **pipes, int n_pipes, int last)
 	
 } */
 
-static int	body_fork(int i, int **pipes, int n_pipes)
+int	body_fork(int i, int **pipes, int n_pipes)
 {
 // READ end
 	if (dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
@@ -111,28 +111,24 @@ static int	body_fork(int i, int **pipes, int n_pipes)
 // WRITE END
 	if (dup2(pipes[i][1], STDOUT_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
-	if (close(pipes[i][0]) == -1)
+	if (close(pipes[i - 1][0]) == -1)
 		return (ft_error("close", NO_EXIT));
-	return (pipe_cleaner(pipes, n_pipes, i - 1, DOUBLE));
 }
 
 /*
                     stdin  -->  cat   1 | 0    cat   1 | 0  cat   1 | 0  cat --> stdout
 */
 
-int	pipe_handler(int **pipes, int *pids, int n_pipes)
+int	pipe_handler(int **pipes, int *pids, int n_pipes, int i)
 {
-	int	i;
-
-	i = 0;
-	if (pids[i] == 0)
+	if (pids[i] > 0) // parent
+		return (0);
+	if (i == 0)
 	{
 		if (extrma_fork(pipes, n_pipes, FIRST)) // WORKS
 			return (1);
 		return (0);
 	}
-	else if (pids[n_pipes] > 0)
-		return (0);
 	while (++i < n_pipes)
 	{
 		if (pids[i] == 0 && pids[i - 1] > 0)

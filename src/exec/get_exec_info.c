@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:47:18 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/06 05:28:28 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/12 02:05:52 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static char	*get_path(char **cmd, char **envp)
 	return (ft_strjoin(path[i], bin));
 }
 
-/* static void put_str_fd(char *str) // <<<------- DELETE THIS
+static void put_str_fd(char *str) // <<<------- DELETE THIS
 {
 	while (*str)
 	{
@@ -92,7 +92,7 @@ static char	*get_path(char **cmd, char **envp)
 		++str;
 	}
 	write(2, "\n", 1);
-} */
+}
 
 int	run_cmd(t_data **data, char **envp, int i)
 {
@@ -106,6 +106,7 @@ int	run_cmd(t_data **data, char **envp, int i)
 	if (!path)
 		return (1);
 /* 	ft_putendl_fd(cmd[0], 2);*/
+	put_str_fd(path);
 	execve(path, cmd, envp);
 	free_data(data);
 	free_ptr_arr(&cmd);

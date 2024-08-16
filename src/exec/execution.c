@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/09 14:21:27 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/12 05:09:27 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,3 @@ int	exec(t_data **data, char **envp)
 	/* exit(1);  // MAYBE EXIT LATER? */
 	return (0);
 }
-
-
