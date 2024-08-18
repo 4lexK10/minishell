@@ -6,11 +6,19 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/18 12:07:14 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/18 19:40:01 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static t_exec init_exec(t_data *data)
+{
+	t_exec exec;
+
+	exec.data = data;
+			
+}
 
 static int	**init_pipes(int n_pipes)
 {
@@ -51,12 +59,14 @@ int	pipe_check(t_data **data)
 	return (cnt);
 }
 
-int	exec(t_data **data, char **envp)
+int	execution(t_data **data, char **envp)
 {
-	int	n_pipes;
-	int	**pipes;
+	int		n_pipes;
+	int		**pipes;
+	t_exec	exec;
 
 	pipes = NULL;
+	exec = init_exec(data);
 	n_pipes = pipe_check(data);
 	/* printf("n_pipe = %d\n", n_pipes); */
 	if (n_pipes > 0)

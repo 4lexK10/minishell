@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:47:18 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/18 10:38:23 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/18 18:30:51 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static t_data	*skipTo_cmd(t_data *temp, int cmd_i)
 		temp = temp->next;
 		/* ft_printf("%s\n", temp->next->next->next->word); */
 	}
-	while (temp->token != 0)
-		temp = temp->next;
+	if (temp->token == IN)
+		temp = temp->next->next;
 /* 	ft_printf("%s\n", temp->word); */
 	return (temp);
 }

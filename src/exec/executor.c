@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/18 15:15:10 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/18 19:11:42 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ static int	no_pipe_exec(t_data **data, char **envp)
 		exit(1);
 	if (pids[0] == 0)
 	{
+		/* redir_check() */
 		run_cmd(data, envp, 0);
 		exit(1);
 	}
@@ -164,7 +165,9 @@ int executor(int n_pipes, t_data **data, int **pipes, char **envp)
 		if (pids[i] > 0)
 			continue ;
 		pipe_handler(n_pipes, pipes, i);
-		redir_handler();
+		if (redir_check(*data, pipes, i, n_pipes))
+			exit(1);
+		pipe_cleaner(pipes, n_pipes);
 		run_cmd(data, envp, i);
 		exit(1);
 	}

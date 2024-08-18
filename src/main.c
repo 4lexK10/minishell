@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/18 12:05:02 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/18 19:39:57 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	main(int ac, char **av, char **envp)
 	{
 		arg = readline("Minish-1.0$ ");
 		data = lexer(arg);
-		exec = redir_check(data);
 /* 		for (t_data *temp = data; temp; temp = temp->next)
 		{
 			ft_printf("word: %s token: %d\n", temp->word, temp->token);
@@ -47,7 +46,7 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 /* 		for (t_data *test = data; test != NULL; test = test->next)
 			printf("%s\n", test->word); */
-		exec(&data, envp);
+		execution(&data, envp);
 		free_data(&data);
 	}
 	return (0);

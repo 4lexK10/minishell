@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/18 11:09:46 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/18 19:11:24 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ static int	extrma_fork(int **pipes, int n_pipes, int last)
 	// WRITE end
 	if (dup2(pipes[0][1], STDOUT_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
-	pipe_cleaner(pipes, n_pipes);
 	/* put_str_fd("first"); */
 	return (0);
 }
@@ -114,7 +113,6 @@ static int	body_fork(int i, int **pipes, int n_pipes)
 // WRITE END
 	if (dup2(pipes[i][1], STDOUT_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
-	pipe_cleaner(pipes, n_pipes);
 	/* put_str_fd("body\n"); */
 	return (0);
 }
