@@ -6,7 +6,7 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/08/16 04:08:56 by akloster         ###   ########.fr        #
+#    Updated: 2024/08/18 12:06:12 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRC_DIR			=	src/
 
 SRC				=	main.c lexer.c error_handler.c exec/execution.c 		\
 					exec/executor.c free_functions.c exec/get_exec_info.c 	\
-					exec/pipe_handler.c exec/wrapper_fcts.c #exec/redir_handler.c
+					exec/pipe_handler.c exec/wrapper_fcts.c exec/redir_handler.c
 
 HEADERS			= includes/minishell.h
 

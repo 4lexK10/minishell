@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wrapper_fcts.c                                     :+:      :+:    :+:   */
+/*   printf_u_nbr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/01 01:17:40 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/18 11:25:48 by akloster         ###   ########.fr       */
+/*   Created: 2023/11/26 14:45:56 by akloster          #+#    #+#             */
+/*   Updated: 2024/08/18 07:01:38 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libftprintf.h"
 
-int	pipe_cleaner(int **pipes, int n_pipes/* , int i_skip, int skip_2x */)
+void	printf_u_nbr(unsigned int args, char *base, int *count)
 {
-	int	i;
-
-	i = -1;
-	while (++i < n_pipes)
+	if (args > 9)
 	{
-		if (close(pipes[i][0]) == -1)
-			return (ft_error("close", NO_EXIT));
-		if (close(pipes[i][1]) == -1)
-			return (ft_error("close", NO_EXIT));
+		printf_nbr(args / 10, base, count);
+		if (*count == -1)
+			return ;
+		printf_nbr(args % 10, base, count);
 	}
-	return (0);
+	else
+	{
+		if (write(2, &base[args], 1) == -1)
+		{
+			*count = -1;
+			return ;
+		}
+		++(*count);
+	}
 }
-
-
-

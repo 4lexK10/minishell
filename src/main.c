@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/11 23:06:22 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/18 12:05:02 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*arg;
 	t_data	*data;
+	t_exec	*exec;
 
 	(void)ac;
 	(void)av;
@@ -35,10 +36,17 @@ int	main(int ac, char **av, char **envp)
 	{
 		arg = readline("Minish-1.0$ ");
 		data = lexer(arg);
-		if (!data) // NEEDS fix for ctl + D (has to exit minishell)
-			continue ;
-/* 		if (!data)
+		exec = redir_check(data);
+/* 		for (t_data *temp = data; temp; temp = temp->next)
+		{
+			ft_printf("word: %s token: %d\n", temp->word, temp->token);
+		} */
+/* 		if (!data) // NEEDS fix for ctl + D (has to exit minishell)
 			continue ; */
+		if (!data)
+			continue ;
+/* 		for (t_data *test = data; test != NULL; test = test->next)
+			printf("%s\n", test->word); */
 		exec(&data, envp);
 		free_data(&data);
 	}

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/12 05:09:27 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/18 12:07:14 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	**init_pipes(int n_pipes)
 	return (pipes);
 }
 
-static int	pipe_check(t_data **data)
+int	pipe_check(t_data **data)
 {
 	t_data	*temp;
 	int		cnt;

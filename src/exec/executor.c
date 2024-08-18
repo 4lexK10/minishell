@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/16 04:38:39 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/18 15:15:10 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ static bool parent_pid_check(int *pids, int i)
 		 997 998 999   997 998 0
 */
 
-static int	*init_pids(int n_fork)
+static int	*init_pids(int n_pipes)
 {
 	int	*pids;
 	int	i;
 
 	i = -1;
-	pids = (int *)malloc((n_fork + 1) * sizeof(int)); //     n + 1 ---> n childs (execs) + 1 parent
+	pids = (int *)malloc((n_pipes + 1) * sizeof(int)); //     n + 1 ---> n childs (execs) + 1 parent
 	if (!pids)
 		return (NULL);
-	while (++i <= n_fork)
+	while (++i <= n_pipes)
 		pids[i] = 0;
 /* 	i = 0;
  	pids[i] = ft_fork();
@@ -96,16 +96,16 @@ static int	no_pipe_exec(t_data **data, char **envp)
 {
 	int	*pids;
 
-	if (data != NULL)
+	pids = init_pids(0);
+	if (!pids)
 	{
-		pids = init_pids(0);
-		if (!pids)
-		{
-			free_data(data);
-			exit(1);
-		}
-		/* printf("%d %d %d\n", pids[0], pids[1], pids[2]); */
+		free_data(data);
+		exit(1);
 	}
+		/* printf("%d %d %d\n", pids[0], pids[1], pids[2]); */
+	pids[0] = fork();
+	if (pids[0] == -1)
+		exit(1);
 	if (pids[0] == 0)
 	{
 		run_cmd(data, envp, 0);
@@ -121,15 +121,15 @@ static int	parent_close_wait(int **pipes, int *pids, int n_pipes)
 	int	i;
 
 	i = -1;
-	if (pipe_cleaner(pipes, n_pipes, -1, 0))
+	if (pipe_cleaner(pipes, n_pipes))
 		return (1);
 /* 	while (wait(NULL) > 0)
 		; */
 	while (++i <= n_pipes)
 	{
-		waitpid(pids[i], NULL, 0);
+		waitpid(-1, NULL, 0);
 
-	} 
+	}
 	return (0);
 }
 
@@ -148,76 +148,27 @@ int executor(int n_pipes, t_data **data, int **pipes, char **envp)
 	t_data	*temp;
 	pid_t	*pids;
 	int		i;
-	int		failed;
 
 	i = -1;
 	temp = *data;
-	failed = 0;
-	/* redir_check(); */
- //GOOD ,but needs error managment for failed fork()
-	/* printf("n_pipes = %d\n", n_pipes); */
-/* 	printf("pid[0] = %d\n", pids[0]); */
-	if (n_pipes)
-	{
-/* 		pids = forker(n_pipes);
-		if (!pids)
-		{
-			free_data(data);
-			exit(1);
-		}
-		// printf("[%d %d] [%d %d]\n",pipes[0][0], pipes[0][1], pipes[1][0], pipes[1][1]);
-		// printf("%d %d %d\n", pids[0], pids[1], pids[2]);
-		if (pipe_handler(pipes, pids, n_pipes))
-			return (1);
-		if (pids[n_pipes] > 0)
-			return (parent_close_wait(pipes, pids, n_pipes));
-		while (++i <= n_pipes)
-		{
-			if (pids[i] == 0)
-			{
-				run_cmd(data, envp, i);
-				exit(1);
-			}
-		} */
-		pids = init_pids(n_pipes);
-		if (!pids)
-			return (1);
-		while (++i <= n_pipes)
-		{
-			pids[i] = fork();
-			if (pids[i] == -1)
-				return (1);
-			printf("%d\n", pids[i]);
-			if (pids[i] > 0)
-				continue ;
-			if (i == 0)
-			{
-				failed = extrma_fork(pipes, n_pipes, FIRST);
-			}
-			if (i == n_pipes)
-			{
-				failed = extrma_fork(pipes, n_pipes, LAST);
-			}
-			else
-			{
-				printf("%d\n", i);
-				failed = body_fork(i, pipes, n_pipes);
-			}
-			if (failed)
-				return (1);
-			if (pids[i] == 0)
-				run_cmd(data, envp, i);
-		}
-		if (parent_close_wait(pipes, pids, n_pipes))
-			return (1);
-	}
-	else
+	pids = init_pids(n_pipes);
+	if (!pids)
+		return (1);
+	if (n_pipes == 0)
 		return (no_pipe_exec(data, envp));
-/* 	while (i <= n_pipes)
+	while (++i <= n_pipes)
 	{
-		pids[i] = ft_fork();
+		pids[i] = fork();
 		if (pids[i] == -1)
-			;
-	} */
+			return (1);
+		if (pids[i] > 0)
+			continue ;
+		pipe_handler(n_pipes, pipes, i);
+		redir_handler();
+		run_cmd(data, envp, i);
+		exit(1);
+	}
+	if (parent_close_wait(pipes, pids, n_pipes))
+		return (1);
 	return (0);
 }

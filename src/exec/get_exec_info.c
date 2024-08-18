@@ -6,23 +6,71 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:47:18 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/12 02:05:52 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/18 10:38:23 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+static void put_str_fd(char *str) // <<<------- DELETE THIS
+{
+	while (*str)
+	{
+		write(2, &(*str), 1);
+		++str;
+	}
+	write(2, "\n", 1);
+}
+static int	cnt_words(t_data *temp)
+{
+	int		cnt;
 
-static char	**get_cmd(t_data **data, int pipe_i)
+	cnt = 0;
+	while (temp && temp->word)
+	{
+		++cnt;
+		temp = temp->next;
+	}
+	
+	return (cnt);
+}
+static t_data	*skipTo_cmd(t_data *temp, int cmd_i)
+{
+	/* ft_printf("skipto %d\n", cmd_i); */
+	while (cmd_i-- > 0)
+	{
+		while (temp->token != PIPE)
+			temp = temp->next;
+		temp = temp->next;
+		/* ft_printf("%s\n", temp->next->next->next->word); */
+	}
+	while (temp->token != 0)
+		temp = temp->next;
+/* 	ft_printf("%s\n", temp->word); */
+	return (temp);
+}
+
+static char	**get_cmd(t_data **data, int cmd_i)
 {
 	t_data	*temp;
     char	**cmd;
+	int		cnt;
+	int 	i;
 
 	temp = *data;
-	while (pipe_i-- > 0)
-		temp = temp->next->next;
-	cmd = ft_split(temp->word, ' ');
-    if (!cmd)
-		ft_error("malloc", NO_EXIT);
+	cnt = 0;
+	i = -1;
+	temp = skipTo_cmd(temp, cmd_i);
+	/* ft_printf("getcmd %s\n", temp->word); */
+	cnt = cnt_words(temp);
+	cmd = (char **)(malloc)((cnt + 1) * sizeof(char *));
+	if (!cmd)
+		return (NULL);
+	while (++i < cnt)
+	{
+		cmd[i] = temp->word;
+		temp = temp->next;
+	}
+	cmd[i] = NULL;
 	return (cmd);
 }
 
@@ -84,32 +132,24 @@ static char	*get_path(char **cmd, char **envp)
 	return (ft_strjoin(path[i], bin));
 }
 
-static void put_str_fd(char *str) // <<<------- DELETE THIS
-{
-	while (*str)
-	{
-		write(2, &(*str), 1);
-		++str;
-	}
-	write(2, "\n", 1);
-}
 
 int	run_cmd(t_data **data, char **envp, int i)
 {
 	char	*path;
 	char	**cmd;
 	/* write(2, "test\n", 5); */
+	/* ft_printf("run%d\n", i); */
 	cmd = get_cmd(data, i);
 	if (!cmd)
 		return (1);
 	path = get_path(cmd, envp);
 	if (!path)
 		return (1);
-/* 	ft_putendl_fd(cmd[0], 2);*/
-	put_str_fd(path);
+/* 	for (int i = 0; cmd[i]; ++i)
+		ft_printf("%s\n", cmd[i]); */
+	/* ft_printf("%s\n", cmd[1]); */
 	execve(path, cmd, envp);
 	free_data(data);
-	free_ptr_arr(&cmd);
 	ft_error("execve", NO_EXIT);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/16 04:31:28 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/18 11:09:46 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,16 @@ ft_putstr_fd("\n", 2);
 
 
 */
-
-int	extrma_fork(int **pipes, int n_pipes, int last)
+static void put_str_fd(char *str) // <<<------- DELETE THIS
+{
+	while (*str)
+	{
+		write(2, &(*str), 1);
+		++str;
+	}
+	write(2, "\n", 1);
+}
+static int	extrma_fork(int **pipes, int n_pipes, int last)
 {
 	/* printf("extrma -> %d %d\n", pipes[i][0], pipes[i][1]); */
 	if (last)
@@ -80,19 +88,16 @@ int	extrma_fork(int **pipes, int n_pipes, int last)
 	// READ end
 		if (dup2(pipes[n_pipes - 1][0], STDIN_FILENO) == -1)
 			return (ft_error("dup2", NO_EXIT));
-		if (close(pipes[n_pipes - 1][1]) == -1)
-			return (ft_error("close", NO_EXIT));
-		pipe_cleaner(pipes, n_pipes, n_pipes - 1, SINGLE);
+		pipe_cleaner(pipes, n_pipes);
+		/* put_str_fd("lasrt"); */
+		return (0);
+		
 	}
-	else
-	{
 	// WRITE end
-		if (dup2(pipes[0][1], STDOUT_FILENO) == -1)
-			return (ft_error("dup2", NO_EXIT));
-		if (close(pipes[0][0]) == -1)
-			return (ft_error("close", NO_EXIT));
-		pipe_cleaner(pipes, n_pipes, 0, SINGLE);
-	}
+	if (dup2(pipes[0][1], STDOUT_FILENO) == -1)
+		return (ft_error("dup2", NO_EXIT));
+	pipe_cleaner(pipes, n_pipes);
+	/* put_str_fd("first"); */
 	return (0);
 }
 
@@ -101,25 +106,41 @@ int	extrma_fork(int **pipes, int n_pipes, int last)
 	
 } */
 
-int	body_fork(int i, int **pipes, int n_pipes)
+static int	body_fork(int i, int **pipes, int n_pipes)
 {
 // READ end
 	if (dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
-	if (close(pipes[i - 1][1]) == -1)
-		return (ft_error("close", NO_EXIT));
 // WRITE END
 	if (dup2(pipes[i][1], STDOUT_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
-	if (close(pipes[i - 1][0]) == -1)
-		return (ft_error("close", NO_EXIT));
+	pipe_cleaner(pipes, n_pipes);
+	/* put_str_fd("body\n"); */
+	return (0);
 }
 
 /*
                     stdin  -->  cat   1 | 0    cat   1 | 0  cat   1 | 0  cat --> stdout
 */
-
-int	pipe_handler(int **pipes, int *pids, int n_pipes, int i)
+void pipe_handler(int n_pipes, int **pipes, int i)
+{
+	if (i == 0)
+	{
+		if (extrma_fork(pipes, n_pipes, FIRST))
+			exit(1);
+	}
+	if (i == n_pipes)
+	{
+		if (extrma_fork(pipes, n_pipes, LAST))
+			exit(1);	
+	}	
+	else if (i != 0 && i != n_pipes)
+	{
+		if (body_fork(i, pipes, n_pipes))
+			exit(1);
+	}
+}
+/* int	pipe_handler(int **pipes, int *pids, int n_pipes, int i)
 {
 	if (pids[i] > 0) // parent
 		return (0);
@@ -141,7 +162,7 @@ int	pipe_handler(int **pipes, int *pids, int n_pipes, int i)
 	if (extrma_fork(pipes, n_pipes, LAST))
 			return (1);
 	return (0);
-}
+} */
 
 /* static void put_str_fd(char *str) // <<<------- DELETE THIS
 {
