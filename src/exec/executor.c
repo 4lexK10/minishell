@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/18 19:11:42 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/20 03:20:32 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,30 +94,23 @@ static int	*init_pids(int n_pipes)
 
 static int	no_pipe_exec(t_data **data, char **envp)
 {
-	int	*pids;
+	int	pid;
 
-	pids = init_pids(0);
-	if (!pids)
-	{
-		free_data(data);
+	pid = fork();
+	if (pid == -1)
 		exit(1);
-	}
-		/* printf("%d %d %d\n", pids[0], pids[1], pids[2]); */
-	pids[0] = fork();
-	if (pids[0] == -1)
-		exit(1);
-	if (pids[0] == 0)
+	if (pid == 0)
 	{
 		/* redir_check() */
 		run_cmd(data, envp, 0);
 		exit(1);
 	}
-	if (waitpid(pids[0], NULL, 0) == -1)
+	if (waitpid(pid, NULL, 0) == -1)
 		return (ft_error("waitpid", NO_EXIT));
 	return (0);
 }
 
-static int	parent_close_wait(int **pipes, int *pids, int n_pipes)
+static int	parent_close_wait(int **pipes, int **pids, int n_pipes)
 {
 	int	i;
 
@@ -129,7 +122,6 @@ static int	parent_close_wait(int **pipes, int *pids, int n_pipes)
 	while (++i <= n_pipes)
 	{
 		waitpid(-1, NULL, 0);
-
 	}
 	return (0);
 }
@@ -144,34 +136,31 @@ void put_int_fd(int nbr) // <<<------- DELETE THIS
 	write(2, "\n", 1);
 }
 
-int executor(int n_pipes, t_data **data, int **pipes, char **envp)
+int executor(t_exec *exec)
 {
 	t_data	*temp;
 	pid_t	*pids;
 	int		i;
+	int		res;
 
 	i = -1;
-	temp = *data;
-	pids = init_pids(n_pipes);
+	temp = *(exec->data);
+	pids = init_pids(exec->n_pipes);
 	if (!pids)
 		return (1);
-	if (n_pipes == 0)
-		return (no_pipe_exec(data, envp));
-	while (++i <= n_pipes)
+	if (exec->n_pipes == 0)
+		return (no_pipe_exec(exec->data, exec->envp));
+	while (++i <= exec->n_pipes)
 	{
 		pids[i] = fork();
 		if (pids[i] == -1)
 			return (1);
 		if (pids[i] > 0)
 			continue ;
-		pipe_handler(n_pipes, pipes, i);
-		if (redir_check(*data, pipes, i, n_pipes))
-			exit(1);
-		pipe_cleaner(pipes, n_pipes);
-		run_cmd(data, envp, i);
-		exit(1);
+		pipe_handler(exec->n_pipes, exec->pipes, i);
+
 	}
-	if (parent_close_wait(pipes, pids, n_pipes))
+	if (parent_close_wait(exec->pipes, &pids, exec->n_pipes))
 		return (1);
 	return (0);
 }

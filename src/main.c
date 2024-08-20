@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/18 19:39:57 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/19 22:50:34 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	while (1)
 	{
-		arg = readline("Minish-1.0$ ");
+		arg = readline("minish-1.2$ ");
+		if (arg && *arg)
+			add_history(arg);
 		data = lexer(arg);
 /* 		for (t_data *temp = data; temp; temp = temp->next)
 		{
@@ -48,6 +50,7 @@ int	main(int ac, char **av, char **envp)
 			printf("%s\n", test->word); */
 		execution(&data, envp);
 		free_data(&data);
+		free(arg);
 	}
 	return (0);
 }

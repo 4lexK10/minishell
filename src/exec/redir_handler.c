@@ -6,24 +6,24 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:48:19 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/18 18:28:03 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/20 03:13:15 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int needs_preRedir(t_data *data, int **pipes, int i_cmd, int n_pipes)
+static int needs_preRedir(t_data *temp, t_exec *exec, int i_cmd)
 {
-	int	fd_in;
+	int		fd_in;
 
- 	while (data && data->token != IN && data->token != PIPE)
-		data = data->next;
-	if (!data || data->token == PIPE)
-		return (0);
-	if (access(data->next->word, R_OK) == -1)
-		return (ft_error(data->next->word, NO_EXIT));
-	fd_in = open(data->next->word, O_RDONLY);
-	ft_printf("pre %s\n", data->next->word);
+ 	while (temp && temp->token != IN && temp->token != PIPE)
+		temp = temp->next;
+	if (!temp || temp->token == PIPE)
+		return (-1);
+	if (access(temp->next->word, R_OK) == -1)
+		return (ft_error(temp->next->word, NO_EXIT));
+	fd_in = open(temp->next->word, O_RDONLY);
+	ft_printf("pre |%s|\n", temp->next->word);
 	if (fd_in == -1)
 		return (ft_error("open", NO_EXIT));
 	if (i_cmd == 0)
@@ -33,27 +33,29 @@ static int needs_preRedir(t_data *data, int **pipes, int i_cmd, int n_pipes)
 	}
 	else
 	{
-		if (dup2(fd_in, pipes[i_cmd - 1][0]) == -1)
+		ft_printf("---hellp\n");
+		if (dup2(fd_in, (exec->pipes)[i_cmd - 1][0]) == -1)
 			return (ft_error("dup2", NO_EXIT));
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
-static int	needs_postRedir(t_data *data, int **pipes, int i_cmd, int n_pipes)
+static int	needs_postRedir(t_data *temp, t_exec *exec, int i_cmd)
 {
-	int	fd_out;
+	int		fd_out;
 
- 	while (data && data->token != IN && data->token != PIPE)
-		data = data->next;
-	if (!data || data->token == PIPE)
-		return (0);
-	if (access(data->next->word, F_OK) == -1)
-		fd_out = open(data->next->word, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	while (temp && temp->token != OUT && temp->token != PIPE)
+		temp = temp->next;
+	if (!temp || temp->token == PIPE)
+		return (-1);
+/* 	ft_printf("|%s|\n", temp->next->word); */
+	if (access(temp->next->word, F_OK) == -1)
+		fd_out = open(temp->next->word, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (fd_out == -1)
 		return (ft_error("open", NO_EXIT));
-	if (i_cmd == n_pipes)
+	if (i_cmd == exec->n_pipes)
 	{
-		if (dup2(fd_out, pipes[n_pipes - 1][0] == -1))
+		if (dup2(fd_out, (exec->pipes)[exec->n_pipes - 1][0] == -1))
 			return (ft_error("dup2", NO_EXIT));
 	}
 	else
@@ -61,24 +63,34 @@ static int	needs_postRedir(t_data *data, int **pipes, int i_cmd, int n_pipes)
 		if (dup2(fd_out, STDOUT_FILENO) == -1)
 			return (ft_error("dup2", NO_EXIT));
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
-int	redir_check(t_data *data, int **pipes, int i_cmd, int n_pipes)
+static int	redir_cleanUp(int pre, int in, t_exec *exec, int i_cmd)
+{
+	if (pre == 0)
+		
+}
+
+int	redir_check(t_exec *exec, int i_cmd)
 {
 	int		i;
+	int		pre;
+	int		post;
+	t_data	*temp;
 
 	i = -1;
+	temp = *(exec->data);
 	while (++i < i_cmd)
 	{
-		while (data->token != PIPE)
-			data = data->next;
+		while (temp->token != PIPE)
+			temp = temp->next;
+		temp = temp->next;
 	}
-	if (needs_preRedir(data, pipes, i_cmd, n_pipes))
-		return (1);
-	if (needs_postRedir(data, pipes, i_cmd, n_pipes))
-		return (1);
-	return (0);
+	/* ft_printf("temp->next %s\n", temp->next->word); */
+	pre = needs_preRedir(temp, exec, i_cmd);
+	post = needs_postRedir(temp, exec, i_cmd);
+	return (redir_cleanUp(pre, post, exec, i_cmd));
 }
 
 

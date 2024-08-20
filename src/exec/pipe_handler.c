@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/18 19:11:24 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/20 03:21:40 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ static int	extrma_fork(int **pipes, int n_pipes, int last)
 	if (last)
 	{
 	// READ end
+		if ()
 		if (dup2(pipes[n_pipes - 1][0], STDIN_FILENO) == -1)
 			return (ft_error("dup2", NO_EXIT));
-		pipe_cleaner(pipes, n_pipes);
 		/* put_str_fd("lasrt"); */
 		return (0);
 		
@@ -120,23 +120,27 @@ static int	body_fork(int i, int **pipes, int n_pipes)
 /*
                     stdin  -->  cat   1 | 0    cat   1 | 0  cat   1 | 0  cat --> stdout
 */
-void pipe_handler(int n_pipes, int **pipes, int i)
+void pipe_handler(t_exec *exec, int i)
 {
+	
 	if (i == 0)
 	{
-		if (extrma_fork(pipes, n_pipes, FIRST))
+		if (extrma_fork(exec->pipes, exec->n_pipes, FIRST))
 			exit(1);
 	}
-	if (i == n_pipes)
+	if (i == exec->n_pipes)
 	{
-		if (extrma_fork(pipes, n_pipes, LAST))
+		if (extrma_fork(exec->pipes, exec->n_pipes, LAST))
 			exit(1);	
 	}	
-	else if (i != 0 && i != n_pipes)
+	else if (i != 0 && i != exec->n_pipes)
 	{
-		if (body_fork(i, pipes, n_pipes))
+		if (body_fork(i, exec->pipes, exec->n_pipes))
 			exit(1);
 	}
+	pipe_cleaner(exec->pipes, exec->n_pipes);
+	run_cmd(exec->data, exec->envp, i);
+	exit(1);
 }
 /* int	pipe_handler(int **pipes, int *pids, int n_pipes, int i)
 {
