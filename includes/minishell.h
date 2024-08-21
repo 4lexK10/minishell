@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/19 22:18:38 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/21 05:56:42 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 # define LAST		1
 # define SINGLE		0
 # define DOUBLE		1
+# define FOUND		0
+# define FAILED		1
 
 typedef struct	s_data
 {
@@ -70,16 +72,16 @@ int		execution(t_data **arg, char **envp);
 int		executor(t_exec *exec);
 t_data	*lexer(char *arg);
 int		ft_error(char *str, int need);
-void	pipe_handler(int n_pipes, int **pipes, int i);
+void	pipe_handler(t_exec *exec, int i);
 int		run_cmd(t_data **data, char **envp, int i);
 char	*free_all_path_info(char **str, char ***arr);
 void	free_int_arr(int ***arr, int sub_arr_nbr);
 void	free_data(t_data **data);
 void	free_ptr_arr(char ***s);
 int		pipe_cleaner(int **pipes, int n_pipes);
-int		redir_check(t_exec *exec, int i_cmd);
 int		pipe_check(t_data **data);
-
+int		needs_preRedir(t_exec *exec, int i_cmd);
+int		needs_postRedir(t_exec *exec, int i_cmd);
 
 
 #endif

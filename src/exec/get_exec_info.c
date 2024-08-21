@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:47:18 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/19 22:30:49 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/21 06:49:09 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,8 @@ int	run_cmd(t_data **data, char **envp, int i)
 	path = get_path(cmd, envp);
 	if (!path)
 		return (1);
-/* 	for (int i = 0; cmd[i]; ++i)
-		ft_printf("%s\n", cmd[i]); */
+	for (int i = 0; cmd[i]; ++i)
+		ft_printf("%s\n", cmd[i]);
 	execve(path, cmd, envp);
 	free_data(data);
 	ft_error("execve", NO_EXIT);

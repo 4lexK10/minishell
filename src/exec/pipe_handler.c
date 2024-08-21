@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/20 03:21:40 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/21 08:21:07 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,32 +71,33 @@ ft_putstr_fd("\n", 2);
 
 
 */
-static void put_str_fd(char *str) // <<<------- DELETE THIS
+
+static int	extrma_fork(t_exec *exec, int last) // factorise into two function calls ?
 {
-	while (*str)
-	{
-		write(2, &(*str), 1);
-		++str;
-	}
-	write(2, "\n", 1);
-}
-static int	extrma_fork(int **pipes, int n_pipes, int last)
-{
-	/* printf("extrma -> %d %d\n", pipes[i][0], pipes[i][1]); */
+	int	in_check;
+	int	out_check;
+
 	if (last)
 	{
-	// READ end
-		if ()
-		if (dup2(pipes[n_pipes - 1][0], STDIN_FILENO) == -1)
+		in_check = needs_preRedir(exec, exec->n_pipes);
+		out_check = needs_postRedir(exec, exec->n_pipes);
+		ft_printf("LAST pre: %d post: %d\n", in_check, out_check);
+		if (in_check == FOUND)
+			return (FOUND);
+		if (in_check == FAILED || out_check == FAILED)
+			return (FAILED);
+		if (dup2((exec->pipes)[exec->n_pipes - 1][0], STDIN_FILENO) == -1)
 			return (ft_error("dup2", NO_EXIT));
-		/* put_str_fd("lasrt"); */
-		return (0);
-		
+		return (EXIT_SUCCESS);
 	}
-	// WRITE end
-	if (dup2(pipes[0][1], STDOUT_FILENO) == -1)
+	in_check = needs_preRedir(exec, 0);
+	out_check = needs_postRedir(exec, 0);
+	if (in_check == FAILED || out_check == FAILED)
+		return (FAILED);
+	if (out_check == FOUND)
+		return (FOUND);
+	if (dup2((exec->pipes)[0][1], STDOUT_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
-	/* put_str_fd("first"); */
 	return (0);
 }
 
@@ -105,16 +106,32 @@ static int	extrma_fork(int **pipes, int n_pipes, int last)
 	
 } */
 
-static int	body_fork(int i, int **pipes, int n_pipes)
+static int	body_fork(int i, t_exec *exec)
 {
-// READ end
-	if (dup2(pipes[i - 1][0], STDIN_FILENO) == -1)
+	int	in_check;
+	int	out_check;
+
+	in_check = needs_preRedir(exec, i);
+	out_check = needs_postRedir(exec, i);
+	if (in_check == FAILED || out_check == FAILED)
+		return (FAILED);
+	if (in_check == FOUND)
+	{
+		if (dup2((exec->pipes)[i][1], STDOUT_FILENO) == -1)
+			return (ft_error("dup2", NO_EXIT));
+		return (EXIT_SUCCESS);
+	}
+	if (out_check == FOUND)
+	{
+		if (dup2((exec->pipes)[i - 1][0], STDIN_FILENO) == -1)
+			return (ft_error("dup2", NO_EXIT));
+		return (EXIT_SUCCESS);
+	}
+	if (dup2((exec->pipes)[i][1], STDOUT_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
-// WRITE END
-	if (dup2(pipes[i][1], STDOUT_FILENO) == -1)
+	if (dup2((exec->pipes)[i - 1][0], STDIN_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
-	/* put_str_fd("body\n"); */
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 /*
@@ -125,22 +142,20 @@ void pipe_handler(t_exec *exec, int i)
 	
 	if (i == 0)
 	{
-		if (extrma_fork(exec->pipes, exec->n_pipes, FIRST))
+		if (extrma_fork(exec, FIRST))
 			exit(1);
 	}
-	if (i == exec->n_pipes)
+	else if (i == exec->n_pipes)
 	{
-		if (extrma_fork(exec->pipes, exec->n_pipes, LAST))
+		if (extrma_fork(exec, LAST))
 			exit(1);	
 	}	
-	else if (i != 0 && i != exec->n_pipes)
+	else
 	{
-		if (body_fork(i, exec->pipes, exec->n_pipes))
+		if (body_fork(i, exec))
 			exit(1);
 	}
 	pipe_cleaner(exec->pipes, exec->n_pipes);
-	run_cmd(exec->data, exec->envp, i);
-	exit(1);
 }
 /* int	pipe_handler(int **pipes, int *pids, int n_pipes, int i)
 {
