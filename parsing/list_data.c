@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:01:19 by akiener           #+#    #+#             */
-/*   Updated: 2024/07/17 15:32:29 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/22 13:28:48 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_data	*new_node(char *arg)
 	if (!n_node->word)
 		return (NULL);
 	n_node->next = NULL;
+	n_node->flag_not_red_pipe = 0;
 	return (n_node);
 }
 

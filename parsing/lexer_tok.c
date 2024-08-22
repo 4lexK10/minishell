@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:55:50 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/14 15:08:44 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/22 13:43:54 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ static int	check_command(char *arg)
 		|| compar_comm(arg, "pwd") == 0 || compar_comm(arg, "export") == 0
 		|| compar_comm(arg, "unset") == 0 || compar_comm(arg, "env") == 0
 		|| compar_comm(arg, "exit") == 0)
-		return (COMM);
+		return (BUILT);
+	if (access(arg, F_OK) == 0 && access(arg, X_OK) == 0)
+		return (ABS_PATH);
 	i = -1;
 	while (arg[++i])
 		if (ft_isdigit(arg[i]) == 0)
@@ -42,9 +44,9 @@ static int	check_command(char *arg)
 	return (TOKEN);
 }
 
-int	which_token(char *arg)
+int	which_token(char *arg, int is_str)
 {
-	if (ft_is_redir_or_pipe(arg[0]) == 1)
+	if (ft_is_redir_or_pipe(arg[0]) == 1 && is_str == 0)
 	{
 		if (arg[0] == '>')
 		{

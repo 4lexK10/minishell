@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/14 14:34:26 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/22 13:30:19 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static int	ft_just_string(t_data **data, char *arg, int *i)
 	}
 	if (addback_stack(data, str) == -1)
 		return (free(str), free_list(data), -1);
+	last_in_stack(*data)->flag_not_red_pipe = 1;
 	free(str);
 	return (0);
 }
@@ -107,7 +108,7 @@ t_data	*parsing(char *av)
 	link = data;
 	while (link)
 	{
-		link->token = which_token(link->word);
+		link->token = which_token(link->word, link->flag_not_red_pipe);
 		link = link->next;
 	}
 	return (data);

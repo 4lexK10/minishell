@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:36:20 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/09 13:57:10 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/22 13:25:59 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_isspace(int c)
 	return (0);
 }
 
-int	ft_is_redir_or_pipe(int c)
+int	ft_is_redir_or_pipe(char c)
 {
 	if (c == '|' || c == '>' || c == '<')
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:32:09 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/14 14:34:32 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/22 13:29:58 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_data	*last_in_stack(t_data *list);
 int		addback_stack(t_data **stack, char *arg);
 void	free_list(t_data **stack);
 int		ft_isspace(int c);
-int		ft_is_redir_or_pipe(int c);
+int		ft_is_redir_or_pipe(char c);
 t_data	*parsing(char *av);
 char	*ft_all_string(t_data **data, char *arg, int *i);
 char	*ft_append_word(t_data **data, char *s_arg, int *i, char *str);
@@ -49,6 +49,6 @@ char	*new_ft_join(char *str, char *temp);
 int		env_name_len(char *word, int i);
 char	*check_envp(char *str);
 int		add_redir_or_pipe(t_data **data, char *arg, int *i);
-int		which_token(char *arg);
+int		which_token(char *arg, int is_str);
 
 #endif
