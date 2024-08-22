@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/21 05:56:42 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/21 21:39:16 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,6 @@ typedef struct	s_exec
 	int			std_in;
 	int			std_out;
 }				t_exec;
-
-typedef struct	s_redir
-{
-	bool			here_doc;
-	char			*stop;
-	char			*out;
-	char			*in;
-	struct s_redir	*next;
-}				t_redir;
 
 int		execution(t_data **arg, char **envp);
 int		executor(t_exec *exec);

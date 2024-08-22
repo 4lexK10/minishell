@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/21 08:21:07 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/21 23:21:22 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,14 @@ static int	extrma_fork(t_exec *exec, int last) // factorise into two function ca
 	}
 	in_check = needs_preRedir(exec, 0);
 	out_check = needs_postRedir(exec, 0);
+	ft_printf("FIRST pre: %d post: %d\n", in_check, out_check);
 	if (in_check == FAILED || out_check == FAILED)
 		return (FAILED);
 	if (out_check == FOUND)
 		return (FOUND);
+	ft_printf("exec->pipes[0] [%d, %d]\n",(exec->pipes)[0][0] , (exec->pipes)[0][1]);
+/* 	for (char *out = get_next_line((exec->pipes)[0][1]); ft_printf("%s", out), out; out = get_next_line((exec->pipes)[0][1]))
+		ft_printf("inside pipe |%s|\n", out); */
 	if (dup2((exec->pipes)[0][1], STDOUT_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
 	return (0);

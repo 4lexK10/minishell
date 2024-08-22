@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:49:47 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/18 06:59:40 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/21 23:06:40 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdint.h>
 # include "libftprintf.h"
+# include "get_next_line/get_next_line.h"
 
 typedef struct s_list
 {
