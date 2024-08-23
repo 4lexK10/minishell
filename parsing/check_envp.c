@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:29:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/22 13:09:32 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/23 12:20:05 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,11 @@ static char	*change_dollar(char *str, int *i)
 	char	*final;
 
 	final = NULL;
-	if (str[*i + 1] == '?' || str[*i + 1] == '$');
-		// trouver un moyen de mettre le dernier renvoie d'erreur ou le pid de minishell, puis return (nouvelle structure dans le main ??)
+	if (str[*i + 1] == '?' || str[*i + 1] == '$')
+		;
 	else
 	{
-		res = inside_env(str, *i); // get_env ne renvoie pas de chaine allouee dynamiquement donc pas de free
+		res = inside_env(str, *i);
 		if (!res)
 			return (free(str), NULL);
 		str = put_env_in_word(str, *i, res);

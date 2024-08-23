@@ -6,13 +6,11 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:45:30 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/22 13:22:12 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/23 12:21:45 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-// Mieux gerer le cas des doubles quotes avec des mots attaché car ça ne va pas marcher comme ça
 
 static int	ft_string_len(char *av, int i, char end)
 {

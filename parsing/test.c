@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:50:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/14 17:02:19 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/23 12:29:48 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int main(int ac, char **av, char **envp)
 {
 	t_data *data = NULL;
-	char *str = "echo caca 2142 \"$TEST\" cat -e << FIN>>test.txt";
+	char *str = "echo caca saprist$USER $TEST cat -e << FIN>>test.txt";
 
 	(void)ac;
 	(void)av;
@@ -34,6 +34,6 @@ int main(int ac, char **av, char **envp)
 	// while (test[++i])
 	// 	printf("env : %s\n", test[i]);
 	// free_list(&data);
-	// system("leaks a.out");
+	system("leaks a.out");
 	return (0);
 }

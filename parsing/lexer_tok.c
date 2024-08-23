@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:55:50 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/22 13:43:54 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/23 11:40:38 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static int	check_command(char *arg)
 	if (compar_comm(arg, "echo") == 0 || compar_comm(arg, "cd") == 0
 		|| compar_comm(arg, "pwd") == 0 || compar_comm(arg, "export") == 0
 		|| compar_comm(arg, "unset") == 0 || compar_comm(arg, "env") == 0
-		|| compar_comm(arg, "exit") == 0)
+		|| compar_comm(arg, "exit") == 0 || compar_comm(arg, "cat") == 0
+		|| compar_comm(arg, "ls") == 0)
 		return (BUILT);
 	if (access(arg, F_OK) == 0 && access(arg, X_OK) == 0)
 		return (ABS_PATH);
