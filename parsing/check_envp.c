@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:29:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/23 12:20:05 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/26 14:08:00 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*put_env_in_word(char *str, int i, char *env_var)
 
 	if (!env_var[0])
 		return (no_env(str, i));
-	y = ft_strlen(str) + 1;
+	y = ft_strlen(str) + 1 - env_name_len(str, i);
 	final = malloc(sizeof (char) * (ft_strlen(env_var) + y));
 	if (!final)
 		return (free(str), NULL);
@@ -55,7 +55,7 @@ static char	*put_env_in_word(char *str, int i, char *env_var)
 	while (env_var[++z])
 		final[y++] = env_var[z];
 	i++;
-	while (str[i] && ft_isspace(str[i]) == 0 && str[i] != '$')
+	while (str[i] && ft_isspace(str[i]) == 0 && str[i] != '$' && str[i] != '\'')
 		i++;
 	if (!str[i])
 		return (free(str), final[y] = '\0', final);
@@ -80,8 +80,11 @@ static char	*inside_env(char *word, int i)
 		return (NULL);
 	y = -1;
 	temp = i + 1;
-	while (word[temp] && ft_isspace(word[temp]) == 0 && word[temp] != '$')
+	while (word[temp] && ft_isspace(word[temp]) == 0 && word[temp] != '$'
+		&& word[temp] != '\'')
+	{
 		env_name[++y] = word[temp++];
+	}
 	env_name[++y] = '\0';
 	env_var = getenv(env_name);
 	free(env_name);
@@ -124,6 +127,7 @@ char	*check_envp(char *str)
 			str = change_dollar(str, &i);
 			if (!str)
 				return (NULL);
+			printf("test : %s\n", str);
 			i--;
 		}
 	}

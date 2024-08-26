@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:32:09 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/22 13:29:58 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/26 14:19:00 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ int		env_name_len(char *word, int i);
 char	*check_envp(char *str);
 int		add_redir_or_pipe(t_data **data, char *arg, int *i);
 int		which_token(char *arg, int is_str);
+int		compar_comm(char *arg, char *comm);
 
 #endif

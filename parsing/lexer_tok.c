@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:55:50 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/23 11:40:38 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/26 14:18:46 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // Comment faire en sorte que cela check toutes les possibilites ??
 
-static int	compar_comm(char *arg, char *comm)
+int	compar_comm(char *arg, char *comm)
 {
 	int	len;
 
