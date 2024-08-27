@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:29:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/26 14:08:00 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/27 15:23:18 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,7 @@ static char	*inside_env(char *word, int i)
 	temp = i + 1;
 	while (word[temp] && ft_isspace(word[temp]) == 0 && word[temp] != '$'
 		&& word[temp] != '\'')
-	{
 		env_name[++y] = word[temp++];
-	}
 	env_name[++y] = '\0';
 	env_var = getenv(env_name);
 	free(env_name);
@@ -99,8 +97,8 @@ static char	*change_dollar(char *str, int *i)
 	char	*final;
 
 	final = NULL;
-	if (str[*i + 1] == '?' || str[*i + 1] == '$')
-		;
+	if (str[*i + 1] == '?' || str[*i + 1] == '$' || str[*i + 1] == '0')
+		str = check_special_env(str, i);
 	else
 	{
 		res = inside_env(str, *i);

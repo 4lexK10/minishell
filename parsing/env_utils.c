@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:01:21 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/26 14:22:55 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/27 17:34:30 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,9 @@ int	env_name_len(char *word, int i)
 		i++;
 	}
 	return (len);
+}
+
+char	*check_special_env(char *str, int *i)
+{
+	
 }
