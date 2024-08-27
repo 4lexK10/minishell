@@ -77,17 +77,17 @@ int	execution(t_data **data, char **envp)
 
 	pipes = NULL;
 	n_pipes = pipe_check(data);
-	pipes = init_pipes(n_pipes);
-	exec = init_exec(data, n_pipes, pipes, envp);
 	/* printf("n_pipe = %d\n", n_pipes); */
 	if (n_pipes > 0)
 	{
+		pipes = init_pipes(n_pipes);
 		if (!pipes)
 		{
 			free_data(data);
 			exit(1);
 		}
 	}
+	exec = init_exec(data, n_pipes, pipes, envp);
 	executor(exec);
 	free_int_arr(&pipes, n_pipes);
 	free(exec);

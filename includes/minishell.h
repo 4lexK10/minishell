@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/wait.h>
 # include <unistd.h>
 # include <fcntl.h>
 # define TOKEN	0

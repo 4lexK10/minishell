@@ -78,7 +78,7 @@ static char	*put_slash(char *cmd)
 {
 	char	*new_path;
 
-	new_path = ft_strjoin("/", cmd);
+	new_path = ft_mod_strjoin("/", cmd);
 	if (!new_path)
 		return (NULL);
 	return (new_path);
@@ -91,7 +91,7 @@ static int	*check_cmd(char *cmd, char *cmd_path, char **path, int *i)
 	*i = 0;
 	while (path[++(*i)])
 	{
-		str = ft_strjoin(path[*i], cmd_path);
+		str = ft_mod_strjoin(path[*i], cmd_path);
 		if (access(str, F_OK | X_OK) == 0)
 		{
 			free(str);
@@ -129,7 +129,7 @@ static char	*get_path(char **cmd, char **envp)
 	}
 	if (!check_cmd(cmd[0], bin, path, &i))
 		return (free_all_path_info(&bin, &path));
-	return (ft_strjoin(path[i], bin));
+	return (ft_mod_strjoin(path[i], bin));
 }
 
 

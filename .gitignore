@@ -5,3 +5,4 @@ minishell
 out*
 in
 *.json
+.gitignore
