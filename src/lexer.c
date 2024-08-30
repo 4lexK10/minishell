@@ -14,18 +14,17 @@
 
 static int	id_token(char *str)
 {
+	if (ft_strnstr(str, ">>", 2))
+		return (4);
+	if (ft_strnstr(str, "<<", 2))
+		return (5);
 	if (*str == '<')
 		return (2);
-	else if (*str == '>')
+	if (*str == '>')
 		return (3);
-	else if (*str == '|') 
+	if (*str == '|') 
 		return (1);
-	else if (ft_strnstr(str, "<<", 2))
-		return (4);
-	else if (ft_strnstr(str, ">>", 2))
-		return (5);
-	else
-		return (0);	
+	return (0);	
 }
 
 static void	init_data(char *arg, t_data **head, int type)
@@ -54,6 +53,7 @@ static void	init_data(char *arg, t_data **head, int type)
 	{
 		temp->word = NULL;
 		temp->token = id_token(arg);
+		ft_printf("lexer:  %d\n", temp->token);
 	}
 	temp->next = NULL;
 }

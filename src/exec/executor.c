@@ -24,15 +24,6 @@
 
 // forker ----- needs a check if forks are needed before calling forker()
 
-static bool parent_pid_check(int *pids, int i)
-{
-	while (i >= 0)
-	{
-		if (pids[0] == 0)
-			return (false);
-	}
-	return (true);
-}
 /*
  1.          parent --> child1
 			997 0 0     0  0  0	
@@ -158,15 +149,12 @@ int executor(t_exec *exec)
 		if (pids[i] == 0)
 		{
 			pipe_handler(exec, i);
-			break ;
+			run_cmd(exec->data, exec->envp, i);
+			exit(1);
 		}
-	}
-	if (i <= exec->n_pipes)
-	{
-		run_cmd(exec->data, exec->envp, i);
-		exit(1);
 	}
 	if (parent_close_wait(exec->pipes, pids, exec->n_pipes))
 		return (1);
 	return (0);
 }
+

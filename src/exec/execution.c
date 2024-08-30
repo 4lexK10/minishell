@@ -88,6 +88,7 @@ int	execution(t_data **data, char **envp)
 		}
 	}
 	exec = init_exec(data, n_pipes, pipes, envp);
+/* 	ft_printf("n_pipes %d\n", n_pipes); */
 	executor(exec);
 	free_int_arr(&pipes, n_pipes);
 	free(exec);

@@ -43,12 +43,29 @@ int needs_preRedir(t_exec *exec, int i_cmd)
 	if (access(temp->next->word, R_OK) == -1)
 		return (ft_error(temp->next->word, NO_EXIT));
 	fd_in = open(temp->next->word, O_RDONLY);
-	ft_printf("pre |%s|\n", temp->next->word);
+/* 	ft_printf("pre |%s|\n", temp->next->word); */
 	if (fd_in == -1)
 		return (ft_error("open", NO_EXIT));
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
 	return (EXIT_SUCCESS);
+}
+
+static int	ft_open(char *outfile, int type)
+{
+	int output;
+
+	//acces functions SAFETY!!!!
+	if (type == OUT_ADD)
+		output = open(outfile, O_APPEND);
+	else
+		output = open(outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	if (output == -1)
+	{
+		ft_error(outfile, NO_EXIT);
+		return (-1);	
+	}
+	return (output);
 }
 
 int	needs_postRedir(t_exec *exec, int i_cmd)
@@ -57,16 +74,23 @@ int	needs_postRedir(t_exec *exec, int i_cmd)
 	int		fd_out;
 
 	temp = redir_check(exec, i_cmd);
-	while (temp && temp->token != OUT && temp->token != PIPE)
+	while (temp && temp->token != OUT && temp->token != OUT_ADD && temp->token != PIPE)
 		temp = temp->next;
 	if (!temp || temp->token == PIPE)
 		return (-1);
-	fd_out = open(temp->next->word, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	ft_printf("post|%s| i_cmd = %d fd_out = %d\n", temp->next->word, i_cmd, fd_out);
+	ft_printf("file |%s| type %d\n", temp->next->word, temp->token);
+/* 	if (access(temp->next->word, F_OK) == -1)
+		fd_out = ft_open(temp->next->word, temp->token);
+	else if (access(temp->next->word, W_OK) == -1)
+		return (ft_error(temp->next->word, NO_EXIT)); */
+/* 	ft_printf("post|%s| i_cmd = %d fd_out = %d\n", temp->next->word, i_cmd, fd_out); */
+	fd_out = ft_open(temp->next->word, temp->token);
 	if (fd_out == -1)
-		return (ft_error("open", NO_EXIT));
-	if (dup2(fd_out, STDOUT_FILENO == -1))
+		return (1);
+	if (dup2(fd_out, STDOUT_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
+	if (close(fd_out) == -1)
+		return(ft_error("close", NO_EXIT));
 	return (EXIT_SUCCESS);
 }
 

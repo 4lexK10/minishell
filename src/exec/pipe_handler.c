@@ -81,7 +81,7 @@ static int	extrma_fork(t_exec *exec, int last) // factorise into two function ca
 	{
 		in_check = needs_preRedir(exec, exec->n_pipes);
 		out_check = needs_postRedir(exec, exec->n_pipes);
-		ft_printf("LAST pre: %d post: %d\n", in_check, out_check);
+/* 		ft_printf("LAST pre: %d post: %d\n", in_check, out_check); */
 		if (in_check == FOUND)
 			return (FOUND);
 		if (in_check == FAILED || out_check == FAILED)
@@ -92,12 +92,12 @@ static int	extrma_fork(t_exec *exec, int last) // factorise into two function ca
 	}
 	in_check = needs_preRedir(exec, 0);
 	out_check = needs_postRedir(exec, 0);
-	ft_printf("FIRST pre: %d post: %d\n", in_check, out_check);
+/* 	ft_printf("FIRST pre: %d post: %d\n", in_check, out_check); */
 	if (in_check == FAILED || out_check == FAILED)
 		return (FAILED);
 	if (out_check == FOUND)
 		return (FOUND);
-	ft_printf("exec->pipes[0] [%d, %d]\n",(exec->pipes)[0][0] , (exec->pipes)[0][1]);
+/* 	ft_printf("exec->pipes[0] [%d, %d]\n",(exec->pipes)[0][0] , (exec->pipes)[0][1]); */
 /* 	for (char *out = get_next_line((exec->pipes)[0][1]); ft_printf("%s", out), out; out = get_next_line((exec->pipes)[0][1]))
 		ft_printf("inside pipe |%s|\n", out); */
 	if (dup2((exec->pipes)[0][1], STDOUT_FILENO) == -1)

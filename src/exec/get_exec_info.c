@@ -145,8 +145,8 @@ int	run_cmd(t_data **data, char **envp, int i)
 	path = get_path(cmd, envp);
 	if (!path)
 		return (1);
-	for (int i = 0; cmd[i]; ++i)
-		ft_printf("%s\n", cmd[i]);
+/* 	for (int i = 0; cmd[i]; ++i)
+		ft_printf("%s\n", cmd[i]); */
 	execve(path, cmd, envp);
 	free_data(data);
 	ft_error("execve", NO_EXIT);
