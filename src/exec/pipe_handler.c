@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/21 23:21:22 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/31 23:23:16 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ static int	body_fork(int i, t_exec *exec)
 	out_check = needs_postRedir(exec, i);
 	if (in_check == FAILED || out_check == FAILED)
 		return (FAILED);
+	if (in_check == out_check)
+		return (EXIT_SUCCESS);
 	if (in_check == FOUND)
 	{
 		if (dup2((exec->pipes)[i][1], STDOUT_FILENO) == -1)
@@ -131,9 +133,8 @@ static int	body_fork(int i, t_exec *exec)
 			return (ft_error("dup2", NO_EXIT));
 		return (EXIT_SUCCESS);
 	}
-	if (dup2((exec->pipes)[i][1], STDOUT_FILENO) == -1)
-		return (ft_error("dup2", NO_EXIT));
-	if (dup2((exec->pipes)[i - 1][0], STDIN_FILENO) == -1)
+	if (dup2((exec->pipes)[i][1], STDOUT_FILENO) == -1
+		|| dup2((exec->pipes)[i - 1][0], STDIN_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
 	return (EXIT_SUCCESS);
 }

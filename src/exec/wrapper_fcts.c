@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 01:17:40 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/21 06:50:37 by akloster         ###   ########.fr       */
+/*   Updated: 2024/08/31 23:29:23 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,4 @@ int	pipe_cleaner(int **pipes, int n_pipes)
 	}
 	return (0);
 }
-
-
 
