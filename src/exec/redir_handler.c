@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:48:19 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/31 23:56:38 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/01 03:18:34 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,64 @@ static	t_data	*redir_check(t_exec *exec, int i_cmd)
 	return (temp);
 }
 
+static int	limit_check(char *limiter, char *line)
+{
+	if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+	{
+		if (line[ft_strlen(limiter)] == '\n')
+			return (1);
+	}
+	return (0);
+}
+
+static int	here_doc(t_exec *exec, int i_cmd, char *limiter)
+{
+	char	*line;
+	int		fd_in;
+
+	fd_in = open("temp_H", O_CREAT | O_WRONLY, 0644);
+	if (fd_in == -1)
+		return (ft_error("open", NO_EXIT));
+	while (1)
+	{
+		ft_putstr_fd("> ", STDIN_FILENO);
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
+			return (1);
+		if (limit_check(limiter, line))
+		{
+			free(line);
+			line = NULL;
+			break ;
+		}
+		ft_putstr_fd(line, fd_in);
+		free(line);
+	}
+	if (dup2(fd_in, STDIN_FILENO) == -1)
+	{
+		unlink("temp_H");
+		return (ft_error("dup2", NO_EXIT));
+	}
+	return (EXIT_SUCCESS);
+}
+
 int needs_preRedir(t_exec *exec, int i_cmd)
 {
 	int		fd_in;
 	t_data	*temp;
 
 	temp = redir_check(exec, i_cmd);
- 	while (temp && temp->token != IN && temp->token != PIPE)
+ 	while (temp && temp->token != IN && temp->token != PIPE && temp->token != H_DOC)
 		temp = temp->next;
 	if (!temp || temp->token == PIPE)
 		return (-1);
+	if (temp->token == H_DOC)
+	{
+		fd_in = here_doc(exec, i_cmd, temp->next->word);
+		if (fd_in == -1)
+			return (EXIT_FAILURE);
+		return (EXIT_SUCCESS);
+	}
 	if (access(temp->next->word, R_OK) == -1)
 		return (ft_error(temp->next->word, NO_EXIT));
 	fd_in = open(temp->next->word, O_RDONLY);
@@ -49,25 +97,6 @@ int needs_preRedir(t_exec *exec, int i_cmd)
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
 	return (EXIT_SUCCESS);
-}
-
-static int	ft_open(char *outfile, int type)
-{
-	int output;
-
-	//access functions SAFETY!!!!
-	if (access(outfile, F_OK) == -1)
-		output = open(outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	else if (type == OUT_ADD)
-		output = open(outfile, O_APPEND | O_WRONLY);
-	else
-		output = open(outfile, O_WRONLY);
-	if (output == -1)
-	{
-		ft_error(outfile, NO_EXIT);
-		return (-1);
-	}
-	return (output);
 }
 
 int	needs_postRedir(t_exec *exec, int i_cmd)
@@ -95,7 +124,3 @@ int	needs_postRedir(t_exec *exec, int i_cmd)
 		return(ft_error("close", NO_EXIT));
 	return (EXIT_SUCCESS);
 }
-
-
-
-

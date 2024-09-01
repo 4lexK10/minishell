@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/21 21:39:16 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/01 01:58:59 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ int		pipe_cleaner(int **pipes, int n_pipes);
 int		pipe_check(t_data **data);
 int		needs_preRedir(t_exec *exec, int i_cmd);
 int		needs_postRedir(t_exec *exec, int i_cmd);
-
+int		ft_open(char *outfile, int type);
 
 #endif

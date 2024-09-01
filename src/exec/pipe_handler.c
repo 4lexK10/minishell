@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/31 23:23:16 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/01 00:34:15 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static int	body_fork(int i, t_exec *exec)
 	out_check = needs_postRedir(exec, i);
 	if (in_check == FAILED || out_check == FAILED)
 		return (FAILED);
-	if (in_check == out_check)
+	if (in_check == FOUND || out_check == FOUND)
 		return (EXIT_SUCCESS);
 	if (in_check == FOUND)
 	{
