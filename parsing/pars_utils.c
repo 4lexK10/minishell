@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:36:20 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/22 13:25:59 by akiener          ###   ########.fr       */
+/*   Updated: 2024/08/31 13:30:18 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static char	*red_to_string(char *arg, int *i)
 	char	*str;
 	int		y;
 
+	str = NULL;
 	if (arg[*i + 1] == arg[*i])
 		str = malloc(sizeof (char) * 3);
 	else

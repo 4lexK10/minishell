@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/22 13:30:19 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/03 15:14:49 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ char	*new_ft_join(char *str, char *temp)
 	return (res);
 }
 
-char	*ft_append_word(t_data **data, char *arg, int *i, char *str)
+char	*ft_append_word(t_data **data, t_arg line, int *i, char *str)
 {
 	char	*temp;
 	char	*res;
 
-	temp = ft_all_string(data, arg, i);
+	temp = ft_all_string(data, line, i);
 	if (!temp)
 		return (free(str), free_list(data), NULL);
 	res = new_ft_join(str, temp);
@@ -47,18 +47,18 @@ char	*ft_append_word(t_data **data, char *arg, int *i, char *str)
 	return (res);
 }
 
-static int	ft_just_string(t_data **data, char *arg, int *i)
+static int	ft_just_string(t_data **data, t_arg line, int *i)
 {
 	char	*str;
 
 	str = NULL;
-	str = ft_all_string(data, arg, i);
+	str = ft_all_string(data, line, i);
 	if (!str)
 		return (free_list(data), -1);
-	while (arg[*i] && ft_isspace(arg[*i]) == 0
-		&& ft_is_redir_or_pipe(arg[*i]) == 0)
+	while (line.arg[*i] && ft_isspace(line.arg[*i]) == 0
+		&& ft_is_redir_or_pipe(line.arg[*i]) == 0)
 	{
-		str = ft_append_word(data, arg, i, str);
+		str = ft_append_word(data, line, i, str);
 		if (!str)
 			return (free_list(data), -1);
 	}
@@ -69,41 +69,44 @@ static int	ft_just_string(t_data **data, char *arg, int *i)
 	return (0);
 }
 
-static int	check_line(char *arg, t_data **data)
+static int	check_line(t_arg line, t_data **data)
 {
 	int		i;
 	int		flag;
 
 	i = -1;
-	while (arg[++i])
+	while (line.arg[++i])
 	{
 		flag = 0;
-		if (ft_isspace(arg[i]) == 1)
+		if (ft_isspace(line.arg[i]) == 1)
 			;
-		else if (ft_is_redir_or_pipe(arg[i]) == 1)
+		else if (ft_is_redir_or_pipe(line.arg[i]) == 1)
 		{
-			if (add_redir_or_pipe(data, arg, &i) == -1)
+			if (add_redir_or_pipe(data, line.arg, &i) == -1)
 				return (free_list(data), -1);
-			if (ft_isspace(arg[i]) == 0)
+			if (ft_isspace(line.arg[i]) == 0)
 				flag = 1;
 		}
 		else
-			if (ft_just_string(data, arg, &i) == -1)
+			if (ft_just_string(data, line, &i) == -1)
 				return (free_list(data), -1);
-		if (!arg[i] || ft_is_redir_or_pipe(arg[i]) == 1
+		if (!line.arg[i] || ft_is_redir_or_pipe(line.arg[i]) == 1
 			|| flag == 1)
 			i--;
 	}
 	return (0);
 }
 
-t_data	*parsing(char *av)
+t_data	*parsing(char *av, pid_t pid)
 {
 	t_data	*data;
 	t_data	*link;
+	t_arg	line;
 
 	data = NULL;
-	if (check_line(av, &data) == -1)
+	line.arg = av;
+	line.pid = pid;
+	if (check_line(line, &data) == -1)
 		return (NULL);
 	link = data;
 	while (link)

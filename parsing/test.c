@@ -3,12 +3,12 @@
 int main(int ac, char **av, char **envp)
 {
 	t_data *data = NULL;
-	char *str = "$\"USER\"";
+	char *str = "echo \"salut les \"$0 va ?";
 
 	(void)ac;
 	(void)av;
 	(void)envp;
-	data = parsing(str);
+	data = parsing(str, 2121);
 	if (!data)
 		return (printf("Data = NULL\n"), 1);
 	t_data *link = data;
@@ -22,6 +22,6 @@ int main(int ac, char **av, char **envp)
 	// while (test[++i])
 	// 	printf("env : %s\n", test[i]);
 	// free_list(&data);
-	// system("leaks a.out");
+	system("leaks a.out");
 	return (0);
 }

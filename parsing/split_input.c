@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:45:30 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/26 14:28:12 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/03 14:46:56 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,51 +30,52 @@ static int	ft_string_len(char *av, int i, char end)
 	return (len);
 }
 
-char	*ft_find_word(int *i, char *arg)
+char	*ft_find_word(int *i, t_arg line)
 {
 	int		y;
 	char	*str;
 
-	y = ft_string_len(arg, *i, ' ');
+	y = ft_string_len(line.arg, *i, ' ');
 	str = malloc(sizeof (char) * (y + 1));
 	if (!str)
 		return (NULL);
 	y = 0;
-	str[y] = arg[*i];
-	while (arg[++(*i)])
+	str[y] = line.arg[*i];
+	while (line.arg[++(*i)])
 	{
-		if (ft_isspace(arg[*i]) == 1 || arg[*i] == '"' || arg[*i] == '\''
-			|| ft_is_redir_or_pipe(arg[*i]) == 1)
+		if (ft_isspace(line.arg[*i]) == 1 || line.arg[*i] == '"'
+			|| line.arg[*i] == '\'' || ft_is_redir_or_pipe(line.arg[*i]) == 1)
 			break ;
-		str[++y] = arg[*i];
+		str[++y] = line.arg[*i];
 	}
 	str[++y] = '\0';
-	if (compar_comm(str, "$") == 0 && (arg[*i] == '"' || arg[*i] == '\''))
+	if (compar_comm(str, "$") == 0 && (line.arg[*i] == '"'
+		|| line.arg[*i] == '\''))
 		return (ft_strdup(""));
-	str = check_envp(str);
+	str = check_envp(str, line.pid);
 	if (!str)
 		return (NULL);
 	return (str);
 }
 
-char	*ft_find_dbl_quotes(int *i, char *arg, char quote)
+char	*ft_find_dbl_quotes(int *i, t_arg line, char quote)
 {
 	int		y;
 	char	*str;
 
-	y = ft_string_len(arg, *i, quote);
+	y = ft_string_len(line.arg, *i, quote);
 	str = malloc(sizeof (char) * (y + 1));
 	if (!str)
 		return (NULL);
 	y = 0;
-	while (arg[++(*i)] != quote)
+	while (line.arg[++(*i)] != quote)
 	{
-		if (arg[*i] == '\0')
+		if (line.arg[*i] == '\0')
 			return (free(str), NULL);
-		str[y++] = arg[*i];
+		str[y++] = line.arg[*i];
 	}
 	str[y] = '\0';
-	str = check_envp(str);
+	str = check_envp(str, line.pid); // corriger apres ce fichier
 	if (!str)
 		return (NULL);
 	(*i)++;
@@ -102,26 +103,26 @@ char	*ft_find_quotes(int *i, char *av, char quote)
 	return (str);
 }
 
-char	*ft_all_string(t_data **data, char *arg, int *i)
+char	*ft_all_string(t_data **data, t_arg line, int *i)
 {
 	char	*str;
 
 	str = NULL;
-	if (arg[*i] == '"')
+	if (line.arg[*i] == '"')
 	{
-		str = ft_find_dbl_quotes(i, arg, '"');
+		str = ft_find_dbl_quotes(i, line, '"');
 		if (!str)
 			return (free_list(data), NULL);
 	}
-	else if (arg[*i] == '\'')
+	else if (line.arg[*i] == '\'')
 	{
-		str = ft_find_quotes(i, arg, '\'');
+		str = ft_find_quotes(i, line.arg, '\'');
 		if (!str)
 			return (free_list(data), NULL);
 	}
-	else if (arg[*i])
+	else if (line.arg[*i])
 	{
-		str = ft_find_word(i, arg);
+		str = ft_find_word(i, line);
 		if (!str)
 			return (free_list(data), NULL);
 	}

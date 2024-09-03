@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:29:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/27 15:23:18 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/03 15:04:15 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,14 @@ static char	*inside_env(char *word, int i)
 	return (env_var);
 }
 
-static char	*change_dollar(char *str, int *i)
+static char	*change_dollar(char *str, int *i, pid_t pid)
 {
 	char	*res;
 	char	*final;
 
 	final = NULL;
 	if (str[*i + 1] == '?' || str[*i + 1] == '$' || str[*i + 1] == '0')
-		str = check_special_env(str, i);
+		str = check_special_env(str, i, pid);
 	else
 	{
 		res = inside_env(str, *i);
@@ -113,7 +113,7 @@ static char	*change_dollar(char *str, int *i)
 	return (str);
 }
 
-char	*check_envp(char *str)
+char	*check_envp(char *str, pid_t pid)
 {
 	int		i;
 
@@ -122,7 +122,7 @@ char	*check_envp(char *str)
 	{
 		if (str[i] == '$')
 		{
-			str = change_dollar(str, &i);
+			str = change_dollar(str, &i, pid);
 			if (!str)
 				return (NULL);
 			printf("test : %s\n", str);

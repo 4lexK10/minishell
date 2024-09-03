@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:32:09 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/26 14:19:00 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/03 14:51:36 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_token
 typedef struct s_arg
 {
 	char	*arg;
-	char	**env;
+	pid_t	pid;
 }	t_arg;
 
 t_data	*new_node(char *arg);
@@ -42,14 +42,15 @@ int		addback_stack(t_data **stack, char *arg);
 void	free_list(t_data **stack);
 int		ft_isspace(int c);
 int		ft_is_redir_or_pipe(char c);
-t_data	*parsing(char *av);
-char	*ft_all_string(t_data **data, char *arg, int *i);
-char	*ft_append_word(t_data **data, char *s_arg, int *i, char *str);
+t_data	*parsing(char *av, pid_t pid);
+char	*ft_all_string(t_data **data, t_arg line, int *i);
+char	*ft_append_word(t_data **data, t_arg line, int *i, char *str);
 char	*new_ft_join(char *str, char *temp);
 int		env_name_len(char *word, int i);
-char	*check_envp(char *str);
+char	*check_envp(char *str, pid_t pid);
 int		add_redir_or_pipe(t_data **data, char *arg, int *i);
 int		which_token(char *arg, int is_str);
 int		compar_comm(char *arg, char *comm);
+char	*check_special_env(char *str, int *i, pid_t pid);
 
 #endif
