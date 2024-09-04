@@ -37,7 +37,7 @@ int	ft_open(char *outfile, int type)
 	else if (type == OUT_ADD)
 		output = open(outfile, O_APPEND | O_WRONLY);
 	else
-		output = open(outfile, O_WRONLY);
+		output = open(outfile, O_TRUNC | O_WRONLY);
 	if (output == -1)
 	{
 		ft_error(outfile, NO_EXIT);

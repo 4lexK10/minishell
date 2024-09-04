@@ -34,7 +34,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	while (1)
 	{
-		arg = readline("minish-1.2$ ");
+		arg = readline("minish-2.0$ ");
 		if (arg && *arg)
 			add_history(arg);
 		data = lexer(arg);

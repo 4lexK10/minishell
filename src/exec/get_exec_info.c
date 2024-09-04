@@ -11,15 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-static void put_str_fd(char *str) // <<<------- DELETE THIS
-{
-	while (*str)
-	{
-		write(2, &(*str), 1);
-		++str;
-	}
-	write(2, "\n", 1);
-}
+
 static int	cnt_words(t_data *temp)
 {
 	int		cnt;
@@ -30,9 +22,9 @@ static int	cnt_words(t_data *temp)
 		++cnt;
 		temp = temp->next;
 	}
-	
 	return (cnt);
 }
+
 static t_data	*skipTo_cmd(t_data *temp, int cmd_i)
 {
 	/* ft_printf("skipto %d\n", cmd_i); */
@@ -43,7 +35,7 @@ static t_data	*skipTo_cmd(t_data *temp, int cmd_i)
 		temp = temp->next;
 		/* ft_printf("%s\n", temp->next->next->next->word); */
 	}
-	if (temp->token == IN)
+	if (temp->token == IN || temp->token == H_DOC)
 		temp = temp->next->next;
 /* 	ft_printf("%s\n", temp->word); */
 	return (temp);
@@ -60,7 +52,6 @@ static char	**get_cmd(t_data **data, int cmd_i)
 	cnt = 0;
 	i = -1;
 	temp = skipTo_cmd(temp, cmd_i);
-	/* ft_printf("getcmd %s\n", temp->word); */
 	cnt = cnt_words(temp);
 	cmd = (char **)(malloc)((cnt + 1) * sizeof(char *));
 	if (!cmd)
@@ -78,7 +69,7 @@ static char	*put_slash(char *cmd)
 {
 	char	*new_path;
 
-	new_path = ft_mod_strjoin("/", cmd);
+	new_path = ft_strjoin("/", cmd);
 	if (!new_path)
 		return (NULL);
 	return (new_path);
@@ -91,7 +82,7 @@ static int	*check_cmd(char *cmd, char *cmd_path, char **path, int *i)
 	*i = 0;
 	while (path[++(*i)])
 	{
-		str = ft_mod_strjoin(path[*i], cmd_path);
+		str = ft_strjoin(path[*i], cmd_path);
 		if (access(str, F_OK | X_OK) == 0)
 		{
 			free(str);
@@ -129,7 +120,7 @@ static char	*get_path(char **cmd, char **envp)
 	}
 	if (!check_cmd(cmd[0], bin, path, &i))
 		return (free_all_path_info(&bin, &path));
-	return (ft_mod_strjoin(path[i], bin));
+	return (ft_strjoin(path[i], bin));
 }
 
 
@@ -137,18 +128,21 @@ int	run_cmd(t_data **data, char **envp, int i)
 {
 	char	*path;
 	char	**cmd;
-	/* write(2, "test\n", 5); */
-	/* ft_printf("run%d\n", i); */
 	cmd = get_cmd(data, i);
 	if (!cmd)
 		return (1);
 	path = get_path(cmd, envp);
 	if (!path)
+	{
+		free_ptr_arr(&cmd);
 		return (1);
-/* 	for (int i = 0; cmd[i]; ++i)
-		ft_printf("%s\n", cmd[i]); */
+	}
+/* 	ft_printf("child\n"); */
 	execve(path, cmd, envp);
 	free_data(data);
+	free_ptr_arr(&cmd);
+	free(path);
+	path = NULL;
 	ft_error("execve", NO_EXIT);
 	return (1);
 }

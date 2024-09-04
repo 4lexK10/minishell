@@ -43,31 +43,31 @@ static int	limit_check(char *limiter, char *line)
 static int	here_doc(t_exec *exec, int i_cmd, char *limiter)
 {
 	char	*line;
-	int		fd_in;
+	int		fd_Hdoc;
 
-	fd_in = open("temp_H", O_CREAT | O_WRONLY, 0644);
-	if (fd_in == -1)
+	fd_Hdoc = open("/tmp/temp", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	if (fd_Hdoc == -1)
 		return (ft_error("open", NO_EXIT));
 	while (1)
 	{
 		ft_putstr_fd("> ", STDIN_FILENO);
 		line = get_next_line(STDIN_FILENO);
+/* 		line = readline("> "); */
 		if (!line)
-			return (1);
+			return (-1);
 		if (limit_check(limiter, line))
 		{
 			free(line);
 			line = NULL;
 			break ;
 		}
-		ft_putstr_fd(line, fd_in);
+		ft_putstr_fd(line, fd_Hdoc);
 		free(line);
 	}
-	if (dup2(fd_in, STDIN_FILENO) == -1)
-	{
-		unlink("temp_H");
-		return (ft_error("dup2", NO_EXIT));
-	}
+	close(fd_Hdoc);
+	fd_Hdoc = open("/tmp/temp", O_RDONLY);
+	dup2(fd_Hdoc, STDIN_FILENO);
+	close(fd_Hdoc);
 	return (EXIT_SUCCESS);
 }
 
@@ -96,6 +96,7 @@ int needs_preRedir(t_exec *exec, int i_cmd)
 		return (ft_error("open", NO_EXIT));
 	if (dup2(fd_in, STDIN_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
+	close(fd_in);
 	return (EXIT_SUCCESS);
 }
 
@@ -109,7 +110,7 @@ int	needs_postRedir(t_exec *exec, int i_cmd)
 		temp = temp->next;
 	if (!temp || temp->token == PIPE)
 		return (-1);
-	ft_printf("file |%s| type %d\n", temp->next->word, temp->token);
+	/* ft_printf("file |%s| type %d\n", temp->next->word, temp->token); */
 /* 	if (access(temp->next->word, F_OK) == -1)
 		fd_out = ft_open(temp->next->word, temp->token);
 	else if (access(temp->next->word, W_OK) == -1)

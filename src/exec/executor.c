@@ -114,6 +114,8 @@ static int	parent_close_wait(int **pipes, int *pids, int n_pipes)
 	{
 		waitpid(pids[i], NULL, 0);
 	}
+	free(pids);
+	pids = NULL;
 	return (0);
 }
 

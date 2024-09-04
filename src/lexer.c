@@ -53,7 +53,7 @@ static void	init_data(char *arg, t_data **head, int type)
 	{
 		temp->word = NULL;
 		temp->token = id_token(arg);
-		ft_printf("lexer:  %d\n", temp->token);
+		/* ft_printf("lexer:  %d\n", temp->token); */
 	}
 	temp->next = NULL;
 }
