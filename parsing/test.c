@@ -3,12 +3,12 @@
 int main(int ac, char **av, char **envp)
 {
 	t_data *data = NULL;
-	char *str = "echo \"salut les \"$0 va ?";
+	char *str = "echo \"salut les \"$$ ?";
 
 	(void)ac;
 	(void)av;
 	(void)envp;
-	data = parsing(str, 2121);
+	data = parsing(str, 13943);
 	if (!data)
 		return (printf("Data = NULL\n"), 1);
 	t_data *link = data;

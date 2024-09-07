@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:32:09 by akiener           #+#    #+#             */
-/*   Updated: 2024/09/03 14:51:36 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/07 16:47:13 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,13 @@
 # include "../minishell.h"
 # include <stdio.h>
 # include <stdlib.h>
-# include <stdbool.h>
 # include <stddef.h>
-
-typedef struct s_token
-{
-	bool	command;
-	bool	redirection;
-	bool	pipe;
-	bool	env_var;
-	bool	number;
-	bool	string;
-}	t_token;
 
 typedef struct s_arg
 {
 	char	*arg;
 	pid_t	pid;
+	int		last_val;
 }	t_arg;
 
 t_data	*new_node(char *arg);

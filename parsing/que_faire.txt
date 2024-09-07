@@ -6,15 +6,11 @@
 #    By: akiener <akiener@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 11:50:27 by akiener           #+#    #+#              #
-#    Updated: 2024/09/03 16:20:03 by akiener          ###   ########.fr        #
+#    Updated: 2024/09/07 17:14:59 by akiener          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 salut jeune padawan !!
 
 
--Rajouter une fonction qui compte le nombre de chiffre dans le pid + une fonction qui insere le pid dans str si il y a "$$"
-
--Faire pour le "$0" qui sembre facile
-
--Voire plus tard comment faire pour le "$?"
+- Voir comment faire pour le "$?"
