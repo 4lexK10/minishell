@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:48:19 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/01 03:18:34 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/05 03:22:49 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,13 @@ static int	here_doc(t_exec *exec, int i_cmd, char *limiter)
 	char	*line;
 	int		fd_Hdoc;
 
-	fd_Hdoc = open("/tmp/temp", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	fd_Hdoc = open("/tmp/temp_here_doc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (fd_Hdoc == -1)
 		return (ft_error("open", NO_EXIT));
 	while (1)
 	{
 		ft_putstr_fd("> ", STDIN_FILENO);
 		line = get_next_line(STDIN_FILENO);
-/* 		line = readline("> "); */
 		if (!line)
 			return (-1);
 		if (limit_check(limiter, line))
@@ -65,7 +64,7 @@ static int	here_doc(t_exec *exec, int i_cmd, char *limiter)
 		free(line);
 	}
 	close(fd_Hdoc);
-	fd_Hdoc = open("/tmp/temp", O_RDONLY);
+	fd_Hdoc = open("/tmp/temp_here_doc", O_RDONLY);
 	dup2(fd_Hdoc, STDIN_FILENO);
 	close(fd_Hdoc);
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/08/18 12:06:12 by akloster         ###   ########.fr        #
+#    Updated: 2024/09/05 03:40:39 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,12 @@ RM				=	rm -rf
 
 SRC_DIR			=	src/
 
-SRC				=	main.c lexer.c error_handler.c exec/execution.c 		\
-					exec/executor.c free_functions.c exec/get_exec_info.c 	\
-					exec/pipe_handler.c exec/wrapper_fcts.c exec/redir_handler.c
+SRC				=	main.c lexer.c error_handler.c exec/initializer.c		\
+					exec/executer.c exec/utils/free_functions.c 			\
+					exec/processer.c exec/piper.c exec/utils/wrapper_fcts.c \
+					exec/redir_handler.c
 
-HEADERS			= includes/minishell.h
+HEADERS			=	includes/minishell.h
 
 LIBft			=	libft/libft.a
 
