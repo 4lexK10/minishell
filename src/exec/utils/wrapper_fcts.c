@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 01:17:40 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/01 01:58:42 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/07 18:16:44 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_open(char *outfile, int type)
 	//access functions SAFETY!!!!
 	if (access(outfile, F_OK) == -1)
 		output = open(outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	else if (type == OUT_ADD)
+	else if (type == OUT_AP)
 		output = open(outfile, O_APPEND | O_WRONLY);
 	else
 		output = open(outfile, O_TRUNC | O_WRONLY);

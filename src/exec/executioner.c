@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_exec_info.c                                    :+:      :+:    :+:   */
+/*   executioner.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:47:18 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/21 06:49:09 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/07 18:47:20 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ static char	*get_path(char **cmd, char **envp)
 }
 
 
-int	run_cmd(t_data **data, char **envp, int i)
+int	executioner(t_data **data, char **envp, int i)
 {
 	char	*path;
 	char	**cmd;

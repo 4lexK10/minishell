@@ -6,11 +6,12 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/21 23:26:24 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/07 20:16:31 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing/parsing.h"
 
 /* static char	**mini_parser(char *arg)
 {
@@ -38,7 +39,8 @@ int	main(int ac, char **av, char **envp)
 		if (arg && *arg)
 			add_history(arg);
 		data = lexer(arg);
-/* 		for (t_data *temp = data; temp; temp = temp->next)
+/* 		data = parsing(arg, 13943);
+		for (t_data *temp = data; temp; temp = temp->next)
 		{
 			ft_printf("word: %s token: %d\n", temp->word, temp->token);
 		} */
@@ -48,7 +50,7 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 /* 		for (t_data *test = data; test != NULL; test = test->next)
 			printf("%s\n", test->word); */
-		execution(&data, envp);
+		initializer(&data, envp);
 		free_data(&data);
 		free(arg);
 	}

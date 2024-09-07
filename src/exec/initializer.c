@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
+/*   initializer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/19 19:50:04 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/07 18:48:48 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	**init_pipes(int n_pipes)
 	return (pipes);
 }
 
-int	pipe_check(t_data **data)
+static int	pipe_check(t_data **data)
 {
 	t_data	*temp;
 	int		cnt;
@@ -69,7 +69,7 @@ int	pipe_check(t_data **data)
 	return (cnt);
 }
 
-int	execution(t_data **data, char **envp)
+int	initializer(t_data **data, char **envp)
 {
 	int		n_pipes;
 	int		**pipes;
@@ -89,7 +89,7 @@ int	execution(t_data **data, char **envp)
 	}
 	exec = init_exec(data, n_pipes, pipes, envp);
 /* 	ft_printf("n_pipes %d\n", n_pipes); */
-	executor(exec);
+	process_handler(exec);
 	free_int_arr(&pipes, n_pipes);
 	free(exec);
 	/* exit(1);  // MAYBE EXIT LATER? */
