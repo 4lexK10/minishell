@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:45:30 by akiener           #+#    #+#             */
-/*   Updated: 2024/09/03 14:46:56 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/08 14:03:03 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_find_word(int *i, t_arg line)
 	if (compar_comm(str, "$") == 0 && (line.arg[*i] == '"'
 		|| line.arg[*i] == '\''))
 		return (ft_strdup(""));
-	str = check_envp(str, line.pid);
+	str = check_envp(str, line);
 	if (!str)
 		return (NULL);
 	return (str);
@@ -75,7 +75,7 @@ char	*ft_find_dbl_quotes(int *i, t_arg line, char quote)
 		str[y++] = line.arg[*i];
 	}
 	str[y] = '\0';
-	str = check_envp(str, line.pid); // corriger apres ce fichier
+	str = check_envp(str, line); // corriger apres ce fichier
 	if (!str)
 		return (NULL);
 	(*i)++;

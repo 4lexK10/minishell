@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:36:20 by akiener           #+#    #+#             */
-/*   Updated: 2024/08/31 13:30:18 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/08 14:47:15 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,32 @@ int	add_redir_or_pipe(t_data **data, char *arg, int *i)
 		return (free(str), -1);
 	(*i)++;
 	return (free(str), 0);
+}
+
+int	for_last_value(char **res, char *str, int *i, int last_val)
+{
+	char	*link;
+	int		y;
+	int		z;
+	int		x;
+	
+	link = ft_itoa(last_val);
+	if (!link)
+		return (-1);
+	*res = malloc(sizeof (char) * (ft_strlen(str) + ft_strlen(link) - 1));
+	if (!res[0])
+		return (free(link), -1);
+	y = -1;
+	x = *i;
+	while (++y < x)
+		res[0][y] = str[y];
+	z = -1;
+	while (link[++z])
+		res[0][y++] = link[z];
+	x++;
+	while (str[++x])
+		res[0][y++] = str[x];
+	res[0][y] = '\0';
+	*i += z;
+	return (free(link), 0);
 }

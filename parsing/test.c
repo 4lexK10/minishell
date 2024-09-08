@@ -3,12 +3,12 @@
 int main(int ac, char **av, char **envp)
 {
 	t_data *data = NULL;
-	char *str = "echo \"salut les \"$$ ?";
+	char *str = "echo prout '|' cat -e";
 
 	(void)ac;
 	(void)av;
 	(void)envp;
-	data = parsing(str, 13943);
+	data = parsing(str, 13943, 0);
 	if (!data)
 		return (printf("Data = NULL\n"), 1);
 	t_data *link = data;

@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:01:21 by akiener           #+#    #+#             */
-/*   Updated: 2024/09/07 17:33:33 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/08 14:31:02 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*put_str_in_str(char *str, int i, char *put)
 	return (final[y] = '\0', final);
 }
 
-char	*check_special_env(char *str, int *i, pid_t pid)
+char	*check_special_env(char *str, int *i, pid_t pid, int last_val)
 {
 	int 	pid_len;
 	char	*res;
@@ -120,6 +120,8 @@ char	*check_special_env(char *str, int *i, pid_t pid)
 			return (free(str), NULL);
 		*i += ft_strlen("minishell");
 	}
-	else if (str[*i + 1] == '?');
+	else if (str[*i + 1] == '?')
+		if (for_last_value(&res, str, i, last_val) == -1)
+			return (free(str), NULL);
 	return (free(str), res);
 }
