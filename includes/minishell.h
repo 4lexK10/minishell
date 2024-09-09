@@ -61,6 +61,7 @@ typedef struct	s_exec
 	int			n_pipes;
 	int			std_in;
 	int			std_out;
+	int			**pid;
 }				t_exec;
 
 int		initializer(t_data **arg, char **envp);

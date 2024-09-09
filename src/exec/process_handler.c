@@ -75,6 +75,7 @@ int process_handler(t_exec *exec)
 	i = -1;
 	temp = *(exec->data);
 	pids = init_pids(exec->n_pipes);
+	exec->pid = &pids;
 	if (!pids)
 		return (1);
 	if (exec->n_pipes == 0)

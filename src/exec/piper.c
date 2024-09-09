@@ -80,7 +80,7 @@ void pipe_handler(t_exec *exec, int i)
 	else if (i == exec->n_pipes)
 	{
 		if (extrma_fork(exec, LAST))
-			exit(1);	
+			exit(1);
 	}	
 	else
 	{

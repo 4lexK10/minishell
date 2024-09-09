@@ -30,14 +30,29 @@ static	t_data	*go_to_cmd(t_exec *exec, int i_cmd)
 	return (temp);
 }
 
-static int	limit_check(char *limiter, char *line)
+static int	finish_here_doc(t_exec *exec, int fd_Hdoc)
 {
-	if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-	{
-		if (line[ft_strlen(limiter)] == '\n')
-			return (1);
-	}
-	return (0);
+	t_data *temp;
+
+	if (close(fd_Hdoc) == -1)
+		return (ft_error("close", NO_EXIT));
+	fd_Hdoc = open("/tmp/temp_here_doc", O_RDONLY);
+	if (fd_Hdoc == -1)
+		return (ft_error("open", NO_EXIT));
+	if (dup2(fd_Hdoc, STDIN_FILENO) == -1)
+		return (ft_error("dup2", NO_EXIT));
+	if (close(fd_Hdoc) == -1)
+		return (ft_error("close", NO_EXIT));
+	temp = *(exec->data);
+	while (temp->token != H_DOC)
+		temp = temp->next;
+	ft_printf("test\n");
+	if (temp->next->word)
+		return (0);
+	free(*(exec->pid));
+	*(exec->pid) = NULL;
+	exit(0);
+	// free_data(&(exec->data)); needs free function
 }
 
 static int	here_doc(t_exec *exec, int i_cmd, char *limiter)
@@ -54,20 +69,19 @@ static int	here_doc(t_exec *exec, int i_cmd, char *limiter)
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			return (-1);
-		if (limit_check(limiter, line))
+		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 		{
-			free(line);
-			line = NULL;
-			break ;
+			if (line[ft_strlen(limiter)] == '\n')
+			{
+				free(line);
+				line = NULL;
+				break ;
+			}
 		}
 		ft_putstr_fd(line, fd_Hdoc);
 		free(line);
 	}
-	close(fd_Hdoc);
-	fd_Hdoc = open("/tmp/temp_here_doc", O_RDONLY);
-	dup2(fd_Hdoc, STDIN_FILENO);
-	close(fd_Hdoc);
-	return (EXIT_SUCCESS);
+	return (finish_here_doc(exec, fd_Hdoc));
 }
 
 int needs_preRedir(t_exec *exec, int i_cmd)

@@ -10,6 +10,11 @@
 #                                                                              #
 # **************************************************************************** #
 
+# parsing/check_envp.c 			 \
+# parsing/parsing.c parsing/error.c parsing/env_utils.c	 \
+# parsing/lexer_tok.c parsing/list_data.c					 \
+# parsing/pars_utils.c parsing/split_input.c
+
 RM				=	rm -rf
 
 SRC_DIR			=	src/
@@ -17,10 +22,7 @@ SRC_DIR			=	src/
 SRC				=	main.c lexer.c exec/utils/error_handler.c exec/piper.c	 \
 					exec/initializer.c exec/executioner.c exec/redir_handler.c	 \
 					exec/utils/free_functions.c exec/process_handler.c 		 \
-					exec/utils/wrapper_fcts.c parsing/check_envp.c 			 \
-					parsing/parsing.c parsing/error.c parsing/env_utils.c	 \
-					parsing/lexer_tok.c parsing/list_data.c					 \
-					parsing/pars_utils.c parsing/split_input.c
+					exec/utils/wrapper_fcts.c 
 
 HEADERS			=	includes/minishell.h
 
