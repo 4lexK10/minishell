@@ -33,6 +33,10 @@
 # define OUT		3
 # define OUT_AP		4
 # define H_DOC		5
+# define STRING		6
+# define NUMBER		7
+# define BUILT		8
+# define ABS_PATH	9
 
 // readablitlty defines
 
