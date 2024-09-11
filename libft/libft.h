@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:49:47 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/21 23:06:40 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/10 22:38:28 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	*ft_memcpy(void *dst, void const *src, size_t n);
 void	*ft_memmove(void *dst, void const *src, size_t len);
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_putchar_fd(char c, int fd);
-void	ft_putendl_fd(char *s, int fd);
+int		ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-void	ft_putstr_fd(char *s, int fd);
+int		ft_putstr_fd(char *s, int fd);
 char	**ft_split(char const *s, char c);
 char	*ft_strchr(char const *s, int c);
 char	*ft_strdup( char const*s1);

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/07 18:48:48 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/11 02:11:07 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static t_exec	*init_exec(t_data **data, int n_pipes, int **pipes, char **envp)
 	exec->pipes = pipes;
 	exec->std_in = dup(0);
 	exec->std_out = dup(1);
+	exec->pid = NULL;
+	exec->in_pipe = false;
 	if (exec->std_in == -1 || exec->std_in == -1)
 		return (ft_error("dup", NO_EXIT), NULL);
 	return (exec);

@@ -25,22 +25,6 @@ static int	cnt_words(t_data *temp)
 	return (cnt);
 }
 
-static t_data	*skipTo_cmd(t_data *temp, int cmd_i)
-{
-	/* ft_printf("skipto %d\n", cmd_i); */
-	while (cmd_i-- > 0)
-	{
-		while (temp->token != PIPE)
-			temp = temp->next;
-		temp = temp->next;
-		/* ft_printf("%s\n", temp->next->next->next->word); */
-	}
-	if (temp->token == IN || temp->token == H_DOC)
-		temp = temp->next->next;
-/* 	ft_printf("%s\n", temp->word); */
-	return (temp);
-}
-
 static char	**get_cmd(t_data **data, int cmd_i)
 {
 	t_data	*temp;
@@ -124,22 +108,24 @@ static char	*get_path(char **cmd, char **envp)
 }
 
 
-int	executioner(t_data **data, char **envp, int i)
+int	executioner(t_exec *exec, int i)
 {
 	char	*path;
 	char	**cmd;
-	cmd = get_cmd(data, i);
+
+	is_built(exec, i);
+	cmd = get_cmd(exec->data, i);
 	if (!cmd)
 		return (1);
-	path = get_path(cmd, envp);
+	path = get_path(cmd, exec->envp);
 	if (!path)
 	{
 		free_ptr_arr(&cmd);
 		return (1);
 	}
 /* 	ft_printf("child\n"); */
-	execve(path, cmd, envp);
-	free_data(data);
+	execve(path, cmd, exec->envp);
+	free_data(exec->data);
 	free_ptr_arr(&cmd);
 	free(path);
 	path = NULL;

@@ -6,19 +6,23 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:05:42 by akloster          #+#    #+#             */
-/*   Updated: 2024/07/30 02:13:56 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/10 22:58:19 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int	ft_putstr_fd(char *s, int fd)
 {
 	size_t	i;
 
 	i = 0;
 	if (!s)
-		return ;
+		return (0);
 	while (s[i] != '\0')
-		write(fd, &s[i++], 1);
+	{
+		if (write(fd, &s[i++], 1) == -1)
+			return (1);
+	}
+	return (0);
 }
