@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 15:53:35 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/11 20:26:54 by akloster         ###   ########.fr       */
+/*   Created: 2024/09/11 19:31:43 by akloster          #+#    #+#             */
+/*   Updated: 2024/09/11 20:27:29 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_echo(t_data *data)
+void	ft_exit(t_exec *exec)
 {
-	bool	n_flag;
-
-	n_flag = false;
-	if (ft_strnstr(data->word, "-n", 2))
+	free_data(exec->data);
+	if (exec->n_pipes > 0)
 	{
-		n_flag = true;
-		data = data->next;
+		free_int_arr(&(exec->pipes), exec->n_pipes);
+		free(*exec->pid);
+		exec->pid = NULL;
 	}
-	while (data->word)
-	{
-		if (ft_putstr_fd(data->next->word, STDOUT_FILENO))
-			return (ft_error("write", NO_EXIT));
-		data = data->next;
-	}
-	if (!n_flag)
-		if (ft_putstr_fd("\n", STDOUT_FILENO))
-			return (ft_error("write", NO_EXIT));
-	return (0);
+	free(exec);
+	write(1, "exit\n", 5);
+	exit(0);
 }

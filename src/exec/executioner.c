@@ -107,7 +107,6 @@ static char	*get_path(char **cmd, char **envp)
 	return (ft_strjoin(path[i], bin));
 }
 
-
 int	executioner(t_exec *exec, int i)
 {
 	char	*path;

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:03:07 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/11 02:32:15 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:26:14 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,12 @@ void	is_built(t_exec *exec, int i)
 	int		res;
 
 	temp = skipTo_cmd(*(exec->data), i);
-	ft_printf("%s\n", (*(exec->data))->word);
 	if (temp->token != 8)
 		return ;
-	res = ft_cd(temp->next, exec->in_pipe);
+	res = built_handler(exec, i);
 	free_data(exec->data);
 	if (exec->in_pipe)
-		free(exec->pid);
+		free(*(exec->pid));
 	free_int_arr(&(exec->pipes), exec->n_pipes);
 	exit(res);
 }

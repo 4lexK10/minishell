@@ -6,19 +6,19 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/11 02:20:22 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:25:36 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	*init_pids(int n_pipes)
+static pid_t	*init_pids(int n_pipes)
 {
 	int	*pids;
 	int	i;
 
 	i = -1;
-	pids = (int *)malloc((n_pipes + 1) * sizeof(int));
+	pids = (pid_t *)malloc((n_pipes + 1) * sizeof(pid_t));
 	if (!pids)
 		return (NULL);
 	while (++i <= n_pipes)
@@ -30,6 +30,12 @@ static int	no_pipe_exec(t_exec *exec)
 {
 	int	pid;
 
+	if (find_built(*(exec->data)))
+	{
+		if (built_handler(exec, 0))
+			return (1);
+		return (0);
+	}
 	pid = fork();
 	if (pid == -1)
 		exit(1);
@@ -80,13 +86,14 @@ int process_handler(t_exec *exec)
 	int		res;
 
 	i = -1;
+	pids = NULL;
 	temp = *(exec->data);
-	pids = init_pids(exec->n_pipes);
-	exec->pid = &pids;
-	if (!pids)
-		return (1);
 	if (exec->n_pipes == 0)
 		return (no_pipe_exec(exec));
+	pids = init_pids(exec->n_pipes);
+	if (!pids)
+		return (1);
+	exec->pid = &pids;
 	while (++i <= exec->n_pipes)
 	{
 		pids[i] = fork();

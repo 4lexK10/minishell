@@ -6,7 +6,7 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/09/11 02:10:49 by akloster         ###   ########.fr        #
+#    Updated: 2024/09/11 19:44:36 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC				=	src/main.c src/lexer.c src/exec/utils/error_handler.c	  \
 					 src/exec/redir_handler.c src/exec/executioner.c		  \
 					src/exec/utils/free_functions.c src/exec/process_handler.c\
 					src/exec/utils/wrapper_fcts.c src/exec/utils/exec_tools.c \
-					builtins/ft_cd.c
+					builtins/ft_cd.c builtins/tools.c builtins/ft_exit.c
 
 HEADERS			=	includes/minishell.h
 

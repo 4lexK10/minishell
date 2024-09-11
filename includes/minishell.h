@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/11 02:13:28 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:24:11 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,8 @@ t_data	*skipTo_cmd(t_data *temp, int cmd_i);
 int		ft_echo(t_data *data);
 int		ft_cd(t_data *data, bool in_pipe);
 void	is_built(t_exec *exec, int i);
+t_data	*find_built(t_data *data);
+int		built_handler(t_exec *exec, int i);
+void	ft_exit(t_exec *exec);
 
 #endif

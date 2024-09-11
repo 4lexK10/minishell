@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:26:54 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/11 02:17:31 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:07:59 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ static int	id_token(char *str)
 	if (*str == '|') 
 		return (1);
 	if (ft_strnstr(str, "cd", 3))
+		return (8);
+	if (ft_strnstr(str, "exit", 5))
+		return (8);
+	if (ft_strnstr(str, "echo", 5))
 		return (8);
 	return (0);
 }
@@ -55,6 +59,8 @@ static void	init_data(char *arg, t_data **head, int type)
 	{
 		temp->word = NULL;
 		temp->token = id_token(arg);
+		if (temp->token == BUILT)
+			temp->word = ft_strdup(arg);
 		/* ft_printf("lexer:  %d\n", temp->token); */
 	}
 	temp->next = NULL;

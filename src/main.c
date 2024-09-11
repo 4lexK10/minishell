@@ -6,24 +6,11 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/07 20:16:31 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:45:40 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//#include "parsing/parsing.h"
-
-/* static char	**mini_parser(char *arg)
-{
-	char	**args;
-
-	if (ft_strnstr(arg, "echo", ft_strlen(arg)))
-	{
-		//arg_check();
-		if (ft_echo(arg))
-			return (NULL);
-	}
-} */
 
 int	main(int ac, char **av, char **envp)
 {
