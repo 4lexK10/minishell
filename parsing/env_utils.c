@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:01:21 by akiener           #+#    #+#             */
-/*   Updated: 2024/09/08 14:31:02 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/14 17:04:01 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,7 @@ char	*put_str_in_str(char *str, int i, char *put)
 	z = -1;
 	while (put[++z])
 		final[y++] = put[z];
-	i++;
-	while (str[i] && ft_isspace(str[i]) == 0 && str[i] != '$' && str[i] != '\'')
-		i++;
+	i += 2;
 	if (!str[i])
 		return (final[y] = '\0', final);
 	i--;
@@ -99,7 +97,7 @@ char	*put_str_in_str(char *str, int i, char *put)
 
 char	*check_special_env(char *str, int *i, pid_t pid, int last_val)
 {
-	int 	pid_len;
+	int		pid_len;
 	char	*res;
 
 	res = NULL;

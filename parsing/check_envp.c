@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:29:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/09/08 14:33:03 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/14 17:03:43 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static char	*change_dollar(char *str, int *i, t_arg line)
 {
 	char	*res;
 
-	if (str[*i + 1] == '?' || str[*i + 1] == '$' || str[*i + 1] == '0') // enlever la partie commentaire plus tard
+	if (str[*i + 1] == '?' || str[*i + 1] == '$' || str[*i + 1] == '0')
 		str = check_special_env(str, i, line.pid, line.last_val);
 	else
 	{

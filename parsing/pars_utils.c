@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:36:20 by akiener           #+#    #+#             */
-/*   Updated: 2024/09/08 14:47:15 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/14 17:03:06 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	for_last_value(char **res, char *str, int *i, int last_val)
 	int		y;
 	int		z;
 	int		x;
-	
+
 	link = ft_itoa(last_val);
 	if (!link)
 		return (-1);

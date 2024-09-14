@@ -6,11 +6,11 @@
 #    By: akiener <akiener@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 11:50:27 by akiener           #+#    #+#              #
-#    Updated: 2024/09/07 17:14:59 by akiener          ###   ########.fr        #
+#    Updated: 2024/09/14 15:44:49 by akiener          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 salut jeune padawan !!
 
 
-- Voir comment faire pour le "$?"
+- Gerer le cas ou le dollar est tout de suite suivi de "
