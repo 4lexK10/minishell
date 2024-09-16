@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:48:19 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/09 22:19:51 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/16 01:35:36 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 static	t_data	*go_to_cmd(t_exec *exec, int i_cmd)
 {
 	int		i;
-	int		pre;
-	int		post;
 	t_data	*temp;
 
 	i = -1;
@@ -54,7 +52,7 @@ static int	finish_here_doc(t_exec *exec, int fd_Hdoc)
 	// free_data(&(exec->data)); needs free function
 }
 
-static int	here_doc(t_exec *exec, int i_cmd, char *limiter)
+static int	here_doc(t_exec *exec, char *limiter)
 {
 	char	*line;
 	int		fd_Hdoc;
@@ -95,7 +93,7 @@ int needs_preRedir(t_exec *exec, int i_cmd)
 		return (-1);
 	if (temp->token == H_DOC)
 	{
-		fd_in = here_doc(exec, i_cmd, temp->next->word);
+		fd_in = here_doc(exec, temp->next->word);
 		if (fd_in == -1)
 			return (EXIT_FAILURE);
 		return (EXIT_SUCCESS);

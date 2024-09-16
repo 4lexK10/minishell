@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 23:23:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/11 18:45:33 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/16 01:41:08 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	ft_cd(t_data *data, bool in_pipe)
 			return (ft_error("chdir", NO_EXIT));
 		return (0);
 	} */
+	(void)in_pipe;
 	if (chdir(data->word) == -1)
 		return (ft_error("chdir", NO_EXIT));
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/11 20:24:11 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/17 01:11:40 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct	s_data
 typedef struct	s_exec
 {
 	t_data		**data;
+	char		**env;
 	char		**envp;
 	int			**pipes;
 	int			n_pipes;
@@ -69,7 +70,7 @@ typedef struct	s_exec
 	bool		in_pipe;
 }				t_exec;
 
-int		initializer(t_data **arg, char **envp);
+int		initializer(t_data **arg, char **envp, char **env);
 int		process_handler(t_exec *exec);
 t_data	*lexer(char *arg);
 int		ft_error(char *str, int need);
@@ -89,6 +90,14 @@ int		ft_cd(t_data *data, bool in_pipe);
 void	is_built(t_exec *exec, int i);
 t_data	*find_built(t_data *data);
 int		built_handler(t_exec *exec, int i);
+int		ft_pwd(t_data *data);
 void	ft_exit(t_exec *exec);
+int		ft_env(t_exec *exec, t_data *data);
+int		ft_export(t_exec *exec, t_data *data);
+char	*init_first(char **env);
+char	*get_last(char **env);
+char	**init_env(char **envp, char *new_var);
+int		need_sort_env(char **env);
+void	free_arr(char **ptr);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:55:06 by akloster          #+#    #+#             */
-/*   Updated: 2024/08/02 08:28:39 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/17 00:57:27 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,10 @@ char	*free_all_path_info(char **str, char ***arr)
 	}
 	free_ptr_arr(arr);
 	return (NULL);
+}
+
+void	free_arr(char **ptr)
+{
+	free(*ptr);
+	*ptr = NULL;
 }

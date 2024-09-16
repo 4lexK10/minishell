@@ -6,13 +6,13 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/11 02:11:07 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/17 01:11:19 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_exec	*init_exec(t_data **data, int n_pipes, int **pipes, char **envp)
+static t_exec	*init_exec(t_data **data, int n_pipes, int **pipes, char **env)
 {
 	t_exec	*exec;
 
@@ -20,7 +20,7 @@ static t_exec	*init_exec(t_data **data, int n_pipes, int **pipes, char **envp)
 	if (!exec)
 		return (NULL);
 	exec->data = data;
-	exec->envp = envp;
+	exec->env = env;
 	exec->n_pipes = n_pipes;
 	exec->pipes = pipes;
 	exec->std_in = dup(0);
@@ -71,7 +71,7 @@ static int	pipe_check(t_data **data)
 	return (cnt);
 }
 
-int	initializer(t_data **data, char **envp)
+int	initializer(t_data **data, char **envp, char **env)
 {
 	int		n_pipes;
 	int		**pipes;
@@ -89,7 +89,8 @@ int	initializer(t_data **data, char **envp)
 			exit(1);
 		}
 	}
-	exec = init_exec(data, n_pipes, pipes, envp);
+	exec = init_exec(data, n_pipes, pipes, env);
+	exec->envp = envp;
 /* 	ft_printf("n_pipes %d\n", n_pipes); */
 	process_handler(exec);
 	free_int_arr(&pipes, n_pipes);

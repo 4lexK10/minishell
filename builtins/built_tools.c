@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   built_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:52:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/11 20:26:22 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/16 21:24:50 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,28 @@ int	built_handler(t_exec *exec, int i)
     else if (!strncmp(builtin->word, "echo", 5))
         res = ft_echo(builtin->next);
     else if (!strncmp(builtin->word, "exit", 5))
-    {
         ft_exit(exec);
-    }
+    else if (!strncmp(builtin->word, "pwd", 4))
+        res = ft_pwd(builtin->next);
+    else if (!strncmp(builtin->word, "env", 4))
+        res = ft_env(exec, builtin->next);
+    else if (!strncmp(builtin->word, "export", 7))
+        res = ft_export(exec, builtin->next);
     return (res);
+}
+
+void	is_built(t_exec *exec, int i)
+{
+	t_data	*temp;
+	int		res;
+
+	temp = skipTo_cmd(*(exec->data), i);
+	if (temp->token != BUILT)
+		return ;
+	res = built_handler(exec, i);
+	free_data(exec->data);
+	if (exec->in_pipe)
+		free(*(exec->pid));
+	free_int_arr(&(exec->pipes), exec->n_pipes);
+	exit(res);
 }

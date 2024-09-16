@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/11 20:25:36 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/16 01:36:26 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ static int	no_pipe_exec(t_exec *exec)
 {
 	int	pid;
 
-	if (find_built(*(exec->data)))
+/* 	if (find_built(*(exec->data)))
 	{
 		if (built_handler(exec, 0))
 			return (1);
 		return (0);
-	}
+	} */
 	pid = fork();
 	if (pid == -1)
 		exit(1);
@@ -80,14 +80,11 @@ static void	exec_child(t_exec *exec, int i)
 
 int process_handler(t_exec *exec)
 {
-	t_data	*temp;
 	pid_t	*pids;
 	int		i;
-	int		res;
 
 	i = -1;
 	pids = NULL;
-	temp = *(exec->data);
 	if (exec->n_pipes == 0)
 		return (no_pipe_exec(exec));
 	pids = init_pids(exec->n_pipes);

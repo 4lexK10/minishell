@@ -80,16 +80,16 @@ static int	*check_cmd(char *cmd, char *cmd_path, char **path, int *i)
 	return (NULL);
 }
 
-static char	*get_path(char **cmd, char **envp)
+static char	*get_path(char **cmd, char **env)
 {
 	int		i;
 	char	**path;
 	char	*bin;
 
 	i = 0;
-	while (envp[i] && !ft_strnstr(envp[i], "PATH=", 6))
+	while (env[i] && !ft_strnstr(env[i], "PATH=", 6))
 		++i;
-	path = ft_split(&envp[i][5], ':');
+	path = ft_split(&env[i][5], ':');
 	if (!path)
 	{
 		ft_error("malloc", NO_EXIT);
@@ -116,16 +116,17 @@ int	executioner(t_exec *exec, int i)
 	cmd = get_cmd(exec->data, i);
 	if (!cmd)
 		return (1);
-	path = get_path(cmd, exec->envp);
+	path = get_path(cmd, exec->env);
 	if (!path)
 	{
 		free_ptr_arr(&cmd);
 		return (1);
 	}
 /* 	ft_printf("child\n"); */
-	execve(path, cmd, exec->envp);
+	execve(path, cmd, exec->env);
 	free_data(exec->data);
 	free_ptr_arr(&cmd);
+	free_ptr_arr(&(exec->env));
 	free(path);
 	path = NULL;
 	ft_error("execve", NO_EXIT);

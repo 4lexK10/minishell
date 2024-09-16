@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_tools.c                                       :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 22:03:07 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/16 01:48:07 by akloster         ###   ########.fr       */
+/*   Created: 2024/09/14 19:41:30 by akloster          #+#    #+#             */
+/*   Updated: 2024/09/16 01:42:36 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	*skipTo_cmd(t_data *temp, int cmd_i)
+int ft_pwd(t_data *data)
 {
-	/* ft_printf("skipto %d\n", cmd_i); */
-	while (cmd_i-- > 0)
-	{
-		while (temp->token != PIPE)
-			temp = temp->next;
-		temp = temp->next;
-		/* ft_printf("%s\n", temp->next->next->next->word); */
-	}
-	if (temp->token == IN || temp->token == H_DOC)
-		temp = temp->next->next;
-/* 	ft_printf("%s\n", temp->word); */
-	return (temp);
+	char	*pathname;
+
+	if (data && data->token == STRING)
+		return (0);
+	pathname = getcwd(NULL, 0);
+	if (!pathname)
+		return (ft_error("getcwd", NO_EXIT));
+	if (ft_putendl_fd(pathname, STDOUT_FILENO))
+		return (ft_error("write", NO_EXIT));
+	free(pathname);
+	pathname = NULL;
+	return (0);
 }

@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_tools.c                                       :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 22:03:07 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/16 01:48:07 by akloster         ###   ########.fr       */
+/*   Created: 2024/09/14 20:23:23 by akloster          #+#    #+#             */
+/*   Updated: 2024/09/16 20:26:50 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	*skipTo_cmd(t_data *temp, int cmd_i)
+int	ft_env(t_exec *exec, t_data *data)
 {
-	/* ft_printf("skipto %d\n", cmd_i); */
-	while (cmd_i-- > 0)
-	{
-		while (temp->token != PIPE)
-			temp = temp->next;
-		temp = temp->next;
-		/* ft_printf("%s\n", temp->next->next->next->word); */
-	}
-	if (temp->token == IN || temp->token == H_DOC)
-		temp = temp->next->next;
-/* 	ft_printf("%s\n", temp->word); */
-	return (temp);
+	int	i; 
+
+	i = -1;
+	if (data && data->token == 6)
+		return (ft_putendl_fd("env: too many arguments", STDOUT_FILENO));
+	while (exec->env[++i])
+		ft_putendl_fd(exec->env[i], STDOUT_FILENO);
+	return (0);
 }
