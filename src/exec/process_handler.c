@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/16 01:36:26 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:42:43 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,3 @@ int process_handler(t_exec *exec)
 		return (1);
 	return (0);
 }
-

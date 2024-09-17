@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:00:08 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/17 01:12:52 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:14:25 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	create_env_var(char **env, char *str)
 {
+	ft_printf("in-> create_env_var\n");
 	free(*env);
 	*env = ft_strdup(str);
 	if (!(*env))
@@ -25,6 +26,7 @@ static int	app_env_var(char **env, char *str)
 {
 	char	*temp;
 
+	ft_printf("in-> app_env_var\n");
 	temp = ft_strdup(*env);
 	if (!temp)
 		return (ft_error("malloc", NO_EXIT));
@@ -33,6 +35,7 @@ static int	app_env_var(char **env, char *str)
 		++str;
 	++str;
 	*env = ft_strjoin(temp, str);
+	ft_printf("%s\n", *env);
 	free(temp);
 	temp = NULL;
 	if (!(*env))
@@ -40,26 +43,25 @@ static int	app_env_var(char **env, char *str)
 	return (0);
 }
 
-static int	change_env_var(t_exec *exec, char *str)
+static int	change_env_var(t_exec *exec, char *str, int (*f)(char **, char *))
 {
 	char	*var;
 	int		i;
 
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] != '=' && str[i] != '+')
 		++i;
 	var = (char *)malloc(i + 1);
 	if (!var)
 		return (ft_error("malloc", NO_EXIT));
 	ft_memmove(var, str, i);
 	var[i] = '\0';
+	ft_printf("%s\n", var);
 	i = -1;
 	while ((exec->env)[++i])
 	{
 		if (ft_strncmp((exec->env)[i], var, (ft_strlen(var) + 1)) == '=')
-			return (free_arr(&var), create_env_var(&(exec->env)[i], str));
-		if (ft_strncmp((exec->env)[i], var, (ft_strlen(var) + 1)) == '+')
-			return (free_arr(&var), app_env_var(&(exec->env)[i], str));
+			return (free_arr(&var), f(&(exec->env)[i], str));
 	}
 	free_arr(&var);
 	free_ptr_arr(&(exec->env));
@@ -75,7 +77,9 @@ int	ft_export(t_exec *exec, t_data *data)
 		return (0);
 	if (!data || data->token != STRING)
 			return (need_sort_env(exec->env));
-	if (ft_strnstr(data->word, "=", ft_strlen(data->word + 1)))
-		return (change_env_var(exec, data->word), need_sort_env((exec->env)));
+	if (ft_strnstr(data->word, "+=", ft_strlen(data->word + 1)))
+		return (change_env_var(exec, data->word, app_env_var));
+	else if (ft_strnstr(data->word, "=", ft_strlen(data->word + 1)))
+		return (change_env_var(exec, data->word, create_env_var));
 	return (0);
 }

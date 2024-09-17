@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/17 01:11:40 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:17:56 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct	s_exec
 	bool		in_pipe;
 }				t_exec;
 
-int		initializer(t_data **arg, char **envp, char **env);
+int		initializer(t_data **arg, char **envp, char ***env);
 int		process_handler(t_exec *exec);
 t_data	*lexer(char *arg);
 int		ft_error(char *str, int need);

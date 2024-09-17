@@ -6,13 +6,13 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/17 01:11:19 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:18:32 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_exec	*init_exec(t_data **data, int n_pipes, int **pipes, char **env)
+static t_exec	*init_exec(t_data **data, int n_pipes, int **pipes, char ***env)
 {
 	t_exec	*exec;
 
@@ -20,7 +20,7 @@ static t_exec	*init_exec(t_data **data, int n_pipes, int **pipes, char **env)
 	if (!exec)
 		return (NULL);
 	exec->data = data;
-	exec->env = env;
+	exec->env = *env;
 	exec->n_pipes = n_pipes;
 	exec->pipes = pipes;
 	exec->std_in = dup(0);
@@ -71,7 +71,7 @@ static int	pipe_check(t_data **data)
 	return (cnt);
 }
 
-int	initializer(t_data **data, char **envp, char **env)
+int	initializer(t_data **data, char **envp, char ***env)
 {
 	int		n_pipes;
 	int		**pipes;

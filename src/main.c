@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/17 01:09:42 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:17:44 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	main(int ac, char **av, char **envp)
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			exit(0);
 		}
-		initializer(&data, envp, env);
+		initializer(&data, envp, &env);
 		free_data(&data);
 		free(arg);
 	}
