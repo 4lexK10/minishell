@@ -6,13 +6,13 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:00:08 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/17 18:14:25 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/18 07:42:32 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	create_env_var(char **env, char *str)
+static int	swap_env_var(char **env, char *str)
 {
 	ft_printf("in-> create_env_var\n");
 	free(*env);
@@ -43,7 +43,17 @@ static int	app_env_var(char **env, char *str)
 	return (0);
 }
 
-static int	change_env_var(t_exec *exec, char *str, int (*f)(char **, char *))
+static int	create_env_var(char ***env, char *str)
+{
+	char	**temp;
+
+	temp = *env;
+	*env = init_env(*env, str);
+	free_ptr_arr(&temp);
+	return (0);
+}
+
+static int	change_env_var(char ***env, char *str, int (*f)(char **, char *))
 {
 	char	*var;
 	int		i;
@@ -58,28 +68,26 @@ static int	change_env_var(t_exec *exec, char *str, int (*f)(char **, char *))
 	var[i] = '\0';
 	ft_printf("%s\n", var);
 	i = -1;
-	while ((exec->env)[++i])
+	while ((*env)[++i])
 	{
-		if (ft_strncmp((exec->env)[i], var, (ft_strlen(var) + 1)) == '=')
-			return (free_arr(&var), f(&(exec->env)[i], str));
+		if (ft_strncmp((*env)[i], var, (ft_strlen(var) + 1)) == '=')
+			return (free_arr(&var), f(&((*env)[i]), str));
 	}
 	free_arr(&var);
-	free_ptr_arr(&(exec->env));
-	exec->env = init_env((exec->envp), str);
-	if (exec->env)
-		return (0);
+	create_env_var(env, str);
+	need_sort_env(*env);
 	return (1);
 }
 
-int	ft_export(t_exec *exec, t_data *data)
+int	ft_export(t_exec *exec, char ***env, t_data *data)
 {
 	if (exec->n_pipes)
 		return (0);
 	if (!data || data->token != STRING)
-			return (need_sort_env(exec->env));
+			return (need_sort_env(*env));
 	if (ft_strnstr(data->word, "+=", ft_strlen(data->word + 1)))
-		return (change_env_var(exec, data->word, app_env_var));
+		return (change_env_var(env, data->word, app_env_var));
 	else if (ft_strnstr(data->word, "=", ft_strlen(data->word + 1)))
-		return (change_env_var(exec, data->word, create_env_var));
+		return (change_env_var(env, data->word, swap_env_var));
 	return (0);
 }

@@ -6,13 +6,13 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 23:23:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/16 01:41:08 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/18 07:42:22 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_cd(t_data *data, bool in_pipe)
+int	ft_cd(t_data *data, int	in_pipe)
 {
 /* 	if (in_pipe)
 	{

@@ -107,26 +107,27 @@ static char	*get_path(char **cmd, char **env)
 	return (ft_strjoin(path[i], bin));
 }
 
-int	executioner(t_exec *exec, int i)
+int	executioner(t_exec *exec, char ***env, int i)
 {
 	char	*path;
 	char	**cmd;
 
-	is_built(exec, i);
+	if (is_built(exec, env, i) != -1)
+		return (0);
 	cmd = get_cmd(exec->data, i);
 	if (!cmd)
 		return (1);
-	path = get_path(cmd, exec->env);
+	path = get_path(cmd, *env);
 	if (!path)
 	{
 		free_ptr_arr(&cmd);
 		return (1);
 	}
 /* 	ft_printf("child\n"); */
-	execve(path, cmd, exec->env);
+	execve(path, cmd, *env);
 	free_data(exec->data);
 	free_ptr_arr(&cmd);
-	free_ptr_arr(&(exec->env));
+	free_ptr_arr(env);
 	free(path);
 	path = NULL;
 	ft_error("execve", NO_EXIT);

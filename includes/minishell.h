@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/17 18:17:56 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/18 07:35:02 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ typedef struct	s_data
 typedef struct	s_exec
 {
 	t_data		**data;
-	char		**env;
-	char		**envp;
 	int			**pipes;
 	int			n_pipes;
 	int			std_in;
@@ -70,12 +68,12 @@ typedef struct	s_exec
 	bool		in_pipe;
 }				t_exec;
 
-int		initializer(t_data **arg, char **envp, char ***env);
-int		process_handler(t_exec *exec);
+int		initializer(t_data **arg, char ***env);
+int		process_handler(t_exec *exec, char ***env);
 t_data	*lexer(char *arg);
 int		ft_error(char *str, int need);
 void	pipe_handler(t_exec *exec, int i);
-int		executioner(t_exec *exec, int i);
+int		executioner(t_exec *exec, char ***env, int i);
 char	*free_all_path_info(char **str, char ***arr);
 void	free_int_arr(int ***arr, int sub_arr_nbr);
 void	free_data(t_data **data);
@@ -86,14 +84,14 @@ int		needs_postRedir(t_exec *exec, int i_cmd);
 int		ft_open(char *outfile, int type);
 t_data	*skipTo_cmd(t_data *temp, int cmd_i);
 int		ft_echo(t_data *data);
-int		ft_cd(t_data *data, bool in_pipe);
-void	is_built(t_exec *exec, int i);
+int		ft_cd(t_data *data, int in_pipe);
+int		is_built(t_exec *exec, char ***env, int i);
 t_data	*find_built(t_data *data);
-int		built_handler(t_exec *exec, int i);
+int		built_handler(t_exec *exec, char ***env, int i);
 int		ft_pwd(t_data *data);
-void	ft_exit(t_exec *exec);
-int		ft_env(t_exec *exec, t_data *data);
-int		ft_export(t_exec *exec, t_data *data);
+void	ft_exit(t_exec *exec, char ***env);
+int		ft_env(char **env, t_data *data);
+int		ft_export(t_exec *exec, char ***env, t_data *data);
 char	*init_first(char **env);
 char	*get_last(char **env);
 char	**init_env(char **envp, char *new_var);
