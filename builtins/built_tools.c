@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:52:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/18 07:34:52 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/18 08:37:54 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	built_handler(t_exec *exec, char ***env, int i)
         res = ft_env(*env, builtin->next);
     else if (!ft_strncmp(builtin->word, "export", 7))
         res = ft_export(exec, env, builtin->next);
+    else if (!ft_strncmp(builtin->word, "unset", 6))
+        res = ft_unset(env, builtin->next);
     return (res);
 }
 

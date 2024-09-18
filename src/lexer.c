@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:26:54 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/16 01:50:26 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/18 08:36:45 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static int	id_token(char *str)
 	if (ft_strnstr(str, "env", 4))
 		return (8);
 	if (ft_strnstr(str, "export", 7))
+		return (8);
+	if (ft_strnstr(str, "unset", 6))
 		return (8);
 	return (0);
 }

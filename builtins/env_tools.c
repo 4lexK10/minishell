@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 21:24:27 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/17 00:51:42 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/18 09:00:43 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char	*init_first(char **env)
 	str = env[0];
 	while (env[i])
 	{
+		ft_printf("initfirst fct->%s\n", str);
 		if (ft_strncmp(str, env[i], (ft_strlen(str) + 1)) > 0)
 			str = env[i];
 		++i;

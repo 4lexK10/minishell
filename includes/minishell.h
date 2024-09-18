@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/18 07:35:02 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/18 08:36:09 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,6 @@ char	*get_last(char **env);
 char	**init_env(char **envp, char *new_var);
 int		need_sort_env(char **env);
 void	free_arr(char **ptr);
+int		ft_unset(char ***env, t_data *data);
 
 #endif

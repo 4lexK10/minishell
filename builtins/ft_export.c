@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:00:08 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/18 07:42:32 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/18 08:39:37 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static int	change_env_var(char ***env, char *str, int (*f)(char **, char *))
 	}
 	free_arr(&var);
 	create_env_var(env, str);
-	need_sort_env(*env);
 	return (1);
 }
 
