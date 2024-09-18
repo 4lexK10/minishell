@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 08:03:58 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/18 09:00:28 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/18 09:08:39 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int ft_unset(char ***env, t_data *data)
 	while ((*env)[++i])
 	{
 		if (ft_strncmp((*env)[i], data->word, (ft_strlen(data->word) + 1)) == '=')
-			return (remove_env_var(env, data->word), need_sort_env(*env));
+			return (remove_env_var(env, data->word)/* , need_sort_env(*env) */);
 	}
 	return (0);
 }
