@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:52:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/18 08:37:54 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/18 20:38:57 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ int	built_handler(t_exec *exec, char ***env, int i)
     builtin = skipTo_cmd(*(exec->data), i);
     builtin = find_built(builtin);
     if (!ft_strncmp(builtin->word, "cd", 3))
-        res = ft_cd(builtin->next, exec->n_pipes);
+        res = ft_cd(builtin->next);
     else if (!ft_strncmp(builtin->word, "echo", 5))
         res = ft_echo(builtin->next);
     else if (!ft_strncmp(builtin->word, "exit", 5))
         ft_exit(exec, env);
     else if (!ft_strncmp(builtin->word, "pwd", 4))
-        res = ft_pwd(builtin->next);
+        res = ft_pwd();
     else if (!ft_strncmp(builtin->word, "env", 4))
         res = ft_env(*env, builtin->next);
     else if (!ft_strncmp(builtin->word, "export", 7))

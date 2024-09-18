@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/18 07:37:14 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/18 20:12:31 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static int	no_pipe_exec(t_exec *exec, char ***env)
 
 	if (!find_built(*(exec->data)))
 	{
-		ft_printf("test\n");
 		pid = fork();
 		if (pid == -1)
 			exit(1);

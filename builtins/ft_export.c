@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:00:08 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/18 08:39:37 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/18 19:56:50 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int	swap_env_var(char **env, char *str)
 {
-	ft_printf("in-> create_env_var\n");
 	free(*env);
 	*env = ft_strdup(str);
 	if (!(*env))
@@ -26,7 +25,6 @@ static int	app_env_var(char **env, char *str)
 {
 	char	*temp;
 
-	ft_printf("in-> app_env_var\n");
 	temp = ft_strdup(*env);
 	if (!temp)
 		return (ft_error("malloc", NO_EXIT));
@@ -35,7 +33,6 @@ static int	app_env_var(char **env, char *str)
 		++str;
 	++str;
 	*env = ft_strjoin(temp, str);
-	ft_printf("%s\n", *env);
 	free(temp);
 	temp = NULL;
 	if (!(*env))
@@ -46,9 +43,26 @@ static int	app_env_var(char **env, char *str)
 static int	create_env_var(char ***env, char *str)
 {
 	char	**temp;
+	int		i;
 
 	temp = *env;
-	*env = init_env(*env, str);
+	i = 0;
+	while (temp[i])
+		++i;
+	*env = (char **)malloc(sizeof(char *) * (i + 2));
+	if (!(*env))
+		return (ft_error("malloc", NO_EXIT));
+	i = -1;
+	while (temp[++i])
+	{
+		(*env)[i] = ft_strdup(temp[i]);
+		if (!(*env))
+			return (free_ptr_arr(env), ft_error("malloc", NO_EXIT));
+	}
+	(*env)[i] = ft_strdup(str);
+	if (!(*env))
+		return (free_ptr_arr(env), ft_error("malloc", NO_EXIT));
+	(*env)[i + 1] = NULL;
 	free_ptr_arr(&temp);
 	return (0);
 }
@@ -66,7 +80,6 @@ static int	change_env_var(char ***env, char *str, int (*f)(char **, char *))
 		return (ft_error("malloc", NO_EXIT));
 	ft_memmove(var, str, i);
 	var[i] = '\0';
-	ft_printf("%s\n", var);
 	i = -1;
 	while ((*env)[++i])
 	{

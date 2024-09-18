@@ -6,18 +6,16 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 19:41:30 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/16 01:42:36 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/18 20:18:58 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_pwd(t_data *data)
+int ft_pwd(void)
 {
 	char	*pathname;
 
-	if (data && data->token == STRING)
-		return (0);
 	pathname = getcwd(NULL, 0);
 	if (!pathname)
 		return (ft_error("getcwd", NO_EXIT));

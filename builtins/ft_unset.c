@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 08:03:58 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/18 09:08:39 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/18 20:14:15 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,31 @@
 static int remove_env_var(char ***env, char *var)
 {
 	int		i;
+	int		j;
 	char	**temp;
 
 	i = 0;
 	temp = *env;
-	while ((*env)[i])
+	while (temp[i])
 		++i;
 	*env = (char **)malloc(sizeof(char *) * i);
 	i = -1;
+	j = -1;
 	while (temp[++i])
 	{
 		if (ft_strncmp(temp[i], var, (ft_strlen(var) + 1)) == '=')
 		{
-			ft_printf("remove fct->%s\n", var);
-			continue ;
+			++i;
 		}
-		(*env)[i] = ft_strdup(temp[i]);
-		if (!((*env)[i]))
+		(*env)[++j] = ft_strdup(temp[i]);
+		if (temp[i] && !((*env)[j]))
 		{
 			free_ptr_arr(env);
 			free_ptr_arr(&temp);
 			return (ft_error("malloc", NO_EXIT));
 		}
 	}
-	(*env)[i] = NULL;
+	(*env)[j] = NULL;
 	free_ptr_arr(&temp);
 	return (0);
 }
