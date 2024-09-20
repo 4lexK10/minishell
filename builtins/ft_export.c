@@ -6,13 +6,13 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:00:08 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/18 19:56:50 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:07:59 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	swap_env_var(char **env, char *str)
+int	swap_env_var(char **env, char *str)
 {
 	free(*env);
 	*env = ft_strdup(str);
@@ -67,7 +67,7 @@ static int	create_env_var(char ***env, char *str)
 	return (0);
 }
 
-static int	change_env_var(char ***env, char *str, int (*f)(char **, char *))
+int	change_env_var(char ***env, char *str, int (*f)(char **, char *))
 {
 	char	*var;
 	int		i;

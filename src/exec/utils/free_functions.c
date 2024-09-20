@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:55:06 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/17 00:57:27 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:31:08 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,12 @@ void	free_data(t_data **data)
 	{
 		temp = temp->next;
 		(*data)->next = NULL;
+		
 		if ((*data)->word)
+		{
 			free((*data)->word);
+			(*data)->word = NULL;
+		}
 		free(*data);
 		*data = temp;
 	}

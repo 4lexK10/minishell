@@ -6,11 +6,18 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 08:03:58 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/18 20:14:15 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/20 14:08:52 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int error_free(char ***env, char ***temp)
+{
+	free_ptr_arr(env);
+	free_ptr_arr(temp); 
+	return (ft_error("malloc", NO_EXIT));
+}
 
 static int remove_env_var(char ***env, char *var)
 {
@@ -29,17 +36,14 @@ static int remove_env_var(char ***env, char *var)
 	{
 		if (ft_strncmp(temp[i], var, (ft_strlen(var) + 1)) == '=')
 		{
-			++i;
+			if (!temp[++i])
+				break ;
 		}
 		(*env)[++j] = ft_strdup(temp[i]);
 		if (temp[i] && !((*env)[j]))
-		{
-			free_ptr_arr(env);
-			free_ptr_arr(&temp);
-			return (ft_error("malloc", NO_EXIT));
-		}
+			return (error_free(env, &temp));
 	}
-	(*env)[j] = NULL;
+	(*env)[++j] = NULL;
 	free_ptr_arr(&temp);
 	return (0);
 }
@@ -54,7 +58,7 @@ int ft_unset(char ***env, t_data *data)
 	while ((*env)[++i])
 	{
 		if (ft_strncmp((*env)[i], data->word, (ft_strlen(data->word) + 1)) == '=')
-			return (remove_env_var(env, data->word)/* , need_sort_env(*env) */);
+			return (remove_env_var(env, data->word));
 	}
 	return (0);
 }
