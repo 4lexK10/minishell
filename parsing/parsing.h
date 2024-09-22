@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:32:09 by akiener           #+#    #+#             */
-/*   Updated: 2024/09/08 14:29:03 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/22 18:09:21 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ typedef struct s_arg
 	char	*arg;
 	pid_t	pid;
 	int		last_val;
+	char	**env;
 }	t_arg;
 
 t_data	*new_node(char *arg);
 t_data	*last_in_stack(t_data *list);
-t_data	*parsing(char *av, pid_t pid, int last_val);
+t_data	*parsing(char *av, pid_t pid, int last_val, char **envp);
 char	*ft_all_string(t_data **data, t_arg line, int *i);
 char	*ft_append_word(t_data **data, t_arg line, int *i, char *str);
 char	*new_ft_join(char *str, char *temp);
@@ -43,5 +44,6 @@ int		add_redir_or_pipe(t_data **data, char *arg, int *i);
 int		which_token(char *arg, int is_str);
 int		compar_comm(char *arg, char *comm);
 int		for_last_value(char **res, char *str, int *i, int last_val);
+int		check_our_env(char *name, char **res, char **env, int *flag);
 
 #endif

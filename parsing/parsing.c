@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/09/08 13:59:10 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/22 16:14:41 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static int	check_line(t_arg line, t_data **data)
 	return (0);
 }
 
-t_data	*parsing(char *av, pid_t pid, int last_val)
+t_data	*parsing(char *av, pid_t pid, int last_val, char **envp)
 {
 	t_data	*data;
 	t_data	*link;
@@ -107,6 +107,7 @@ t_data	*parsing(char *av, pid_t pid, int last_val)
 	line.arg = av;
 	line.pid = pid;
 	line.last_val = last_val;
+	line.env = envp;
 	if (check_line(line, &data) == -1)
 		return (NULL);
 	link = data;
