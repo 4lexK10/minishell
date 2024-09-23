@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:48:19 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/16 01:35:36 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/24 00:08:32 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,15 @@ static int	finish_here_doc(t_exec *exec, int fd_Hdoc)
 	if (close(fd_Hdoc) == -1)
 		return (ft_error("close", NO_EXIT));
 	temp = *(exec->data);
-	while (temp->token != H_DOC)
+	while (temp->token != STRING)
 		temp = temp->next;
-	if (temp->next->next)
+	if (temp->next)
 		return (0);
-	free(*(exec->pid));
-	*(exec->pid) = NULL;
+	if (exec->pid)
+	{
+		free(*(exec->pid));
+		*(exec->pid) = NULL;
+	}
 	exit(0);
 	// free_data(&(exec->data)); needs free function
 }
