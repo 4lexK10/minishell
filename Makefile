@@ -6,7 +6,7 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/09/18 08:04:27 by akloster         ###   ########.fr        #
+#    Updated: 2024/09/25 23:58:02 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,11 +17,13 @@
 
 RM				=	rm -rf
 
-SRC				=	src/main.c src/lexer.c src/exec/utils/error_handler.c	  \
-					src/exec/piper.c src/exec/initializer.c builtins/ft_echo.c\
-					 src/exec/redir_handler.c src/exec/executioner.c		  \
-					src/exec/utils/free_functions.c src/exec/process_handler.c\
-					src/exec/utils/wrapper_fcts.c src/exec/utils/exec_tools.c \
+SRC_DIR			=	src/
+
+SRC				=	main.c lexer.c exec/utils/error_handler.c	  \
+					exec/piper.c exec/initializer.c builtins/ft_echo.c\
+					exec/redir_handler.c exec/executioner.c		  \
+					exec/utils/free_functions.c exec/process_handler.c\
+					exec/utils/wrapper_fcts.c exec/utils/exec_tools.c \
 					builtins/ft_cd.c builtins/built_tools.c builtins/ft_exit.c\
 					builtins/ft_pwd.c builtins/ft_env.c builtins/ft_export.c  \
 					builtins/env_tools.c builtins/ft_unset.c
@@ -46,12 +48,9 @@ $(NAME):		$(OBJ_DIR) $(OBJ) #-g -fsanitize=address
 
 all:			$(NAME)
 
-$(OBJ_DIR)%.o:	%.c $(HEADERS)
+$(OBJ_DIR)%.o:	$(SRC_DIR)%.c $(HEADERS)
 				@mkdir -p $(dir $@)
 				$(CC) $(CFLAGS) -c $< -o $@
-
-%.o: 			%.c
-				$(CC) $(CFLAGS) $< -o $@
 
 
 $(OBJ_DIR):	
