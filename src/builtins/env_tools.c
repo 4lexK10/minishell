@@ -6,11 +6,32 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 21:24:27 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/18 09:00:43 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/26 01:08:20 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	add_quotes(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '=')
+		{
+			if (write(STDOUT_FILENO, "=\"", 2) == -1)
+				return (1);
+		}
+		else
+			if (write(STDOUT_FILENO, &str[i], 1) == -1)
+				return (1);
+	}
+	if (write(STDOUT_FILENO, "\"\n", 2) == -1)
+		return (1);
+	return (0);
+}
 
 static char	*put_env(char *str)
 {
@@ -22,7 +43,7 @@ static char	*put_env(char *str)
 		ft_error("malloc", NO_EXIT);
 		return (NULL);
 	}
-	if (ft_putendl_fd(res, STDOUT_FILENO))
+	if (add_quotes(res))
 	{
 		ft_error("write", NO_EXIT);
 		return (NULL);
@@ -41,7 +62,6 @@ char	*init_first(char **env)
 	str = env[0];
 	while (env[i])
 	{
-		ft_printf("initfirst fct->%s\n", str);
 		if (ft_strncmp(str, env[i], (ft_strlen(str) + 1)) > 0)
 			str = env[i];
 		++i;
