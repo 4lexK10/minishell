@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:03:07 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/16 01:48:07 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:02:12 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,17 @@ t_data	*skipTo_cmd(t_data *temp, int cmd_i)
 		temp = temp->next->next;
 /* 	ft_printf("%s\n", temp->word); */
 	return (temp);
+}
+
+int	cnt_words(t_data *temp)
+{
+	int		cnt;
+
+	cnt = 0;
+	while (temp && temp->word)
+	{
+		++cnt;
+		temp = temp->next;
+	}
+	return (cnt);
 }

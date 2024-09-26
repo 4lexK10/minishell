@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/11 19:31:43 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 00:06:08 by akloster         ###   ########.fr       */
+/*   Created: 2024/09/27 00:50:03 by akloster          #+#    #+#             */
+/*   Updated: 2024/09/27 01:43:52 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_exec(t_exec *exec)
+void pre_exec_free(t_exec *exec)
 {
-	free_data(exec->data);
+    free_data(exec->data);
 	if (exec->n_pipes > 0)
 	{
 		free_int_arr(&(exec->pipes), exec->n_pipes);
@@ -22,14 +22,25 @@ void	free_exec(t_exec *exec)
 		exec->pid = NULL;
 	}
 	free_ptr_arr(exec->env);
-	free(exec->env);
-	free(exec);
 }
 
-void	ft_exit(t_exec *exec)
+int	add_quotes(char *str)
 {
-	dup2(exec->std_out, STDOUT_FILENO);
-	free_exec(exec);
-	write(STDOUT_FILENO, "exit\n", 5);
-	exit(0);
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '=')
+		{
+			if (write(STDOUT_FILENO, "=\"", 2) == -1)
+				return (1);
+		}
+		else
+			if (write(STDOUT_FILENO, &str[i], 1) == -1)
+				return (1);
+	}
+	if (write(STDOUT_FILENO, "\"\n", 2) == -1)
+		return (1);
+	return (0);
 }

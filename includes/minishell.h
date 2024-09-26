@@ -6,12 +6,19 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/24 00:07:52 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:58:24 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# ifdef __linux__
+#  include <linux/limits.h>
+
+# elif __APPLE__
+#  include <limits.h>
+# endif
 
 # include "../libft/libft.h"
 # include <stdbool.h>
@@ -23,7 +30,6 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <stddef.h>
-# include <limits.h>
 # define TOKEN	0
 # define WORD	1
 
@@ -60,21 +66,23 @@ typedef struct	s_data
 
 typedef struct	s_exec
 {
+	char		***env;
 	t_data		**data;
 	int			**pipes;
 	int			n_pipes;
+	int			**pid;
+	bool		build_exec;
+	char		*user_input;
 	int			std_in;
 	int			std_out;
-	int			**pid;
-	bool		in_pipe;
 }				t_exec;
 
-int		initializer(t_data **arg, char ***env);
-int		process_handler(t_exec *exec, char ***env);
+int		initializer(t_data **data, char ***env, char *arg);
+int		process_handler(t_exec *exec);
 t_data	*lexer(char *arg);
 int		ft_error(char *str, int need);
 void	pipe_handler(t_exec *exec, int i);
-int		executioner(t_exec *exec, char ***env, int i);
+int		executioner(t_exec *exec, int i);
 char	*free_all_path_info(char **str, char ***arr);
 void	free_int_arr(int ***arr, int sub_arr_nbr);
 void	free_data(t_data **data);
@@ -84,22 +92,26 @@ int		needs_preRedir(t_exec *exec, int i_cmd);
 int		needs_postRedir(t_exec *exec, int i_cmd);
 int		ft_open(char *outfile, int type);
 t_data	*skipTo_cmd(t_data *temp, int cmd_i);
-int		ft_echo(t_data *data);
-int		ft_cd(char ***env, t_data *data);
-int		is_built(t_exec *exec, char ***env, int i);
+int		ft_echo(t_exec *exec, t_data *data);
+int		ft_cd(t_exec *exec, t_data *data);
+int		is_built(t_exec *exec, int i);
 t_data	*find_built(t_data *data);
-int		built_handler(t_exec *exec, char ***env, int i);
-int		ft_pwd(void);
-void	ft_exit(t_exec *exec, char ***env);
-int		ft_env(char **env, t_data *data);
-int		ft_export(t_exec *exec, char ***env, t_data *data);
+int		built_handler(t_exec *exec, int i);
+int		ft_pwd(t_exec *exec);
+void	ft_exit(t_exec *exec);
+int		ft_env(t_exec *exec, t_data *data);
+int		ft_export(t_exec *exec, t_data *data);
 char	*init_first(char **env);
 char	*get_last(char **env);
 char	**init_env(char **envp, char *new_var);
-int		need_sort_env(char **env);
-void	free_arr(char **ptr);
+int		need_sort_env(t_exec *exec);
+void	my_free(char **ptr);
 int		ft_unset(char ***env, t_data *data);
 int		swap_env_var(char **env, char *str);
 int		change_env_var(char ***env, char *str, int (*f)(char **, char *));
+void	free_exec(t_exec *exec);
+int		cnt_words(t_data *temp);
+void	pre_exec_free(t_exec *exec);
+int		add_quotes(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:00:08 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/20 15:07:59 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:08:46 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,22 +84,22 @@ int	change_env_var(char ***env, char *str, int (*f)(char **, char *))
 	while ((*env)[++i])
 	{
 		if (ft_strncmp((*env)[i], var, (ft_strlen(var) + 1)) == '=')
-			return (free_arr(&var), f(&((*env)[i]), str));
+			return (my_free(&var), f(&((*env)[i]), str));
 	}
-	free_arr(&var);
+	my_free(&var);
 	create_env_var(env, str);
 	return (1);
 }
 
-int	ft_export(t_exec *exec, char ***env, t_data *data)
+int	ft_export(t_exec *exec, t_data *data)
 {
 	if (exec->n_pipes)
 		return (0);
 	if (!data || data->token != STRING)
-			return (need_sort_env(*env));
+			return (need_sort_env(exec));
 	if (ft_strnstr(data->word, "+=", ft_strlen(data->word + 1)))
-		return (change_env_var(env, data->word, app_env_var));
+		return (change_env_var(exec->env, data->word, app_env_var));
 	else if (ft_strnstr(data->word, "=", ft_strlen(data->word + 1)))
-		return (change_env_var(env, data->word, swap_env_var));
+		return (change_env_var(exec->env, data->word, swap_env_var));
 	return (0);
 }

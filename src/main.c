@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/23 23:54:12 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 01:32:17 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,11 @@ char	**init_env(char **envp, char *new_var)
 	return (fill_env(envp, &env, n_var));
 }
 
-int	main(int ac, char **av, char **envp)
+static int	interactive_mode(char ***env)
 {
 	char	*arg;
 	t_data	*data;
-	char	***env;
 
-	(void)ac;
-	(void)av;
-	env = (char ***)malloc(sizeof(char **));
-	if (!env)
-		return (ft_error("malloc", NO_EXIT));
-	*env = init_env(envp, NULL);
-	if (!env)
-		return (1);
 	while (1)
 	{
 		arg = readline("minish-2.0$ ");
@@ -84,11 +75,26 @@ int	main(int ac, char **av, char **envp)
 			free(env);
 			data = NULL;
 			ft_putendl_fd("exit", STDOUT_FILENO);
-			exit(0);
+			break ;
 		}
-		initializer(&data, env);
-		free_data(&data);
+		if (initializer(&data, env, arg))
+			return (1);
 		free(arg);
 	}
 	return (0);
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	char	***env;
+
+	(void)ac;
+	(void)av;
+	env = (char ***)malloc(sizeof(char **));
+	if (!env)
+		return (ft_error("malloc", NO_EXIT));
+	*env = init_env(envp, NULL);
+	if (!env)
+		return (1);
+	return (interactive_mode(env));
 }

@@ -6,13 +6,13 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 19:41:30 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/18 20:18:58 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:01:47 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_pwd(void)
+int ft_pwd(t_exec *exec)
 {
 	char	*pathname;
 
@@ -23,5 +23,7 @@ int ft_pwd(void)
 		return (ft_error("write", NO_EXIT));
 	free(pathname);
 	pathname = NULL;
+	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
+		return (ft_error("dup2", NO_EXIT));
 	return (0);
 }

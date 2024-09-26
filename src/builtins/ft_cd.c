@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 23:23:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/22 18:26:55 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:05:07 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static int	update_env(char ***env)
 	if (!str)
 		return (ft_error("malloc", NO_EXIT));
 	if (change_env_var(env, str, swap_env_var))
-		return (free_arr(&str), 1);
-	free_arr(&str);
+		return (my_free(&str), 1);
+	my_free(&str);
 	new_pwd = ft_calloc(PATH_MAX, sizeof(char));
 	if (!new_pwd)
 		return (ft_error("malloc", NO_EXIT));
@@ -50,42 +50,37 @@ static int	update_env(char ***env)
 	if (!new_pwd)
 		return (ft_error("getcwd", NO_EXIT));
 	str = ft_strjoin("PWD=", new_pwd);
-	free_arr(&new_pwd);
+	my_free(&new_pwd);
 	if (!str)
 		return (1);
 	if (change_env_var(env, str, swap_env_var))
-		return (free_arr(&str), 1);
-	free_arr(&str);
+		return (my_free(&str), 1);
+	my_free(&str);
 	return (0);
 }
 
-static int	incomplete_dir(char ***env, char *str) // incomplete NOTfinished
+static int	incomplete_dir(char ***env, t_data *data) // incomplete NOTfinished
 {
 	char	*dir;
 
 	dir = getenv("HOME");
-	if (!ft_strncmp(str, "~", 2) || !ft_strncmp(str, "~/", 3))
+	if (!data || !data->word || !ft_strncmp(data->word, "~", 2)
+		|| !ft_strncmp(data->word, "~/", 3))
 	{
 		if (chdir(dir) == -1)
 			return (ft_error("cd", NO_EXIT));
 		update_env(env);
 	}
-	dir = ft_strjoin(dir, ++str);
-	if (!dir)
-		return (ft_error("malloc", NO_EXIT));
 	return (0);
 }
 
-int	ft_cd(char ***env, t_data *data)
+int	ft_cd(t_exec *exec, t_data *data)
 {
-	if (ft_strlen(data->word) > PATH_MAX)
-		return (ft_error("cd", NO_EXIT));
 	if (!data || data->token != STRING || !ft_strncmp(data->word, "~", 2)
 		|| !ft_strncmp(data->word, "~/", 3))
-	{
-		if (incomplete_dir(env, data->word))
-			return (1);
-	}
+			return (incomplete_dir(exec->env, data));
+	if (ft_strlen(data->word) > PATH_MAX)
+		return (ft_error("cd", NO_EXIT));
 	if (!ft_strncmp(data->word, ".", 2))
 		return (0);
 	if (data->next && data->next->token == STRING)
@@ -96,6 +91,6 @@ int	ft_cd(char ***env, t_data *data)
 	}
 	if (chdir(data->word) == -1)
 		return (ft_error("cd", NO_EXIT));
-	update_env(env);
+	update_env(exec->env);
 	return (0);
 }

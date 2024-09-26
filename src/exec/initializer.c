@@ -6,28 +6,27 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/18 02:08:09 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/26 23:23:25 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_exec	*init_exec(t_data **data, int n_pipes, int **pipes)
+static t_exec	*init_exec(t_data **data, int n_pipes, int **pipes, char ***env)
 {
 	t_exec	*exec;
 
 	exec = (t_exec *)malloc(sizeof(t_exec));
 	if (!exec)
 		return (NULL);
+	exec->env = env;
 	exec->data = data;
 	exec->n_pipes = n_pipes;
 	exec->pipes = pipes;
-	exec->std_in = dup(0);
-	exec->std_out = dup(1);
 	exec->pid = NULL;
-	exec->in_pipe = false;
-	if (exec->std_in == -1 || exec->std_in == -1)
-		return (ft_error("dup", NO_EXIT), NULL);
+	exec->build_exec = false;
+	exec->std_in = dup(STDIN_FILENO);
+	exec->std_out = dup(STDOUT_FILENO);
 	return (exec);
 }
 
@@ -70,7 +69,7 @@ static int	pipe_check(t_data **data)
 	return (cnt);
 }
 
-int	initializer(t_data **data, char ***env)
+int	initializer(t_data **data, char ***env, char *arg)
 {
 	int		n_pipes;
 	int		**pipes;
@@ -78,7 +77,6 @@ int	initializer(t_data **data, char ***env)
 
 	pipes = NULL;
 	n_pipes = pipe_check(data);
-	/* printf("n_pipe = %d\n", n_pipes); */
 	if (n_pipes > 0)
 	{
 		pipes = init_pipes(n_pipes);
@@ -88,11 +86,7 @@ int	initializer(t_data **data, char ***env)
 			exit(1);
 		}
 	}
-	exec = init_exec(data, n_pipes, pipes);
-/* 	ft_printf("n_pipes %d\n", n_pipes); */
-	process_handler(exec, env);
-	free_int_arr(&pipes, n_pipes);
-	free(exec);
-	/* exit(1);  // MAYBE EXIT LATER? */
-	return (0);
+	exec = init_exec(data, n_pipes, pipes, env);
+	exec->user_input = arg;
+	return (process_handler(exec));
 }

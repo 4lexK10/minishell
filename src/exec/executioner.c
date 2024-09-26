@@ -12,19 +12,6 @@
 
 #include "minishell.h"
 
-static int	cnt_words(t_data *temp)
-{
-	int		cnt;
-
-	cnt = 0;
-	while (temp && temp->word)
-	{
-		++cnt;
-		temp = temp->next;
-	}
-	return (cnt);
-}
-
 static char	**get_cmd(t_data **data, int cmd_i)
 {
 	t_data	*temp;
@@ -107,27 +94,27 @@ static char	*get_path(char **cmd, char **env)
 	return (ft_strjoin(path[i], bin));
 }
 
-int	executioner(t_exec *exec, char ***env, int i)
+int	executioner(t_exec *exec, int i)
 {
 	char	*path;
 	char	**cmd;
+	int		ret;
 
-	if (is_built(exec, env, i) != -1)
-		return (0);
+	ret = is_built(exec, i);
+	if (ret != -1)
+		return (ret);
 	cmd = get_cmd(exec->data, i);
 	if (!cmd)
 		return (1);
-	path = get_path(cmd, *env);
+	path = get_path(cmd, *(exec->env));
 	if (!path)
 	{
 		free_ptr_arr(&cmd);
 		return (1);
 	}
-/* 	ft_printf("child\n"); */
-	execve(path, cmd, *env);
-	free_data(exec->data);
-	free_ptr_arr(&cmd);
-	free_ptr_arr(env);
+	pre_exec_free(exec);
+	execve(path, cmd, *(exec->env));
+	free_exec(exec);
 	free(path);
 	path = NULL;
 	ft_error("execve", NO_EXIT);
