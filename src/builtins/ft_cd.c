@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 23:23:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 00:05:07 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 08:00:40 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	update_env(char ***env)
 	return (0);
 }
 
-static int	incomplete_dir(char ***env, t_data *data) // incomplete NOTfinished
+static int	incomplete_dir(t_exec *exec, t_data *data)
 {
 	char	*dir;
 
@@ -69,8 +69,10 @@ static int	incomplete_dir(char ***env, t_data *data) // incomplete NOTfinished
 	{
 		if (chdir(dir) == -1)
 			return (ft_error("cd", NO_EXIT));
-		update_env(env);
+		update_env(exec->env);
 	}
+	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
+		return (ft_error("dup2", NO_EXIT));
 	return (0);
 }
 
@@ -78,7 +80,7 @@ int	ft_cd(t_exec *exec, t_data *data)
 {
 	if (!data || data->token != STRING || !ft_strncmp(data->word, "~", 2)
 		|| !ft_strncmp(data->word, "~/", 3))
-			return (incomplete_dir(exec->env, data));
+			return (incomplete_dir(exec, data));
 	if (ft_strlen(data->word) > PATH_MAX)
 		return (ft_error("cd", NO_EXIT));
 	if (!ft_strncmp(data->word, ".", 2))
@@ -92,5 +94,7 @@ int	ft_cd(t_exec *exec, t_data *data)
 	if (chdir(data->word) == -1)
 		return (ft_error("cd", NO_EXIT));
 	update_env(exec->env);
+	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
+		return (ft_error("dup2", NO_EXIT));
 	return (0);
 }

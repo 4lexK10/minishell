@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:50:03 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 01:43:52 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 03:26:25 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 void pre_exec_free(t_exec *exec)
 {
-    free_data(exec->data);
 	if (exec->n_pipes > 0)
 	{
 		free_int_arr(&(exec->pipes), exec->n_pipes);
 		free(*exec->pid);
-		exec->pid = NULL;
+		*(exec->pid) = NULL;
 	}
-	free_ptr_arr(exec->env);
 }
 
 int	add_quotes(char *str)

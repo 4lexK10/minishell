@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 01:32:17 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 08:54:14 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ static int	interactive_mode(char ***env)
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
-		if (initializer(&data, env, arg))
-			return (1);
+		initializer(&data, env, arg);
 		free(arg);
 	}
 	return (0);

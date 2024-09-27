@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 21:24:27 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 00:54:41 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 08:48:46 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,20 @@ static int	put_all_env(t_exec *exec, char *prev)
 {
 	char	*str;
 	char	**env;
-	int		i;
+	int		i, j;
 
+	j = 0;
 	env = *(exec->env);
 	while (1)
 	{
 		str = get_last(env);
+		if (j == 10)
+			break ;
 		i = -1;
-		while ((*(exec->env))[++i])
+		while ((env[++i]))
 		{
 			if (ft_strncmp(str, env[i], (ft_strlen(str) + 1)) > 0
-				&& ft_strncmp(env[i], prev, ft_strlen(env[i]) > 0))
+				&& ft_strncmp(env[i], prev, (ft_strlen(env[i]) + 1)) > 0)
 				str = env[i];
 		}
 		if (!ft_strncmp(str, prev, (ft_strlen(str) + 1)))
