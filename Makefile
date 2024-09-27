@@ -6,7 +6,7 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/09/27 00:52:40 by akloster         ###   ########.fr        #
+#    Updated: 2024/09/27 18:23:53 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ NAME			=	minishell
 
 $(NAME):		$(OBJ_DIR) $(OBJ) #-g -fsanitize=address
 				make -C./libft
-				$(CC) $(CFLAGS) $(OBJ) $(LIBft) -g -fsanitize=address -lreadline -o $@
+				$(CC) $(CFLAGS) $(OBJ) $(LIBft) -lreadline -o $@
 
 all:			$(NAME)
 

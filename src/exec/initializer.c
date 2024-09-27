@@ -6,25 +6,48 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/26 23:23:25 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:49:55 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_exec	*init_exec(t_data **data, int n_pipes, int **pipes, char ***env)
+char	**init_env(char **envp, char *new_var)
+{
+	char	**env;
+	int		n_var;
+
+	if (!envp || !(*envp))
+		return (NULL);
+	n_var = 0;
+	while (envp[n_var])
+		++n_var;
+	if (new_var)
+		++n_var;
+	env = (char **)malloc(sizeof(char *) * (n_var + 1));
+	if (!env)
+		return (ft_error("malloc", NO_EXIT), NULL);
+	n_var = -1;
+	if (new_var)
+	{
+		env[++n_var] = ft_strdup(new_var);
+		if (!env[n_var])
+		{
+			free_ptr_arr(&env);
+			return (ft_error("malloc", NO_EXIT), NULL);
+		}
+	}
+	return (fill_env(envp, &env, n_var));
+}
+
+static void init_exec(t_exec *exec, t_data **data, int n_pipes, int **pipes)
 {
 	t_exec	*exec;
 
-	exec = (t_exec *)malloc(sizeof(t_exec));
-	if (!exec)
-		return (NULL);
-	exec->env = env;
 	exec->data = data;
 	exec->n_pipes = n_pipes;
 	exec->pipes = pipes;
 	exec->pid = NULL;
-	exec->build_exec = false;
 	exec->std_in = dup(STDIN_FILENO);
 	exec->std_out = dup(STDOUT_FILENO);
 	return (exec);
@@ -69,7 +92,7 @@ static int	pipe_check(t_data **data)
 	return (cnt);
 }
 
-int	initializer(t_data **data, char ***env, char *arg)
+int	initializer(t_exec *exec, t_data **data, char **envp)
 {
 	int		n_pipes;
 	int		**pipes;
@@ -86,7 +109,9 @@ int	initializer(t_data **data, char ***env, char *arg)
 			exit(1);
 		}
 	}
-	exec = init_exec(data, n_pipes, pipes, env);
-	exec->user_input = arg;
+	init_exec(data, n_pipes, pipes, envp);
+	exec->env = init_env(envp, NULL);
+	if (!(exec->env))
+		return (1);
 	return (process_handler(exec));
 }

@@ -6,56 +6,13 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 08:54:14 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:49:54 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**fill_env(char **envp, char ***env, int n_var)
-{
-	while (envp[++n_var])
-	{
-		(*env)[n_var] = ft_strdup(envp[n_var]);
-		if (!(*env)[n_var])
-		{
-			free_ptr_arr(env);
-			return (ft_error("malloc", NO_EXIT), NULL);
-		}
-	}
-	(*env)[n_var] = NULL;
-	return (*env);
-}
-
-char	**init_env(char **envp, char *new_var)
-{
-	char	**env;
-	int		n_var;
-
-	if (!envp || !(*envp))
-		return (NULL);
-	n_var = 0;
-	while (envp[n_var])
-		++n_var;
-	if (new_var)
-		++n_var;
-	env = (char **)malloc(sizeof(char *) * (n_var + 1));
-	if (!env)
-		return (ft_error("malloc", NO_EXIT), NULL);
-	n_var = -1;
-	if (new_var)
-	{
-		env[++n_var] = ft_strdup(new_var);
-		if (!env[n_var])
-		{
-			free_ptr_arr(&env);
-			return (ft_error("malloc", NO_EXIT), NULL);
-		}
-	}
-	return (fill_env(envp, &env, n_var));
-}
-
-static int	interactive_mode(char ***env)
+static int	interactive_mode(t_exec *exec, char **envp)
 {
 	char	*arg;
 	t_data	*data;
@@ -70,30 +27,49 @@ static int	interactive_mode(char ***env)
 			continue ;
 		if (!arg) // get signal 
 		{
-			free_data(&data);
-			free_ptr_arr(env);
-			free(env);
-			data = NULL;
+			if (free_exec(exec));
+				free_data(&data);
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
-		initializer(&data, env, arg);
-		free(arg);
+		my_free(arg);
+		if (initializer(exec, &data, envp))
+			return (1);
 	}
 	return (0);
 }
 
+/* static int	non_interactive_mode(char ***env)
+{
+	char	*arg;
+	t_data	*data;
+
+	arg = readline("minish-2.0$ ");
+	if (arg && *arg)
+		add_history(arg);
+	data = lexer(arg);
+	if (arg && !data)
+		return (0);
+	if (!arg) // get signal 
+	{
+		free_data(&data);
+		free_ptr_arr(env);
+		free(env);
+		data = NULL;
+		ft_putendl_fd("exit", STDOUT_FILENO);
+		return (0);
+	}
+	initializer(&data, env, arg);
+	free(arg);
+	return (0);
+} */
+
 int	main(int ac, char **av, char **envp)
 {
-	char	***env;
+	t_exec exec;
 
 	(void)ac;
 	(void)av;
-	env = (char ***)malloc(sizeof(char **));
-	if (!env)
-		return (ft_error("malloc", NO_EXIT));
-	*env = init_env(envp, NULL);
-	if (!env)
-		return (1);
-	return (interactive_mode(env));
+	ft_memset(&exec, 0, sizeof(t_exec));
+	return (interactive_mode(&exec, envp));
 }

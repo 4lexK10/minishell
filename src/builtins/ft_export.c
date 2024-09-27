@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:00:08 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 00:08:46 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:50:13 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,34 +40,33 @@ static int	app_env_var(char **env, char *str)
 	return (0);
 }
 
-static int	create_env_var(char ***env, char *str)
+static int	create_env_var(t_exec *exec, char *str)
 {
 	char	**temp;
 	int		i;
 
-	temp = *env;
 	i = 0;
-	while (temp[i])
+	while (exec->env[i])
 		++i;
-	*env = (char **)malloc(sizeof(char *) * (i + 2));
-	if (!(*env))
+	temp = (char **)malloc(sizeof(char *) * (i + 2));
+	if (!temp)
 		return (ft_error("malloc", NO_EXIT));
 	i = -1;
-	while (temp[++i])
+	while (exec->env[++i])
 	{
-		(*env)[i] = ft_strdup(temp[i]);
-		if (!(*env))
-			return (free_ptr_arr(env), ft_error("malloc", NO_EXIT));
+		temp[i] = ft_strdup(exec->env[i]);
+		if (!temp[i])
+			return (free_ptr_arr(&temp), ft_error("malloc", NO_EXIT));
 	}
-	(*env)[i] = ft_strdup(str);
-	if (!(*env))
-		return (free_ptr_arr(env), ft_error("malloc", NO_EXIT));
-	(*env)[i + 1] = NULL;
-	free_ptr_arr(&temp);
+	temp[i] = ft_strdup(str);
+	if (temp[i])
+		return (free_ptr_arr(&temp), ft_error("malloc", NO_EXIT));
+	temp[i + 1] = NULL;
+	free_env(exec);
 	return (0);
 }
 
-int	change_env_var(char ***env, char *str, int (*f)(char **, char *))
+int	change_env_var(t_exec *exec, char *str, int (*f)(char **, char *))
 {
 	char	*var;
 	int		i;
@@ -81,13 +80,13 @@ int	change_env_var(char ***env, char *str, int (*f)(char **, char *))
 	ft_memmove(var, str, i);
 	var[i] = '\0';
 	i = -1;
-	while ((*env)[++i])
+	while ((exec->env)[++i])
 	{
-		if (ft_strncmp((*env)[i], var, (ft_strlen(var) + 1)) == '=')
-			return (my_free(&var), f(&((*env)[i]), str));
+		if (ft_strncmp((exec->env)[i], var, (ft_strlen(var) + 1)) == '=')
+			return (my_free(&var), f(&((exec->env)[i]), str));
 	}
 	my_free(&var);
-	create_env_var(env, str);
+	create_env_var(exec, str);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:50:03 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 03:26:25 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:50:08 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,25 @@ void pre_exec_free(t_exec *exec)
 		free(*exec->pid);
 		*(exec->pid) = NULL;
 	}
+}
+
+void	free_env(t_exec *exec)
+{
+	int	i;
+
+	i = -1;
+	if (!exec || !(exec->env))
+		return ;
+	if (*(exec->env))
+	{
+		while ((exec->env)[++i])
+		{
+			free((exec->env)[i]);
+			(exec->env)[i] = NULL;
+		}
+	}
+	free(exec->env);
+	exec->env = NULL;
 }
 
 int	add_quotes(char *str)
@@ -41,4 +60,19 @@ int	add_quotes(char *str)
 	if (write(STDOUT_FILENO, "\"\n", 2) == -1)
 		return (1);
 	return (0);
+}
+
+char	**fill_env(char **envp, char ***env, int n_var)
+{
+	while (envp[++n_var])
+	{
+		(*env)[n_var] = ft_strdup(envp[n_var]);
+		if (!(*env)[n_var])
+		{
+			free_ptr_arr(env);
+			return (ft_error("malloc", NO_EXIT), NULL);
+		}
+	}
+	(*env)[n_var] = NULL;
+	return (*env);
 }

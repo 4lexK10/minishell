@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 07:58:36 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:49:56 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,13 @@ static int	parent_close_wait(t_exec *exec)
 		return (1);
 	while (++i <= exec->n_pipes)
 		waitpid((*(exec->pid))[i], NULL, 0);
+//INTERACTIVE
 	free_int_arr(&(exec->pipes), exec->n_pipes);
 	free(*(exec->pid));
 	free_data(exec->data);
 	free(exec);
+//NON INTERACTIVE
+	/* free_exec(exec); */
 	return (0);
 }
 static void	exec_child(t_exec *exec, int i)
@@ -72,11 +75,6 @@ static void	exec_child(t_exec *exec, int i)
 	pipe_handler(exec, i);
 	executioner(exec, i);
 	free_exec(exec);
-	if (exec->build_exec)
-	{
-		free(exec->user_input);
-		exit(0);
-	}
 	exit(1);
 }
 

@@ -106,14 +106,14 @@ int	executioner(t_exec *exec, int i)
 	cmd = get_cmd(exec->data, i);
 	if (!cmd)
 		return (1);
-	path = get_path(cmd, *(exec->env));
+	path = get_path(cmd, exec->env);
 	if (!path)
 	{
 		free_ptr_arr(&cmd);
 		return (1);
 	}
 	pre_exec_free(exec);
-	execve(path, cmd, *(exec->env));
+	execve(path, cmd, exec->env);
 	free_exec(exec);
 	free(path);
 	path = NULL;

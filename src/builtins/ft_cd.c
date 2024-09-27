@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 23:23:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 08:00:40 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:49:57 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ char	*ft_getenv(char **env, char *var)
 	return (env[i]);
 }
 
-static int	update_env(char ***env)
+static int	update_env(t_exec *exec)
 {
 	char	*old_pwd;
 	char	*str;
 	char	*new_pwd;
 
-	old_pwd = ft_getenv(*env, "PWD");
+	old_pwd = ft_getenv(exec->env, "PWD");
 	str = ft_strjoin("OLDPWD=", old_pwd);
 	if (!str)
 		return (ft_error("malloc", NO_EXIT));
-	if (change_env_var(env, str, swap_env_var))
+	if (change_env_var(exec, str, swap_env_var))
 		return (my_free(&str), 1);
 	my_free(&str);
 	new_pwd = ft_calloc(PATH_MAX, sizeof(char));

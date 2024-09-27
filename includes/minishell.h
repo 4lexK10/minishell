@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 00:58:24 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/27 22:49:53 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -66,13 +67,11 @@ typedef struct	s_data
 
 typedef struct	s_exec
 {
-	char		***env;
+	char		**env;
 	t_data		**data;
 	int			**pipes;
 	int			n_pipes;
 	int			**pid;
-	bool		build_exec;
-	char		*user_input;
 	int			std_in;
 	int			std_out;
 }				t_exec;
@@ -109,9 +108,11 @@ void	my_free(char **ptr);
 int		ft_unset(char ***env, t_data *data);
 int		swap_env_var(char **env, char *str);
 int		change_env_var(char ***env, char *str, int (*f)(char **, char *));
-void	free_exec(t_exec *exec);
+int		free_exec(t_exec *exec);
 int		cnt_words(t_data *temp);
 void	pre_exec_free(t_exec *exec);
 int		add_quotes(char *str);
+char	**fill_env(char **envp, char ***env, int n_var);
+void	free_env(t_exec *exec);
 
 #endif
