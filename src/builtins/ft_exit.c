@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 19:31:43 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 22:50:07 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/28 22:18:44 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,15 @@
 int	free_exec(t_exec *exec)
 {
 	if (!exec)
-		return 1;
-	free(exec->user_input);
+		return (1);
 	free_data(exec->data);
 	if (exec->n_pipes > 0)
 	{
-		free_int_arr(&(exec->pipes), exec->n_pipes);
-		free(*exec->pid);
+		free_pipes(exec, exec->n_pipes);
+		free(exec->pid);
 		exec->pid = NULL;
 	}
-	free_ptr_arr(exec->env);
-	free(exec->env);
-	free(exec);
+	free_env(exec);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/07 16:09:19 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:17:31 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static int	body_fork(int i, t_exec *exec)
 
 void pipe_handler(t_exec *exec, int i)
 {
-	
 	if (i == 0)
 	{
 		if (extrma_fork(exec, FIRST))

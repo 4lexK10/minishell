@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:48:19 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 01:51:28 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:23:00 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static int	finish_here_doc(t_exec *exec, int fd_Hdoc)
 		return (0);
 	if (exec->pid)
 	{
-		free(*(exec->pid));
-		*(exec->pid) = NULL;
+		free(exec->pid);
+		exec->pid = NULL;
 	}
 	exit(0);
 	// free_data(&(exec->data)); needs free function

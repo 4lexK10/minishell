@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 23:23:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 22:49:57 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:24:19 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	update_env(t_exec *exec)
 	my_free(&new_pwd);
 	if (!str)
 		return (1);
-	if (change_env_var(env, str, swap_env_var))
+	if (change_env_var(exec, str, swap_env_var))
 		return (my_free(&str), 1);
 	my_free(&str);
 	return (0);
@@ -69,7 +69,7 @@ static int	incomplete_dir(t_exec *exec, t_data *data)
 	{
 		if (chdir(dir) == -1)
 			return (ft_error("cd", NO_EXIT));
-		update_env(exec->env);
+		update_env(exec);
 	}
 	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
@@ -93,7 +93,7 @@ int	ft_cd(t_exec *exec, t_data *data)
 	}
 	if (chdir(data->word) == -1)
 		return (ft_error("cd", NO_EXIT));
-	update_env(exec->env);
+	update_env(exec);
 	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
 		return (ft_error("dup2", NO_EXIT));
 	return (0);

@@ -6,51 +6,46 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 22:49:55 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/29 17:54:04 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**init_env(char **envp, char *new_var)
+void	init_env(t_exec *exec, char **envp)
 {
-	char	**env;
-	int		n_var;
+	int		i;
 
 	if (!envp || !(*envp))
-		return (NULL);
-	n_var = 0;
-	while (envp[n_var])
-		++n_var;
-	if (new_var)
-		++n_var;
-	env = (char **)malloc(sizeof(char *) * (n_var + 1));
-	if (!env)
-		return (ft_error("malloc", NO_EXIT), NULL);
-	n_var = -1;
-	if (new_var)
+		return ;
+	i = 0;
+	while (envp[i])
+		++i;
+	exec->env = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!(exec->env) && ft_error("malloc", NO_EXIT))
+		return ;
+	i = -1;
+	while (envp[++i])
 	{
-		env[++n_var] = ft_strdup(new_var);
-		if (!env[n_var])
+		(exec->env)[i] = ft_strdup(envp[i]);
+		if (!(exec->env)[i])
 		{
-			free_ptr_arr(&env);
-			return (ft_error("malloc", NO_EXIT), NULL);
+			free_env(exec);
+			ft_error("malloc", NO_EXIT);
+			return ;
 		}
 	}
-	return (fill_env(envp, &env, n_var));
+	(exec->env)[i] = NULL;
 }
 
 static void init_exec(t_exec *exec, t_data **data, int n_pipes, int **pipes)
 {
-	t_exec	*exec;
-
 	exec->data = data;
 	exec->n_pipes = n_pipes;
 	exec->pipes = pipes;
 	exec->pid = NULL;
 	exec->std_in = dup(STDIN_FILENO);
 	exec->std_out = dup(STDOUT_FILENO);
-	return (exec);
 }
 
 static int	**init_pipes(int n_pipes)
@@ -92,11 +87,10 @@ static int	pipe_check(t_data **data)
 	return (cnt);
 }
 
-int	initializer(t_exec *exec, t_data **data, char **envp)
+int	initializer(t_exec *exec, t_data **data)
 {
 	int		n_pipes;
 	int		**pipes;
-	t_exec	*exec;
 
 	pipes = NULL;
 	n_pipes = pipe_check(data);
@@ -109,9 +103,6 @@ int	initializer(t_exec *exec, t_data **data, char **envp)
 			exit(1);
 		}
 	}
-	init_exec(data, n_pipes, pipes, envp);
-	exec->env = init_env(envp, NULL);
-	if (!(exec->env))
-		return (1);
+	init_exec(exec, data, n_pipes, pipes);
 	return (process_handler(exec));
 }

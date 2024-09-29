@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 21:24:27 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 22:50:09 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/29 01:26:18 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int	put_all_env(t_exec *exec, char *prev)
 	int		i, j;
 
 	j = 0;
-	env = *(exec->env);
+	env = exec->env;
 	while (1)
 	{
 		str = get_last(env);
@@ -98,12 +98,12 @@ int	need_sort_env(t_exec *exec)
 {
 	char	*prev;
 
-	prev = init_first(*(exec->env));
+	prev = init_first(exec->env);
 	if (!prev)
 		return (1);
 	if (put_all_env(exec, prev))
 		return (1);
-	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
-		return (ft_error("dup2", NO_EXIT));
-	return (0);
+/* 	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
+		return (ft_error("dup2", NO_EXIT)); */
+ 	return (0);
 }

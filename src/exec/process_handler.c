@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 22:49:56 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/29 17:31:04 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,28 @@ static int	parent_close_wait(t_exec *exec)
 	if (pipe_cleaner(exec->pipes, exec->n_pipes))
 		return (1);
 	while (++i <= exec->n_pipes)
-		waitpid((*(exec->pid))[i], NULL, 0);
+		waitpid((exec->pid)[i], NULL, 0);
 //INTERACTIVE
-	free_int_arr(&(exec->pipes), exec->n_pipes);
-	free(*(exec->pid));
+	free_pipes(exec, exec->n_pipes);
+	free(exec->pid);
+	exec->pid = NULL;
 	free_data(exec->data);
-	free(exec);
 //NON INTERACTIVE
 	/* free_exec(exec); */
 	return (0);
 }
+
 static void	exec_child(t_exec *exec, int i)
 {
-	pipe_handler(exec, i);
-	executioner(exec, i);
+	pipe_handler(exec, i); //need correct exit code and free
+	if (!executioner(exec, i))
+	{
+		free_data(exec->data);
+		free(exec->pid);
+		exec->pid = NULL;
+		free_pipes(exec, exec->n_pipes);
+		exit(0);
+	}
 	free_exec(exec);
 	exit(1);
 }
@@ -90,7 +98,7 @@ int process_handler(t_exec *exec)
 	pids = init_pids(exec->n_pipes);
 	if (!pids)
 		return (1);
-	exec->pid = &pids;
+	exec->pid = pids;
 	while (++i <= exec->n_pipes)
 	{
 		pids[i] = fork();

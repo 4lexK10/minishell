@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executioner.c                                         :+:      :+:    :+:   */
+/*   executioner.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:47:18 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/07 18:47:20 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:51:15 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,12 @@ static char	**get_cmd(t_data **data, int cmd_i)
 		return (NULL);
 	while (++i < cnt)
 	{
-		cmd[i] = temp->word;
+		cmd[i] = ft_strdup(temp->word);
+		if (!cmd[i])
+		{
+			free_ptr_arr(&cmd);
+			return (ft_error("malloc", NO_EXIT), NULL);
+		}
 		temp = temp->next;
 	}
 	cmd[i] = NULL;
@@ -105,7 +110,7 @@ int	executioner(t_exec *exec, int i)
 		return (ret);
 	cmd = get_cmd(exec->data, i);
 	if (!cmd)
-		return (1);
+		return (free_exec(exec), ft_error("malloc", NO_EXIT));
 	path = get_path(cmd, exec->env);
 	if (!path)
 	{

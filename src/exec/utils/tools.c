@@ -6,19 +6,35 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:50:03 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 22:50:08 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/29 17:51:23 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void free_int_arr(int ***arr, int sub_arr_nbr)
+{
+	int	i;
+
+	i = -1;
+	if (!arr || !(*arr))
+		return ;
+	while (++i < sub_arr_nbr)
+	{
+		free((*arr)[i]);
+		(*arr)[i] = NULL;
+	}
+	free(*arr);
+	*arr = NULL;
+}
+
 void pre_exec_free(t_exec *exec)
 {
 	if (exec->n_pipes > 0)
 	{
-		free_int_arr(&(exec->pipes), exec->n_pipes);
-		free(*exec->pid);
-		*(exec->pid) = NULL;
+		free_pipes(exec, exec->n_pipes);
+		free(exec->pid);
+		exec->pid = NULL;
 	}
 }
 
@@ -60,19 +76,4 @@ int	add_quotes(char *str)
 	if (write(STDOUT_FILENO, "\"\n", 2) == -1)
 		return (1);
 	return (0);
-}
-
-char	**fill_env(char **envp, char ***env, int n_var)
-{
-	while (envp[++n_var])
-	{
-		(*env)[n_var] = ft_strdup(envp[n_var]);
-		if (!(*env)[n_var])
-		{
-			free_ptr_arr(env);
-			return (ft_error("malloc", NO_EXIT), NULL);
-		}
-	}
-	(*env)[n_var] = NULL;
-	return (*env);
 }

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:00:08 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 22:50:13 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/29 17:38:37 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,11 @@ static int	create_env_var(t_exec *exec, char *str)
 			return (free_ptr_arr(&temp), ft_error("malloc", NO_EXIT));
 	}
 	temp[i] = ft_strdup(str);
-	if (temp[i])
+	if (!temp[i])
 		return (free_ptr_arr(&temp), ft_error("malloc", NO_EXIT));
 	temp[i + 1] = NULL;
 	free_env(exec);
+	exec->env = temp; 
 	return (0);
 }
 
@@ -97,8 +98,8 @@ int	ft_export(t_exec *exec, t_data *data)
 	if (!data || data->token != STRING)
 			return (need_sort_env(exec));
 	if (ft_strnstr(data->word, "+=", ft_strlen(data->word + 1)))
-		return (change_env_var(exec->env, data->word, app_env_var));
+		return (change_env_var(exec, data->word, app_env_var));
 	else if (ft_strnstr(data->word, "=", ft_strlen(data->word + 1)))
-		return (change_env_var(exec->env, data->word, swap_env_var));
+		return (change_env_var(exec, data->word, swap_env_var));
 	return (0);
 }

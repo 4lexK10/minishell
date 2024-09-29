@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/27 22:49:54 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/29 17:47:13 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ static int	interactive_mode(t_exec *exec, char **envp)
 	char	*arg;
 	t_data	*data;
 
+	init_env(exec, envp);
+	if (!(exec->env))
+		return (1);
 	while (1)
 	{
 		arg = readline("minish-2.0$ ");
@@ -27,14 +30,13 @@ static int	interactive_mode(t_exec *exec, char **envp)
 			continue ;
 		if (!arg) // get signal 
 		{
-			if (free_exec(exec));
+			if (free_exec(exec))
 				free_data(&data);
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
-		my_free(arg);
-		if (initializer(exec, &data, envp))
-			return (1);
+		my_free(&arg);
+		initializer(exec, &data);
 	}
 	return (0);
 }
