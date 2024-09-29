@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:29:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/09/22 18:14:55 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/29 15:33:27 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ static char	*inside_env(char *word, int i, char **env, int *flag)
 		env_name[++y] = word[temp++];
 	env_name[++y] = '\0';
 	env_var = getenv(env_name);
-	free(env_name);
 	if (!env_var && check_our_env(env_name, &env_var, env, flag) == 0)
 		env_var = "";
+	free(env_name);
 	return (env_var);
 }
 

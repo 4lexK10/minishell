@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:22:11 by akiener           #+#    #+#             */
-/*   Updated: 2024/09/22 18:30:12 by akiener          ###   ########.fr       */
+/*   Updated: 2024/09/29 15:32:06 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,12 @@ int	check_our_env(char *name, char **res, char **env, int *flag)
 	if (is_in_env(name, env, y, &i) == 0)
 		return (0);
 	len = ft_strlen(env[i]) - y - 1;
-	printf("len_name = %d\n", y);
 	*res = malloc(sizeof (char) * (len + 1));
 	if (!*res)
 		return (0);
-	printf("len_var = %d\n", len);
 	x = -1;
 	while (env[i][++y])
-	{
-		printf("yo : %c\n", env[i][y]);
 		res[0][++x] = env[i][y];
-	}
 	res[0][++x] = '\0';
 	return (*flag = 1, 1);
 }
