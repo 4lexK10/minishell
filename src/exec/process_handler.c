@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/29 17:31:04 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/30 00:20:26 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static int	no_pipe_exec(t_exec *exec)
 			exit(1);
 		return (executioner(exec, 0));
 	}
+	free_data(exec->data);
 	if (pid && waitpid(pid, NULL, 0) == -1)
 		return (ft_error("waitpid", NO_EXIT));
 	return (0);

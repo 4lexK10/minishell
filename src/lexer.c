@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:26:54 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/18 08:36:45 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/29 23:29:39 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ static void	init_data(char *arg, t_data **head, int type)
 		temp->next = (t_data *)malloc(sizeof(t_data));
 		temp = temp->next;
 	}
-	if (type == WORD) 
+	if (type == WORD)
 	{
 		temp->word = ft_strdup(arg);
-		temp->token = 6;
+		temp->token = STRING;
 	}
-	if (type == TOKEN)
+	else if (type == TOKEN)
 	{
 		temp->word = NULL;
 		temp->token = id_token(arg);

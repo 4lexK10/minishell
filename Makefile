@@ -6,14 +6,9 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/09/29 17:40:25 by akloster         ###   ########.fr        #
+#    Updated: 2024/09/29 23:12:17 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-# parsing/check_envp.c 			 \
-# parsing/parsing.c parsing/error.c parsing/env_utils.c	 \
-# parsing/lexer_tok.c parsing/list_data.c					 \
-# parsing/pars_utils.c parsing/split_input.c
 
 RM				=	rm -rf
 
@@ -28,7 +23,13 @@ SRC				=	main.c lexer.c exec/utils/error_handler.c			\
 					builtins/ft_exit.c builtins/ft_pwd.c 				\
 					builtins/ft_env.c builtins/ft_export.c				\
 					exec/utils/env_tools.c builtins/ft_unset.c			\
-					exec/utils/tools.c 
+					exec/utils/tools.c 									\
+#																		\
+#					parsing/check_envp.c								\
+#					parsing/parsing.c parsing/error.c					\
+#					parsing/lexer_tok.c parsing/list_data.c				\
+#					parsing/pars_utils.c parsing/split_input.c			\
+#					parsing/env_utils.c
 
 HEADERS			=	includes/minishell.h
 
