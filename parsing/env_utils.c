@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:01:21 by akiener           #+#    #+#             */
-/*   Updated: 2024/09/14 17:04:01 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/01 14:29:45 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,46 +28,6 @@ int	env_name_len(char *word, int i)
 		i++;
 	}
 	return (len);
-}
-
-int	num_len(pid_t pid)
-{
-	char	*link;
-	int		len;
-
-	link = ft_itoa(pid);
-	if (!link)
-		return (0);
-	len = 0;
-	while (link[len])
-		len++;
-	return (free(link), len);
-}
-
-char	*put_pid_in_str(char *str, int i, pid_t pid)
-{
-	char	*res;
-	char	*link;
-	int		y;
-	int		z;
-
-	link = ft_itoa(pid);
-	if (!link)
-		return (NULL);
-	res = malloc(sizeof (char) * (ft_strlen(str) + ft_strlen(link) - 1));
-	if (!res)
-		return (free(link), NULL);
-	y = -1;
-	while (++y < i)
-		res[y] = str[y];
-	z = -1;
-	while (link[++z])
-		res[y++] = link[z];
-	i++;
-	while (str[++i])
-		res[y++] = str[i];
-	res[y] = '\0';
-	return (free(link), res);
 }
 
 char	*put_str_in_str(char *str, int i, char *put)
@@ -95,23 +55,12 @@ char	*put_str_in_str(char *str, int i, char *put)
 	return (final[y] = '\0', final);
 }
 
-char	*check_special_env(char *str, int *i, pid_t pid, int last_val)
+char	*check_special_env(char *str, int *i)
 {
-	int		pid_len;
 	char	*res;
 
 	res = NULL;
-	if (str[*i + 1] == '$')
-	{
-		res = put_pid_in_str(str, *i, pid);
-		if (!res)
-			return (NULL);
-		pid_len = num_len(pid);
-		if (pid_len == 0)
-			return (free(str), NULL);
-		*i += pid_len;
-	}
-	else if (str[*i + 1] == '0')
+	if (str[*i + 1] == '0')
 	{
 		res = put_str_in_str(str, *i, "minishell");
 		if (!res)
@@ -119,7 +68,7 @@ char	*check_special_env(char *str, int *i, pid_t pid, int last_val)
 		*i += ft_strlen("minishell");
 	}
 	else if (str[*i + 1] == '?')
-		if (for_last_value(&res, str, i, last_val) == -1)
+		if (for_last_value(&res, str, i) == -1)
 			return (free(str), NULL);
 	return (free(str), res);
 }

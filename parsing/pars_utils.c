@@ -6,11 +6,13 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:36:20 by akiener           #+#    #+#             */
-/*   Updated: 2024/09/14 17:03:06 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/01 14:21:46 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+extern int	g_last_val;
 
 int	ft_isspace(int c)
 {
@@ -75,14 +77,14 @@ int	add_redir_or_pipe(t_data **data, char *arg, int *i)
 	return (free(str), 0);
 }
 
-int	for_last_value(char **res, char *str, int *i, int last_val)
+int	for_last_value(char **res, char *str, int *i)
 {
 	char	*link;
 	int		y;
 	int		z;
 	int		x;
 
-	link = ft_itoa(last_val);
+	link = ft_itoa(g_last_val);
 	if (!link)
 		return (-1);
 	*res = malloc(sizeof (char) * (ft_strlen(str) + ft_strlen(link) - 1));
