@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/02 02:34:51 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:31:33 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,17 @@ typedef struct	s_data
 
 typedef struct	s_exec
 {
-	char		**env;
-	t_data		**data;
-	int			**pipes;
-	int			n_pipes;
-	int			*pid;
-	int			std_in;
-	int			std_out;
+	char				**env;
+	t_data				**data;
+	int					**pipes;
+	int					n_pipes;
+	int					*pid;
+	/* struct sigaction	*sig_act; */
+	int					std_in;
+	int					std_out;
 }				t_exec;
 
-int		initializer(t_exec *exec, t_data **data);
+int		initializer(t_exec *exec, t_data **data/* , struct sigaction *act */);
 int		process_handler(t_exec *exec);
 t_data	*lexer(char *arg);
 int		ft_error(char *str, int need);
@@ -100,8 +101,8 @@ char	*get_last(char **env);
 void	init_env(t_exec *exec, char **envp);
 int		need_sort_env(t_exec *exec);
 void	my_free(char **ptr);
-/* void	rl_replace_line (const char *text, int clear_undo);
-void	rl_clear_history (void); */
+void	rl_replace_line (const char *text, int clear_undo);
+/* void	rl_clear_history (void); */
 int		swap_env_var(char **env, char *str);
 int		change_env_var(t_exec *exec, char *str, int (*f)(char **, char *));
 int		free_exec(t_exec *exec);

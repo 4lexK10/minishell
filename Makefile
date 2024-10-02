@@ -6,7 +6,7 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/10/02 02:24:40 by akloster         ###   ########.fr        #
+#    Updated: 2024/10/02 16:14:05 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,10 +45,9 @@ CFLAGS			=	-Iincludes -Wall -Wextra -Werror
 
 NAME			=	minishell
 
-$(NAME):		$(OBJ_DIR) $(OBJ) #-g -fsanitize=address
+$(NAME):		$(OBJ_DIR) $(OBJ) #-g -fsanitize=address 
 				make -C./libft
-				$(CC) $(CFLAGS) $(OBJ) $(LIBft) -lreadline						\
-				-L /Users/$(shell whoami)/homebrew/Cellar/readline/8.2.13/lib 	\
+				$(CC) $(CFLAGS) $(OBJ) $(LIBft) -lreadline -L /Users/$(shell whoami)/homebrew/Cellar/readline/8.2.13/lib 	\
 				-I /Users/$(shell whoami)/homebrew/Cellar/readline/8.2.13/include -o $@
 
 all:			$(NAME)

@@ -6,30 +6,52 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/02 02:35:40 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:31:44 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	signal_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+    	rl_redisplay();
+	}
+	else
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+	    rl_redisplay();
+	}
+}
+
 static int	interactive_mode(t_exec *exec, char **envp)
 {
-	char	*arg;
-	t_data	*data;
+	char				*arg;
+	t_data				*data;
+	struct sigaction	act;
 
+	act.sa_handler = &signal_handler;
+	sigaction(SIGQUIT, &act, NULL);
+	sigaction(SIGINT, &act, NULL);
 	init_env(exec, envp);
 	if (!(exec->env))
 		return (1);
 	while (1)
 	{
 		arg = readline("minish-2.0$ ");
-		/* if (!arg)
-			continue ; */
+/* 		ft_printf("%d\n", arg[0]); */
+		if (!arg)
+			ft_exit(exec, NULL);
 		if (arg && *arg)
 			add_history(arg);
 		data = lexer(arg);
 		my_free(&arg);
-		initializer(exec, &data);
+		initializer(exec, &data/* , &act */);
 	}
 	return (0);
 }
@@ -66,24 +88,12 @@ static int	interactive_mode(t_exec *exec, char **envp)
 	return (NULL);
 } */
 
-void	signal_handler(int sig)
-{
-	(void) sig;
-	rl_on_new_line();
-    rl_redisplay();
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	t_exec				exec;
-	struct sigaction	act;
 	
 	(void)ac;
 	(void)av;
-	act.sa_handler = &signal_handler;
-	act.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &act, NULL);
 	ft_memset(&exec, 0, sizeof(t_exec));
-	/* signal(SIGQUIT, SIG_IGN); */
 	return (interactive_mode(&exec, envp));
 }

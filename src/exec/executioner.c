@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:47:18 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/29 22:51:15 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:34:15 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int	executioner(t_exec *exec, int i)
 	ret = is_built(exec, i);
 	if (ret != -1)
 		return (ret);
+	/* *(exec->sig_act) = 0; */
 	cmd = get_cmd(exec->data, i);
 	if (!cmd)
 		return (free_exec(exec), ft_error("malloc", NO_EXIT));
