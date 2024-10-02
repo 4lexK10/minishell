@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/29 17:51:46 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/02 02:34:51 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,13 @@ t_data	*skipTo_cmd(t_data *temp, int cmd_i);
 int		is_built(t_exec *exec, int i);
 t_data	*find_built(t_data *data);
 int		built_handler(t_exec *exec, int i);
-
 char	*init_first(char **env);
 char	*get_last(char **env);
 void	init_env(t_exec *exec, char **envp);
 int		need_sort_env(t_exec *exec);
 void	my_free(char **ptr);
-
+/* void	rl_replace_line (const char *text, int clear_undo);
+void	rl_clear_history (void); */
 int		swap_env_var(char **env, char *str);
 int		change_env_var(t_exec *exec, char *str, int (*f)(char **, char *));
 int		free_exec(t_exec *exec);
@@ -112,7 +112,7 @@ void	free_env(t_exec *exec);
 
 int		ft_unset(t_exec *exec, t_data *data);
 int		ft_pwd(t_exec *exec);
-void	ft_exit(t_exec *exec);
+void	ft_exit(t_exec *exec, t_data *data);
 int		ft_env(t_exec *exec, t_data *data);
 int		ft_export(t_exec *exec, t_data *data);
 int		ft_echo(t_exec *exec, t_data *data);

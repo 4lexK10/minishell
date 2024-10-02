@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:52:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/28 04:48:20 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/02 00:09:13 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	built_handler(t_exec *exec, int i)
     else if (!ft_strncmp(builtin->word, "echo", 5))
         res = ft_echo(exec, builtin->next);
     else if (!ft_strncmp(builtin->word, "exit", 5))
-        ft_exit(exec);
+        ft_exit(exec, builtin->next);
     else if (!ft_strncmp(builtin->word, "pwd", 4))
         res = ft_pwd(exec);
     else if (!ft_strncmp(builtin->word, "env", 4))

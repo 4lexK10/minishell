@@ -6,7 +6,7 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/09/29 23:12:17 by akloster         ###   ########.fr        #
+#    Updated: 2024/10/02 02:24:40 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRC				=	main.c lexer.c exec/utils/error_handler.c			\
 					builtins/ft_exit.c builtins/ft_pwd.c 				\
 					builtins/ft_env.c builtins/ft_export.c				\
 					exec/utils/env_tools.c builtins/ft_unset.c			\
-					exec/utils/tools.c 									\
+					exec/utils/tools.c
 #																		\
 #					parsing/check_envp.c								\
 #					parsing/parsing.c parsing/error.c					\
@@ -47,7 +47,9 @@ NAME			=	minishell
 
 $(NAME):		$(OBJ_DIR) $(OBJ) #-g -fsanitize=address
 				make -C./libft
-				$(CC) $(CFLAGS) $(OBJ) $(LIBft) -lreadline -o $@
+				$(CC) $(CFLAGS) $(OBJ) $(LIBft) -lreadline						\
+				-L /Users/$(shell whoami)/homebrew/Cellar/readline/8.2.13/lib 	\
+				-I /Users/$(shell whoami)/homebrew/Cellar/readline/8.2.13/include -o $@
 
 all:			$(NAME)
 
