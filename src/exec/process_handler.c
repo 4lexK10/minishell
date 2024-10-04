@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/02 19:26:55 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:50:01 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,12 @@ static int	parent_close_wait(t_exec *exec)
 	if (pipe_cleaner(exec->pipes, exec->n_pipes))
 		return (1);
 	while (++i <= exec->n_pipes)
+	{
 		waitpid((exec->pid)[i], &status, 0);
-	ft_printf("%d\n", status);
-	i = -1;
+			if (i == exec->n_pipes && status)
+				last_exit_value = status;	
+		ft_printf("exit value %d-> %d\n",i, last_exit_value);
+	}
 	free_pipes(exec, exec->n_pipes);
 	free(exec->pid);
 	exec->pid = NULL;

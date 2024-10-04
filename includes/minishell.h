@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/02 18:31:33 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:06:20 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@
 # define FOUND		0
 # define FAILED		1
 
+int	last_exit_value;
+
 typedef struct	s_data
 {
 	char			*word;
@@ -72,12 +74,11 @@ typedef struct	s_exec
 	int					**pipes;
 	int					n_pipes;
 	int					*pid;
-	/* struct sigaction	*sig_act; */
 	int					std_in;
 	int					std_out;
 }				t_exec;
 
-int		initializer(t_exec *exec, t_data **data/* , struct sigaction *act */);
+int		initializer(t_exec *exec, t_data **data);
 int		process_handler(t_exec *exec);
 t_data	*lexer(char *arg);
 int		ft_error(char *str, int need);

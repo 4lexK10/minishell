@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/02 18:31:44 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:51:16 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static void	signal_handler(int sig)
 	}
 	else
 	{
-		rl_on_new_line();
 		rl_replace_line("", 0);
 	    rl_redisplay();
 	}
@@ -36,9 +35,9 @@ static int	interactive_mode(t_exec *exec, char **envp)
 	struct sigaction	act;
 
 	act.sa_handler = &signal_handler;
+	init_env(exec, envp);
 	sigaction(SIGQUIT, &act, NULL);
 	sigaction(SIGINT, &act, NULL);
-	init_env(exec, envp);
 	if (!(exec->env))
 		return (1);
 	while (1)
@@ -51,7 +50,7 @@ static int	interactive_mode(t_exec *exec, char **envp)
 			add_history(arg);
 		data = lexer(arg);
 		my_free(&arg);
-		initializer(exec, &data/* , &act */);
+		initializer(exec, &data);
 	}
 	return (0);
 }
@@ -94,6 +93,7 @@ int	main(int ac, char **av, char **envp)
 	
 	(void)ac;
 	(void)av;
+	last_exit_value = 0;
 	ft_memset(&exec, 0, sizeof(t_exec));
 	return (interactive_mode(&exec, envp));
 }
