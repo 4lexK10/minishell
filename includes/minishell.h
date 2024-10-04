@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/03 18:06:20 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:02:20 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@
 # define FOUND		0
 # define FAILED		1
 
-int	last_exit_value;
+int	g_last_val;
 
 typedef struct	s_data
 {
@@ -80,7 +80,6 @@ typedef struct	s_exec
 
 int		initializer(t_exec *exec, t_data **data);
 int		process_handler(t_exec *exec);
-t_data	*lexer(char *arg);
 int		ft_error(char *str, int need);
 void	pipe_handler(t_exec *exec, int i);
 int		executioner(t_exec *exec, int i);

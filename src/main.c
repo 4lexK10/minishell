@@ -6,11 +6,12 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/04 15:51:16 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:06:09 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing/parsing.h"
 
 static void	signal_handler(int sig)
 {
@@ -48,7 +49,10 @@ static int	interactive_mode(t_exec *exec, char **envp)
 			ft_exit(exec, NULL);
 		if (arg && *arg)
 			add_history(arg);
-		data = lexer(arg);
+		data = parsing(arg, exec->env);
+		ft_printf("hello\n");
+		for (t_data *temp = data; temp; temp = temp->next)
+			ft_printf("%s\n", temp->word);
 		my_free(&arg);
 		initializer(exec, &data);
 	}
@@ -93,7 +97,7 @@ int	main(int ac, char **av, char **envp)
 	
 	(void)ac;
 	(void)av;
-	last_exit_value = 0;
+	g_last_val = 0;
 	ft_memset(&exec, 0, sizeof(t_exec));
 	return (interactive_mode(&exec, envp));
 }

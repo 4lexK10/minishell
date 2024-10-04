@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:52:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/03 18:13:03 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:02:20 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	built_handler(t_exec *exec, int i)
     else if (!ft_strncmp(builtin->word, "unset", 6))
         res = ft_unset(exec, builtin->next);
 /*     if (res && is_last(builtin))
-        last_exit_value = 2; */
+        g_last_val = 2; */
     return (res);
 }
 
