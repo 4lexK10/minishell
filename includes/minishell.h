@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/04 16:02:20 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/06 15:27:30 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@
 # define FOUND		0
 # define FAILED		1
 
-int	g_last_val;
-
 typedef struct	s_data
 {
 	char			*word;
@@ -77,6 +75,8 @@ typedef struct	s_exec
 	int					std_in;
 	int					std_out;
 }				t_exec;
+
+extern int	g_last_val;
 
 int		initializer(t_exec *exec, t_data **data);
 int		process_handler(t_exec *exec);
