@@ -6,7 +6,7 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/10/06 14:59:51 by akloster         ###   ########.fr        #
+#    Updated: 2024/10/07 14:47:23 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ RM				=	rm -rf
 
 SRC_DIR			=	src/
 
-SRC				=	main.c exec/utils/error_handler.c			\
+SRC				=	main.c exec/utils/error_handler.c					\
 					exec/piper.c exec/initializer.c builtins/ft_echo.c	\
 					exec/redir_handler.c exec/executioner.c				\
 					exec/utils/free_functions.c exec/process_handler.c	\
@@ -44,10 +44,10 @@ CFLAGS			=	-Iincludes -Wall -Wextra -Werror
 
 NAME			=	minishell
 
-$(NAME):		$(OBJ_DIR) $(OBJ) #-g -fsanitize=address -L /Users/$(shell whoami)/homebrew/Cellar/readline/8.2.13/lib 	\
-				-I /Users/$(shell whoami)/homebrew/Cellar/readline/8.2.13/include 
+$(NAME):		$(OBJ_DIR) $(OBJ) #-g -fsanitize=address  
 				make -C./libft
-				$(CC) $(CFLAGS) $(OBJ) $(LIBft) -lreadline -o $@
+				$(CC) $(CFLAGS) $(OBJ) $(LIBft) -lreadline -L /Users/$(shell whoami)/homebrew/Cellar/readline/8.2.13/lib 	\
+				-I /Users/$(shell whoami)/homebrew/Cellar/readline/8.2.13/include -o $@
 
 all:			$(NAME)
 

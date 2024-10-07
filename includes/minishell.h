@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/06 15:27:30 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:47:06 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,14 @@ typedef struct	s_exec
 	int					std_out;
 }				t_exec;
 
-extern int	g_last_val;
+int	g_last_val;
 
+/* t_data *lexer(char *arg); // <=----- DELETE! */
+
+void	converter(t_data **data);
 int		initializer(t_exec *exec, t_data **data);
 int		process_handler(t_exec *exec);
+t_data	*parsing(char *av, char **envp);
 int		ft_error(char *str, int need);
 void	pipe_handler(t_exec *exec, int i);
 int		executioner(t_exec *exec, int i);

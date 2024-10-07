@@ -6,18 +6,14 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:32:09 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/04 16:00:48 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:29:00 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "../libft/libft.h"
 # include "minishell.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <stddef.h>
 
 typedef struct s_arg
 {

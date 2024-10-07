@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:03:07 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/26 15:02:12 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:45:40 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,20 @@ int	cnt_words(t_data *temp)
 		temp = temp->next;
 	}
 	return (cnt);
+}
+
+void	converter(t_data **data)
+{
+	t_data *temp;
+
+	temp = *data;
+	while (temp)
+	{
+		if (temp->token >= PIPE && temp->token <= H_DOC)
+		{
+			free(temp->word);
+			temp->word = NULL;
+		}
+		temp = temp->next;
+	}
 }
