@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:48:19 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/03 18:43:02 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:28:13 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ static int	finish_here_doc(t_exec *exec, int fd_Hdoc)
 	t_data *temp;
 
 	if (close(fd_Hdoc) == -1)
-		return (ft_error("close", NO_EXIT));
+		return (ft_error("close", NULL, OG_MSG));
 	fd_Hdoc = open("/tmp/temp_here_doc", O_RDONLY);
 	if (fd_Hdoc == -1)
-		return (ft_error("open", NO_EXIT));
+		return (ft_error("open: ", "/tmp/temp_here_doc", OG_MSG));
 	if (dup2(fd_Hdoc, STDIN_FILENO) == -1)
-		return (ft_error("dup2", NO_EXIT));
+		return (ft_error("dup2", NULL, OG_MSG));
 	if (close(fd_Hdoc) == -1)
-		return (ft_error("close", NO_EXIT));
+		return (ft_error("close", NULL, OG_MSG));
 	temp = *(exec->data);
 	while (temp->token != STRING)
 		temp = temp->next;
@@ -62,7 +62,7 @@ static int	here_doc(t_exec *exec, char *limiter)
 
 	fd_Hdoc = open("/tmp/temp_here_doc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (fd_Hdoc == -1)
-		return (ft_error("open", NO_EXIT));
+		return (ft_error("open: ", "/tmp/temp_here_doc", OG_MSG));
 	while (1)
 	{
 		ft_putstr_fd("> ", STDIN_FILENO);
@@ -99,14 +99,14 @@ int needs_preRedir(t_exec *exec, int i_cmd)
 		return (EXIT_SUCCESS);
 	}
 	if (access(temp->next->word, R_OK) == -1)
-		return (ft_error(temp->next->word, NO_EXIT));
+		return (ft_error(temp->next->word, NULL, MY_MSG));
 	fd_in = open(temp->next->word, O_RDONLY);
 	if (fd_in == -1)
-		return (ft_error("temp->next->word", NO_EXIT));
+		return (ft_error("open: ", temp->next->word, OG_MSG));
 	if (dup2(fd_in, STDIN_FILENO) == -1)
-		return (ft_error("dup2", NO_EXIT));
+		return (ft_error("dup2", NULL, OG_MSG));
 	if (close(fd_in) == -1)
-		return (ft_error("close", NO_EXIT));
+		return (ft_error("close", NULL, OG_MSG));
 	return (EXIT_SUCCESS);
 }
 
@@ -124,8 +124,8 @@ int	needs_postRedir(t_exec *exec, int i_cmd)
 	if (fd_out == -1)
 		return (1);
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
-		return (ft_error("dup2", NO_EXIT));
+		return (ft_error("dup2", NULL, OG_MSG));
 	if (close(fd_out) == -1)
-		return(ft_error("close", NO_EXIT));
+		return(ft_error("close", NULL, OG_MSG));
 	return (EXIT_SUCCESS);
 }

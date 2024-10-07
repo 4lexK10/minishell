@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/03 18:00:44 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:14:24 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	init_env(t_exec *exec, char **envp)
 	while (envp[i])
 		++i;
 	exec->env = (char **)malloc(sizeof(char *) * (i + 1));
-	if (!(exec->env) && ft_error("malloc", NO_EXIT))
+	if (!(exec->env) && ft_error("malloc", NULL, OG_MSG))
 		return ;
 	i = -1;
 	while (envp[++i])
@@ -31,7 +31,7 @@ void	init_env(t_exec *exec, char **envp)
 		if (!(exec->env)[i])
 		{
 			free_env(exec);
-			ft_error("malloc", NO_EXIT);
+			ft_error("malloc", NULL, OG_MSG);
 			return ;
 		}
 	}
@@ -56,7 +56,7 @@ static int	**init_pipes(int n_pipes)
 	i = -1;
 	pipes = (int **)malloc(sizeof(int *) * n_pipes);
 	if (!pipes)
-		ft_error("malloc", NEED_EXIT);  // BAD EXIT NEEDS t_data free !!!!
+		ft_error("malloc", NULL, OG_MSG);  // BAD EXIT NEEDS t_data free !!!!
 	while (++i < n_pipes)
 	{
 		pipes[i] = (int *)malloc(sizeof(int) * 2);
@@ -65,7 +65,7 @@ static int	**init_pipes(int n_pipes)
 		if (pipe(pipes[i]) == -1)
 		{
 			free_int_arr(&pipes, i + 1);
-			ft_error("pipe", NEED_EXIT); // BAD EXIT NEEDS t_data free !!!!
+			ft_error("pipe", NULL, OG_MSG); // BAD EXIT NEEDS t_data free !!!!
 		}
 	}
 	return (pipes);

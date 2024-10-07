@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 23:23:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/28 05:24:19 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:44:40 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,20 @@ static int	update_env(t_exec *exec)
 	old_pwd = ft_getenv(exec->env, "PWD");
 	str = ft_strjoin("OLDPWD=", old_pwd);
 	if (!str)
-		return (ft_error("malloc", NO_EXIT));
+		return (ft_error("malloc", NULL, OG_MSG));
 	if (change_env_var(exec, str, swap_env_var))
 		return (my_free(&str), 1);
 	my_free(&str);
 	new_pwd = ft_calloc(PATH_MAX, sizeof(char));
 	if (!new_pwd)
-		return (ft_error("malloc", NO_EXIT));
+		return (ft_error("malloc", NULL, OG_MSG));
 	new_pwd = getcwd(new_pwd, PATH_MAX);
 	if (!new_pwd)
-		return (ft_error("getcwd", NO_EXIT));
+		return (ft_error("getcwd", NULL, OG_MSG));
 	str = ft_strjoin("PWD=", new_pwd);
 	my_free(&new_pwd);
 	if (!str)
-		return (1);
+		return (ft_error("malloc", NULL, OG_MSG));
 	if (change_env_var(exec, str, swap_env_var))
 		return (my_free(&str), 1);
 	my_free(&str);
@@ -68,11 +68,11 @@ static int	incomplete_dir(t_exec *exec, t_data *data)
 		|| !ft_strncmp(data->word, "~/", 3))
 	{
 		if (chdir(dir) == -1)
-			return (ft_error("cd", NO_EXIT));
+			return (ft_error("cd: ", data->word, OG_MSG));
 		update_env(exec);
 	}
 	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
-		return (ft_error("dup2", NO_EXIT));
+		return (ft_error("dup2", NULL, OG_MSG));
 	return (0);
 }
 
@@ -82,19 +82,15 @@ int	ft_cd(t_exec *exec, t_data *data)
 		|| !ft_strncmp(data->word, "~/", 3))
 			return (incomplete_dir(exec, data));
 	if (ft_strlen(data->word) > PATH_MAX)
-		return (ft_error("cd", NO_EXIT));
+		return (ft_error("cd: ", data->word, OG_MSG));
 	if (!ft_strncmp(data->word, ".", 2))
 		return (0);
 	if (data->next && data->next->token == STRING)
-	{
-		if (write(2, "minish: cd: too many arguments\n", 31) == -1)
-			return (ft_error("write", NO_EXIT));
-		return (1);
-	}
+		return (ft_error("cd: too many arguments\n", NULL, MY_MSG));
 	if (chdir(data->word) == -1)
-		return (ft_error("cd", NO_EXIT));
+		return (ft_error("cd: ", data->word, OG_MSG));
 	update_env(exec);
 	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
-		return (ft_error("dup2", NO_EXIT));
+		return (ft_error("dup2", NULL, OG_MSG));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/04 16:02:20 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/07 23:40:04 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ static int	no_pipe_exec(t_exec *exec)
 {
 	int		pid;
 	t_data	*ret;
+	int		status;
 
 	pid = 0;
 	ret = find_built(*(exec->data));
+	status = 0;
 	if (!ret)
 	{
 		pid = fork();
@@ -49,7 +51,8 @@ static int	no_pipe_exec(t_exec *exec)
 	}
 	free_data(exec->data);
 	if (pid)
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &status, 0);
+	g_last_val = WEXITSTATUS(status);
 	return (0);
 }
 

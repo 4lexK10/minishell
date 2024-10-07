@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:47:18 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/03 18:47:40 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/07 23:39:26 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	**get_cmd(t_data **data, int cmd_i)
 		if (!cmd[i])
 		{
 			free_ptr_arr(&cmd);
-			return (ft_error("malloc", NO_EXIT), NULL);
+			return (ft_error("malloc", NULL, OG_MSG), NULL);
 		}
 		temp = temp->next;
 	}
@@ -61,14 +61,12 @@ static int	*check_cmd(char *cmd, char *cmd_path, char **path, int *i)
 		str = ft_strjoin(path[*i], cmd_path);
 		if (access(str, F_OK | X_OK) == 0)
 		{
-			free(str);
-			str = NULL;
+			my_free(&str);
 			return (i);
 		}
 	}
-	ft_error(cmd, NO_EXIT);
-	free(str);
-	str = NULL;
+	ft_error(cmd, ": command not found\n", MY_MSG);
+	my_free(&str);
 	return (NULL);
 }
 
@@ -84,13 +82,13 @@ static char	*get_path(char **cmd, char **env)
 	path = ft_split(&env[i][5], ':');
 	if (!path)
 	{
-		ft_error("malloc", NO_EXIT);
+		ft_error("malloc", NULL, OG_MSG);
 		return (NULL);
 	}
 	bin = put_slash(cmd[0]);
 	if (!bin)
 	{
-		ft_error("malloc", NO_EXIT);
+		ft_error("malloc", NULL, OG_MSG);
 		free_ptr_arr(&path);
 		return (NULL);
 	}
@@ -110,18 +108,19 @@ int	executioner(t_exec *exec, int i)
 		return (ret);
 	cmd = get_cmd(exec->data, i);
 	if (!cmd)
-		return (free_exec(exec), ft_error("malloc", NO_EXIT));
+		return (free_exec(exec), ft_error("malloc", NULL, OG_MSG));
 	path = get_path(cmd, exec->env);
 	if (!path)
 	{
 		free_ptr_arr(&cmd);
-		return (1);
+		free_exec(exec);
+		exit(127);
 	}
 	pre_exec_free(exec);
 	execve(path, cmd, exec->env);
 	free_exec(exec);
 	free(path);
 	path = NULL;
-	ft_error("execve", NO_EXIT);
+	ft_error("execve", NULL, OG_MSG);
 	return (1);
 }

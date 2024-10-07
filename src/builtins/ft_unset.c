@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 08:03:58 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/28 04:46:17 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:48:01 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int remove_env_var(t_exec *exec, char *var)
 		++i;
 	temp = (char **)malloc(sizeof(char *) * i);
 	if (!temp)
-		return (ft_error("malloc", NO_EXIT));
+		return (ft_error("malloc", NULL, OG_MSG));
 	i = -1;
 	j = -1;
 	while ((exec->env)[++i])
@@ -43,7 +43,7 @@ static int remove_env_var(t_exec *exec, char *var)
 		}
 		temp[++j] = ft_strdup((exec->env)[i]);
 		if (!(temp[j]))
-			return (free_ptr_arr(&temp), ft_error("malloc", NO_EXIT));
+			return (free_ptr_arr(&temp), ft_error("malloc", NULL, OG_MSG));
 	}
 	return (finish_env(temp, exec, ++j));
 }

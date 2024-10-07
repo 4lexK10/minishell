@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/07 14:47:06 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:33:58 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@
 
 // readablitlty defines
 
-# define NO_EXIT	0
-# define NEED_EXIT	1
+# define OG_MSG		0
+# define MY_MSG		1
 # define FIRST		0
 # define LAST		1
 # define SINGLE		0
@@ -78,13 +78,13 @@ typedef struct	s_exec
 
 int	g_last_val;
 
-/* t_data *lexer(char *arg); // <=----- DELETE! */
+t_data *lexer(char *arg); // <=----- DELETE!
 
 void	converter(t_data **data);
 int		initializer(t_exec *exec, t_data **data);
 int		process_handler(t_exec *exec);
 t_data	*parsing(char *av, char **envp);
-int		ft_error(char *str, int need);
+int		ft_error(char *str, char *name, int need);
 void	pipe_handler(t_exec *exec, int i);
 int		executioner(t_exec *exec, int i);
 char	*free_all_path_info(char **str, char ***arr);

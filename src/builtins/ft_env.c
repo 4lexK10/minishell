@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:23:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/28 22:50:39 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:46:35 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ int	ft_env(t_exec *exec, t_data *data)
 	while ((exec->env)[++i])
 		ft_putendl_fd((exec->env)[i], STDOUT_FILENO);
 	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
-		return (ft_error("dup2", NO_EXIT));
+		return (ft_error("dup2", NULL, OG_MSG));
 	return (0);
 }

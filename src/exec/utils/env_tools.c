@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 21:24:27 by akloster          #+#    #+#             */
-/*   Updated: 2024/09/29 01:26:18 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:28:48 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static char	*put_env(char *str)
 	res = ft_strjoin("declare -x ", str);
 	if (!res)
 	{
-		ft_error("malloc", NO_EXIT);
+		ft_error("malloc", NULL, OG_MSG);
 		return (NULL);
 	}
 	if (add_quotes(res))
 	{
-		ft_error("write", NO_EXIT);
+		ft_error("write", NULL, OG_MSG);
 		return (NULL);
 	}
 	free(res);
@@ -89,7 +89,7 @@ static int	put_all_env(t_exec *exec, char *prev)
 			break ;
 		prev = str;
 		if (put_env(str))
-			return (ft_error("write", NO_EXIT));
+			return (ft_error("write", NULL, OG_MSG));
 	}
 	return (0);
 }
