@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/08 15:31:15 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:12:41 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ static int	interactive_mode(t_exec *exec, char **envp)
 			add_history(arg);
 		data = lexer(arg);
 		/* data = parsing(arg, exec->env); */
-		printf("hello\n");
 		converter(&data);
-		for (t_data *temp = data; temp; temp = temp->next)
-			ft_printf("word->%s token->%d\n", temp->word, temp->token);
+/* 		for (t_data *temp = data; temp; temp = temp->next)
+			ft_printf("word->%s token->%d\n", temp->word, temp->token); */
 		my_free(&arg);
 		initializer(exec, &data);
 	}
