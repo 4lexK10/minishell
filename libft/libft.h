@@ -6,16 +6,18 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:49:47 by akloster          #+#    #+#             */
-/*   Updated: 2023/10/31 13:19:43 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/02 00:13:21 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#ifndef LIBft_H
+# define LIBft_H
 
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdint.h>
+# include "libftprintf.h"
+# include "get_next_line/get_next_line.h"
 
 typedef struct s_list
 {
@@ -39,9 +41,9 @@ void	*ft_memcpy(void *dst, void const *src, size_t n);
 void	*ft_memmove(void *dst, void const *src, size_t len);
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_putchar_fd(char c, int fd);
-void	ft_putendl_fd(char *s, int fd);
+int		ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-void	ft_putstr_fd(char *s, int fd);
+int		ft_putstr_fd(char *s, int fd);
 char	**ft_split(char const *s, char c);
 char	*ft_strchr(char const *s, int c);
 char	*ft_strdup( char const*s1);
@@ -68,5 +70,6 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void*));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void*), void (*del)(void *));
+long	ft_atol(const char *str);
 
 #endif

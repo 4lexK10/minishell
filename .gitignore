@@ -1,0 +1,8 @@
+*.o
+minishell
+*.a
+*.txt
+out*
+in
+*.json
+.gitignore
