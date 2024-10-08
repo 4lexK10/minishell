@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 23:23:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/08 16:21:13 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:20:05 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ static int	update_env(t_exec *exec)
 static int	incomplete_dir(t_exec *exec, t_data *data)
 {
 	char	*dir;
-	char	buf[PATH_MAX];
-
+	
 	dir = getenv("HOME");
 	if (!data || !data->word || !ft_strncmp(data->word, "~", 2)
 		|| !ft_strncmp(data->word, "~/", 3))
@@ -72,9 +71,14 @@ static int	incomplete_dir(t_exec *exec, t_data *data)
 			return (ft_error("cd: ", data->word, OG_MSG));
 		update_env(exec);
 	}
-	else if (!ft_strncmp(data->word, "..", 3))
+	else if (!ft_strncmp(data->word, "~/", 2))
 	{
-		dir = get
+		dir = ft_strjoin(dir, ++(data->word));
+		if (!dir)
+			return (ft_error("malloc", NULL, OG_MSG));
+		if (chdir(dir) == -1)
+			return (my_free(&dir), ft_error("cd: ", dir, OG_MSG));
+		my_free(&dir);
 	}
 	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
 		return (ft_error("dup2", NULL, OG_MSG));
@@ -83,11 +87,9 @@ static int	incomplete_dir(t_exec *exec, t_data *data)
 
 int	ft_cd(t_exec *exec, t_data *data)
 {
-	if (!data || data->token != STRING || data->token != ABS_PATH
-		|| !ft_strncmp(data->word, "~/", 3)
-		|| !ft_strncmp(data->word, "~", 2)
-		|| !ft_strncmp(data->word, "..", 3)
-		|| !ft_strncmp(data->word, "../", 4))
+	if (!data || (data->token != STRING && data->token != ABS_PATH)
+		|| !ft_strncmp(data->word, "~/", 2)
+		|| !ft_strncmp(data->word, "~", 2))
 		return (incomplete_dir(exec, data));
 	if (ft_strlen(data->word) > PATH_MAX)
 		return (ft_error("cd: ", data->word, OG_MSG));
