@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   printf_u_nbr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+<<<<<<< HEAD:minishell.h
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
 /*   Updated: 2024/09/03 14:53:25 by akiener          ###   ########.fr       */
+=======
+/*   Created: 2023/11/26 14:45:56 by akloster          #+#    #+#             */
+/*   Updated: 2024/08/18 07:01:38 by akloster         ###   ########.fr       */
+>>>>>>> origin:libft/printf_u_nbr.c
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libftprintf.h"
 
+<<<<<<< HEAD:minishell.h
 # include "libft/libft.h"
 # include <stdbool.h>
 # include <stdio.h>
@@ -45,3 +50,24 @@ int		executor(int n_pipe, t_data **arg);
 t_data	**lexer(char *arg);
 
 #endif
+=======
+void	printf_u_nbr(unsigned int args, char *base, int *count)
+{
+	if (args > 9)
+	{
+		printf_nbr(args / 10, base, count);
+		if (*count == -1)
+			return ;
+		printf_nbr(args % 10, base, count);
+	}
+	else
+	{
+		if (write(2, &base[args], 1) == -1)
+		{
+			*count = -1;
+			return ;
+		}
+		++(*count);
+	}
+}
+>>>>>>> origin:libft/printf_u_nbr.c

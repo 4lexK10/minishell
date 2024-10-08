@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:52:56 by akloster          #+#    #+#             */
-/*   Updated: 2023/11/06 17:59:58 by akloster         ###   ########.fr       */
+/*   Updated: 2024/09/14 19:24:58 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	ft_strncmp(char const *s1, char const *s2, size_t n)
 	unsigned char const	*p2;
 	size_t				i;
 
+	if (!s1 || !s2)
+		return (-1);
 	p1 = (unsigned char const *)s1;
 	p2 = (unsigned char const *)s2;
 	i = 0;
