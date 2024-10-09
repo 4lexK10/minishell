@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:03:07 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/08 17:21:42 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:01:02 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	converter(t_data **data)
 			free(temp->word);
 			temp->word = NULL;
 		}
+		if (temp->token == NUMBER)
+			temp->token = STRING;
 		temp = temp->next;
 	}
 }

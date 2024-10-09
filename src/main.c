@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/09 13:01:35 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/09 13:06:01 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static int	interactive_mode(t_exec *exec, char **envp)
 	while (1)
 	{
 		arg = readline("minish-2.0$ ");
-/* 		ft_printf("%d\n", arg[0]); */
 		if (!arg)
 			ft_exit(exec, NULL);
 		if (arg && *arg)

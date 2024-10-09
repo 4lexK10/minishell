@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
+/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:36:20 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/01 14:21:46 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/09 13:04:12 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	add_redir_or_pipe(t_data **data, char *arg, int *i)
 			return (-1);
 		if (addback_stack(data, str) == -1)
 			return (free(str), -1);
+		(*i)++;
 		return (free(str), 0);
 	}
 	str = malloc(sizeof (char) * 2);
