@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/07 18:33:58 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/09 13:01:22 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ typedef struct	s_exec
 }				t_exec;
 
 int	g_last_val;
-
-t_data *lexer(char *arg); // <=----- DELETE!
 
 void	converter(t_data **data);
 int		initializer(t_exec *exec, t_data **data);
