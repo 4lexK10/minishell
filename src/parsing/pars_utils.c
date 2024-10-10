@@ -6,13 +6,11 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:36:20 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/08 17:34:51 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/10 13:12:04 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-/* extern int	g_last_val; */
 
 int	ft_isspace(int c)
 {

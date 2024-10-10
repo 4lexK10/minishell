@@ -5,25 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-<<<<<<< HEAD:main.c
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/01 14:11:58 by akiener          ###   ########.fr       */
-=======
-/*   Created: 2024/07/09 17:26:54 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/08 14:56:13 by akloster         ###   ########.fr       */
->>>>>>> origin:src/builtins/ft_env.c
+/*   Updated: 2024/10/10 13:07:11 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-<<<<<<< HEAD:main.c
-int	g_last_val;
-
-static char	**mini_parser(char *arg)
-=======
 int	ft_env(t_exec *exec, t_data *data)
->>>>>>> origin:src/builtins/ft_env.c
 {
 	int	i; 
 

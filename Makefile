@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
+#    By: akiener <akiener@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/10/07 18:33:38 by akloster         ###   ########.fr        #
+#    Updated: 2024/10/10 12:16:17 by akiener          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ RM				=	rm -rf
 
 SRC_DIR			=	src/
 
-SRC				=	main.c exec/utils/error_handler.c				lexer.c	\
+SRC				=	main.c exec/utils/error_handler.c					\
 					exec/piper.c exec/initializer.c builtins/ft_echo.c	\
 					exec/redir_handler.c exec/executioner.c				\
 					exec/utils/free_functions.c exec/process_handler.c	\
