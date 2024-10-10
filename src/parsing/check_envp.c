@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:29:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/01 14:06:32 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/10 15:56:57 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char	*put_env_in_word(char *str, int i, char *env_var)
 	return (final[y] = '\0', free(str), final);
 }
 
-static char	*inside_env(char *word, int i, char **env, int *flag)
+static char	*inside_env(char *word, int i, char **env)
 {
 	char	*env_name;
 	char	*env_var;
@@ -83,8 +83,7 @@ static char	*inside_env(char *word, int i, char **env, int *flag)
 		&& word[temp] != '\'')
 		env_name[++y] = word[temp++];
 	env_name[++y] = '\0';
-	env_var = getenv(env_name);
-	if (!env_var && check_our_env(env_name, &env_var, env, flag) == 0)
+	if (check_our_env(env_name, &env_var, env) == 0)
 		env_var = "";
 	free(env_name);
 	return (env_var);
@@ -93,26 +92,19 @@ static char	*inside_env(char *word, int i, char **env, int *flag)
 static char	*change_dollar(char *str, int *i, t_arg line)
 {
 	char	*res;
-	int		flag;
 
 	if (str[*i + 1] == '?' || str[*i + 1] == '$' || str[*i + 1] == '0')
 		str = check_special_env(str, i);
 	else
 	{
-		flag = 0;
-		res = inside_env(str, *i, line.env, &flag);
+		res = inside_env(str, *i, line.env);
 		if (!res)
 			return (free(str), NULL);
 		str = put_env_in_word(str, *i, res);
 		if (!str)
-		{
-			if (flag == 1)
-				free(res);
-			return (NULL);
-		}
+			return (free(res), NULL);
 		*i += ft_strlen(res);
-		if (flag == 1)
-			free(res);
+		free(res);
 		res = NULL;
 	}
 	return (str);

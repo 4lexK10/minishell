@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_tok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:55:50 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/04 16:05:04 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:04:42 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-// Comment faire en sorte que cela check toutes les possibilites ??
 
 int	compar_comm(char *arg, char *comm)
 {
@@ -33,7 +31,8 @@ static int	check_command(char *arg)
 		|| compar_comm(arg, "unset") == 0 || compar_comm(arg, "env") == 0
 		|| compar_comm(arg, "exit") == 0)
 		return (BUILT);
-	if (access(arg, F_OK) == 0 && access(arg, X_OK) == 0)
+	if (access(arg, F_OK) == 0 && access(arg, X_OK) == 0
+		&& compar_comm(arg, "minishell") != 0)
 		return (ABS_PATH);
 	i = -1;
 	while (arg[++i])

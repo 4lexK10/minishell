@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 08:03:58 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/07 16:48:01 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/10 16:55:22 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int remove_env_var(t_exec *exec, char *var)
 				break ;
 		}
 		temp[++j] = ft_strdup((exec->env)[i]);
-		if (!(temp[j]))
+		if (!(temp[j]) && exec->env[i])
 			return (free_ptr_arr(&temp), ft_error("malloc", NULL, OG_MSG));
 	}
 	return (finish_env(temp, exec, ++j));

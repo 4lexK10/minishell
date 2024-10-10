@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:32:09 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/07 14:29:00 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:56:26 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ int		add_redir_or_pipe(t_data **data, char *arg, int *i);
 int		which_token(char *arg, int is_str);
 int		compar_comm(char *arg, char *comm);
 int		for_last_value(char **res, char *str, int *i);
-int		check_our_env(char *name, char **res, char **env, int *flag);
+int		check_our_env(char *name, char **res, char **env);
 
 #endif

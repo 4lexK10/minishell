@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/07 18:31:37 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:19:55 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ t_data	*parsing(char *av, char **envp)
 	while (link)
 	{
 		link->token = which_token(link->word, link->flag_not_red_pipe);
+		// printf("Word = %s, token = %d\n", link->word, link->token);
 		link = link->next;
 	}
 	return (data);

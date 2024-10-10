@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/07 18:33:58 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:38:27 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # define OUT_AP		4
 # define H_DOC		5
 # define STRING		6
-# define NUMBER		7
+# define NUMBER		6	// Peut etre changer voir si cela marche avec tout ??
 # define BUILT		8
 # define ABS_PATH	9
 
