@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/09 15:55:13 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:35:17 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ int process_handler(t_exec *exec)
 	if (!pids)
 		return (1);
 	exec->pid = pids;
+/* 	if (here_doc_handler(exec))
+		return (1); */
 	while (++i <= exec->n_pipes)
 	{
 		pids[i] = fork();

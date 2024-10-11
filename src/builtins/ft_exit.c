@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 19:31:43 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/09 17:27:20 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:06:57 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,16 @@ void	ft_exit(t_exec *exec, t_data *data)
 	int	tmp;
 	
 	tmp = 0;
+	write(STDOUT_FILENO, "exit\n", 5);
 	if (!data || !data->word)
 		exit(0);
 	tmp = ft_atol(data->word);
-	dup2(exec->std_out, STDOUT_FILENO);
 	/* rl_clear_history(); */
-	write(STDOUT_FILENO, "exit\n", 5);
 	if (is_num(data) && !ft_atol(data->word) && !is_zero(data))
 	{
-		write(STDOUT_FILENO, "minsh: ", 7);
-		write(STDOUT_FILENO, data->word, ft_strlen(data->word));
-		write(STDOUT_FILENO, ": numeric argument required\n", 28);
+		write(STDERR_FILENO, "minsh: ", 7);
+		write(STDERR_FILENO, data->word, ft_strlen(data->word));
+		write(STDERR_FILENO, ": numeric argument required\n", 28);
 		free_exec(exec);
 		exit(255);
 	}
