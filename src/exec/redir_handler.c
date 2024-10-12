@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:48:19 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/07 18:28:13 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:27:36 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,76 +28,16 @@ static	t_data	*go_to_cmd(t_exec *exec, int i_cmd)
 	return (temp);
 }
 
-static int	finish_here_doc(t_exec *exec, int fd_Hdoc)
-{
-	t_data *temp;
-
-	if (close(fd_Hdoc) == -1)
-		return (ft_error("close", NULL, OG_MSG));
-	fd_Hdoc = open("/tmp/temp_here_doc", O_RDONLY);
-	if (fd_Hdoc == -1)
-		return (ft_error("open: ", "/tmp/temp_here_doc", OG_MSG));
-	if (dup2(fd_Hdoc, STDIN_FILENO) == -1)
-		return (ft_error("dup2", NULL, OG_MSG));
-	if (close(fd_Hdoc) == -1)
-		return (ft_error("close", NULL, OG_MSG));
-	temp = *(exec->data);
-	while (temp->token != STRING)
-		temp = temp->next;
-	if (temp->next)
-		return (0);
-	if (exec->pid)
-	{
-		free(exec->pid);
-		exec->pid = NULL;
-	}
-	exit(0);
-	// free_data(&(exec->data)); needs free function
-}
-
-static int	here_doc(t_exec *exec, char *limiter)
-{
-	char	*line;
-	int		fd_Hdoc;
-
-	fd_Hdoc = open("/tmp/temp_here_doc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	if (fd_Hdoc == -1)
-		return (ft_error("open: ", "/tmp/temp_here_doc", OG_MSG));
-	while (1)
-	{
-		ft_putstr_fd("> ", STDIN_FILENO);
-		line = get_next_line(STDIN_FILENO);
-		if (!line)
-			return (-1);
-		if (ft_strncmp(line, limiter, (ft_strlen(limiter) + 1)) == '\n')
-		{
-			free(line);
-			line = NULL;
-			break ;
-		}
-		ft_putstr_fd(line, fd_Hdoc);
-		free(line);
-	}
-	return (finish_here_doc(exec, fd_Hdoc));
-}
-
 int needs_preRedir(t_exec *exec, int i_cmd)
 {
 	int		fd_in;
 	t_data	*temp;
 
 	temp = go_to_cmd(exec, i_cmd);
- 	while (temp && temp->token != IN && temp->token != PIPE && temp->token != H_DOC)
+ 	while (temp && temp->token != IN && temp->token != PIPE)
 		temp = temp->next;
 	if (!temp || temp->token == PIPE)
 		return (-1);
-	if (temp->token == H_DOC)
-	{
-		fd_in = here_doc(exec, temp->next->word);
-		if (fd_in == -1)
-			return (EXIT_FAILURE);
-		return (EXIT_SUCCESS);
-	}
 	if (access(temp->next->word, R_OK) == -1)
 		return (ft_error(temp->next->word, NULL, MY_MSG));
 	fd_in = open(temp->next->word, O_RDONLY);

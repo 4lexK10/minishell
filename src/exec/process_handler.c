@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/11 16:35:17 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:33:36 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ static int	parent_close_wait(t_exec *exec)
 	{
 		waitpid((exec->pid)[i], &status, 0);
 			if (i == exec->n_pipes && status)
-				g_last_val = status;	
-		ft_printf("i-> %d exit value-> %d\n",i, g_last_val);
+				g_last_val = WEXITSTATUS(status);
+		/* ft_printf("i-> %d exit value-> %d\n",i, g_last_val); */
 	}
 	free_pipes(exec, exec->n_pipes);
 	free(exec->pid);
@@ -100,21 +100,23 @@ int process_handler(t_exec *exec)
 
 	i = -1;
 	pids = NULL;
+	if (here_doc_handler(exec))
+		return (1);
 	if (exec->n_pipes == 0)
 		return (no_pipe_exec(exec));
 	pids = init_pids(exec->n_pipes);
 	if (!pids)
 		return (1);
 	exec->pid = pids;
-/* 	if (here_doc_handler(exec))
-		return (1); */
 	while (++i <= exec->n_pipes)
 	{
 		pids[i] = fork();
 		if (pids[i] == -1)
 			return (1);
 		if (pids[i] == 0)
+		{
 			exec_child(exec, i);
+		}
 	}
 	return (parent_close_wait(exec));
 }

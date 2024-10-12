@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/09 13:01:22 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:16:42 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@
 // readablitlty defines
 
 # define OG_MSG		0
-# define MY_MSG		1
+# define MY_MSG		6
 # define FIRST		0
 # define LAST		1
 # define SINGLE		0
@@ -112,6 +112,11 @@ int		cnt_words(t_data *temp);
 void	pre_exec_free(t_exec *exec);
 int		add_quotes(char *str);
 void	free_env(t_exec *exec);
+int		here_doc_handler(t_exec *exec);
+int		setup_here_doc(t_data *temp, char **path, int cnt);
+int		reset_redir(t_data *temp, char *path);
+int		init_here_doc(char **path, int cnt);
+int		here_doc(char *limiter, char **path, int cnt);
 
 int		ft_unset(t_exec *exec, t_data *data);
 int		ft_pwd(t_exec *exec);

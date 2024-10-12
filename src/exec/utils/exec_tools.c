@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:03:07 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/09 17:01:02 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:21:59 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,19 @@
 
 t_data	*skipTo_cmd(t_data *temp, int cmd_i)
 {
-	/* ft_printf("skipto %d\n", cmd_i); */
 	while (cmd_i-- > 0)
 	{
 		while (temp->token != PIPE)
 			temp = temp->next;
 		temp = temp->next;
-		/* ft_printf("%s\n", temp->next->next->next->word); */
 	}
-	if (temp->token == IN || temp->token == H_DOC)
-		temp = temp->next->next;
-/* 	ft_printf("%s\n", temp->word); */
+	if (temp->token == IN)
+	{
+		if (temp->next->next && temp->next->next->token != PIPE)
+			temp = temp->next->next;
+		else
+			return (NULL);
+	}
 	return (temp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:47:18 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/07 23:39:26 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:23:16 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,7 @@ int	executioner(t_exec *exec, int i)
 	pre_exec_free(exec);
 	execve(path, cmd, exec->env);
 	free_exec(exec);
-	free(path);
-	path = NULL;
+	my_free(&path);
 	ft_error("execve", NULL, OG_MSG);
 	return (1);
 }
