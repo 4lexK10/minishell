@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/10 14:38:27 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/12 15:09:21 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # define OUT_AP		4
 # define H_DOC		5
 # define STRING		6
-# define NUMBER		6	// Peut etre changer voir si cela marche avec tout ??
+# define NUMBER		6
 # define BUILT		8
 # define ABS_PATH	9
 

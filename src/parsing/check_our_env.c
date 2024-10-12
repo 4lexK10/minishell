@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:22:11 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/10 15:55:56 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/12 14:07:53 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	is_in_env(char *name, char **env, int len_name, int *i)
 	return (1);
 }
 
-int	check_our_env(char *name, char **res, char **env)
+int	check_our_env(char *name, char **res, char **env, int *flag)
 {
 	int	len;
 	int	i;
@@ -39,6 +39,7 @@ int	check_our_env(char *name, char **res, char **env)
 	*res = malloc(sizeof (char) * (len + 1));
 	if (!*res)
 		return (0);
+	*flag = 1;
 	x = -1;
 	while (env[i][++y])
 		res[0][++x] = env[i][y];

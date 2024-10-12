@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 08:03:58 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/10 16:55:22 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/12 13:42:33 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ static int remove_env_var(t_exec *exec, char *var)
 	while ((exec->env)[++i])
 	{
 		if (ft_strncmp((exec->env)[i], var, (ft_strlen(var) + 1)) == '=')
-		{
-			if (!temp[++i])
-				break ;
-		}
+			continue ;
 		temp[++j] = ft_strdup((exec->env)[i]);
 		if (!(temp[j]) && exec->env[i])
 			return (free_ptr_arr(&temp), ft_error("malloc", NULL, OG_MSG));

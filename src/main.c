@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/10 13:11:55 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/12 13:47:23 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,52 +43,17 @@ static int	interactive_mode(t_exec *exec, char **envp)
 	while (1)
 	{
 		arg = readline("minish-2.0$ ");
-/* 		ft_printf("%d\n", arg[0]); */
 		if (!arg)
 			ft_exit(exec, NULL);
 		if (arg && *arg)
 			add_history(arg);
 		data = parsing(arg, exec->env);
 		converter(&data);
-		// for (t_data *temp = data; temp; temp = temp->next)
-		// 	ft_printf("word->%s token->%d\n", temp->word, temp->token); */
 		my_free(&arg);
 		initializer(exec, &data);
 	}
 	return (0);
 }
-
-/* static int	non_interactive_mode(char ***env)
-{
-	char	*arg;
-	t_data	*data;
-
-	arg = readline("minish-2.0$ ");
-	if (arg && *arg)
-		add_history(arg);
-	data = lexer(arg);
-	if (arg && !data)
-		return (0);
-	if (!arg) // get signal 
-	{
-		free_data(&data);
-		free_ptr_arr(env);
-		free(env);
-		data = NULL;
-		ft_putendl_fd("exit", STDOUT_FILENO);
-		return (0);
-	}
-	initializer(&data, env, arg);
-	free(arg);
-	return (0);
-} */
-
-/* static void	*signal_handler(int exit_value)
-{
-	ft_putendl_fd("exit", STDOUT_FILENO);
-	exit(exit_value);
-	return (NULL);
-} */
 
 int	main(int ac, char **av, char **envp)
 {

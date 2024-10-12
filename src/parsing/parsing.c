@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/10 14:19:55 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/12 13:54:07 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,12 @@ t_data	*parsing(char *av, char **envp)
 	line.env = envp;
 	if (check_line(line, &data) == -1)
 		return (NULL);
+	printf("salut\n");
 	link = data;
 	while (link)
 	{
 		link->token = which_token(link->word, link->flag_not_red_pipe);
-		// printf("Word = %s, token = %d\n", link->word, link->token);
+		printf("Word = %s, token = %d\n", link->word, link->token);
 		link = link->next;
 	}
 	return (data);
