@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/12 16:50:16 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/14 22:25:57 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	init_env(t_exec *exec, char **envp)
 		}
 	}
 	(exec->env)[i] = NULL;
+	incr_shlvl(exec);
 }
 
 static void init_exec(t_exec *exec, t_data **data, int n_pipes, int **pipes)

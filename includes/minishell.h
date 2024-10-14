@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/12 17:16:42 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/14 22:26:05 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <stddef.h>
+#include <errno.h>
 # define TOKEN	0
 # define WORD	1
 
@@ -102,8 +103,9 @@ char	*init_first(char **env);
 char	*get_last(char **env);
 void	init_env(t_exec *exec, char **envp);
 int		need_sort_env(t_exec *exec);
-void	my_free(char **ptr);
+int		my_free(char **ptr);
 void	rl_replace_line (const char *text, int clear_undo);
+void	incr_shlvl(t_exec *exec);
 /* void	rl_clear_history (void); */
 int		swap_env_var(char **env, char *str);
 int		change_env_var(t_exec *exec, char *str, int (*f)(char **, char *));
@@ -117,6 +119,11 @@ int		setup_here_doc(t_data *temp, char **path, int cnt);
 int		reset_redir(t_data *temp, char *path);
 int		init_here_doc(char **path, int cnt);
 int		here_doc(char *limiter, char **path, int cnt);
+void    is_cmd_valid(t_exec *exec, int cmd_i);
+void	exec_fail(t_exec *exec, char **path);
+char	**get_cmd(t_data **data, int cmd_i);
+int		absolute_cmd_handler(t_exec *exec, int i);
+char	*ft_getenv(char **env, char *var);
 
 int		ft_unset(t_exec *exec, t_data *data);
 int		ft_pwd(t_exec *exec);

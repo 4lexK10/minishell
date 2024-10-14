@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:52:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/12 19:18:40 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:55:50 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,16 @@ int is_built(t_exec *exec, int i)
 		return (-1);
 	res = built_handler(exec, i);
     return (res);
+}
+
+void    is_cmd_valid(t_exec *exec, int cmd_i)
+{
+    t_data *temp;
+
+    temp = skipTo_cmd(*exec->data, cmd_i);
+    if (!temp || !temp->word)
+    {
+        free_exec(exec);
+        exit(0);
+    }
 }

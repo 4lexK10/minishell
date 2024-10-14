@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 15:21:39 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/12 19:54:48 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:36:27 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	here_doc(char *limiter, char **path, int cnt)
 		ft_putstr_fd("> ", STDIN_FILENO);
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
-			return (close(fd_Hdoc), ft_error("get_next_line failed to read", NULL, MY_MSG));
+			return (0);
 		if (ft_strncmp(line, limiter, (ft_strlen(limiter) + 1)) == '\n')
 		{
 			free(line);

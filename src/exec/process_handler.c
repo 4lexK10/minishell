@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/12 19:33:36 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:41:06 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,10 @@ static int	no_pipe_exec(t_exec *exec)
 	}
 	if (pid == 0)
 	{
-		if (needs_preRedir(exec, 0) == 1)
+		if (needs_preRedir(exec, 0) == 1 || needs_postRedir(exec, 0) == 1)
 			exit(1);
-		if (needs_postRedir(exec, 0) == 1)
-			exit(1);
-		return (executioner(exec, 0));
+		is_cmd_valid(exec, 0);
+		executioner(exec, 0);
 	}
 	free_data(exec->data);
 	if (pid)
@@ -102,6 +101,8 @@ int process_handler(t_exec *exec)
 	pids = NULL;
 	if (here_doc_handler(exec))
 		return (1);
+/* 	for (t_data *temp = *(exec->data); temp; temp = temp->next)
+		ft_printf("word->%s token->%d\n", temp->word, temp->token); */
 	if (exec->n_pipes == 0)
 		return (no_pipe_exec(exec));
 	pids = init_pids(exec->n_pipes);
