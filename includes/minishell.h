@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/14 22:26:05 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/15 22:07:17 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct	s_data
 	int				flag_not_red_pipe;
 	int				token;
 	struct s_data	*next;
+	struct s_data	*prev;
 }	t_data;
 
 typedef struct	s_exec

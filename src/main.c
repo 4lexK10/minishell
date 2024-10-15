@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/14 22:25:18 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/15 23:42:06 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ static int	interactive_mode(t_exec *exec, char **envp)
 	struct sigaction	act;
 
 	act.sa_handler = &signal_handler;
-	init_env(exec, envp);
 	sigaction(SIGQUIT, &act, NULL);
 	sigaction(SIGINT, &act, NULL);
+	init_env(exec, envp);
 	if (!(exec->env))
 		return (1);
 	while (1)
@@ -86,10 +86,12 @@ static int	interactive_mode(t_exec *exec, char **envp)
 		if (arg && *arg)
 			add_history(arg);
 		data = parsing(arg, exec->env);
-		my_free(&arg);
-		converter(&data);
 		if (!data)
 			continue ;
+		my_free(&arg);
+		converter(&data);
+/* 		for (t_data *temp = data; temp; temp = temp->next)
+			ft_printf("|%s|  %d\n", temp->word, temp->token); */
 		initializer(exec, &data);
 	}
 	return (0);

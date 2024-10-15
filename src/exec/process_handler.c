@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/14 18:41:06 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:53:35 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static int	parent_close_wait(t_exec *exec)
 
 static void	exec_child(t_exec *exec, int i)
 {
+	signal(SIGINT, SIG_DFL);
 	pipe_handler(exec, i); //need correct exit code and free
 	if (!executioner(exec, i))
 	{
