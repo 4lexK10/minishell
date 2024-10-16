@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/15 17:53:35 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/16 02:01:01 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,7 @@ int process_handler(t_exec *exec)
 		if (pids[i] == -1)
 			return (1);
 		if (pids[i] == 0)
-		{
 			exec_child(exec, i);
-		}
 	}
 	return (parent_close_wait(exec));
 }
