@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/16 02:01:01 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:24:58 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static void	exec_child(t_exec *exec, int i)
 {
 	signal(SIGINT, SIG_DFL);
 	pipe_handler(exec, i); //need correct exit code and free
+	is_cmd_valid(exec, i);
 	if (!executioner(exec, i))
 	{
 		free_data(exec->data);
@@ -102,8 +103,9 @@ int process_handler(t_exec *exec)
 	pids = NULL;
 	if (here_doc_handler(exec))
 		return (1);
-/* 	for (t_data *temp = *(exec->data); temp; temp = temp->next)
-		ft_printf("word->%s token->%d\n", temp->word, temp->token); */
+/* 	ft_printf("\n AFTER HEREDOC\n");
+	for (t_data *temp = *(exec->data); temp; temp = temp->next)
+		ft_printf("|%s|   %d\n", temp->word, temp->token); */
 	if (exec->n_pipes == 0)
 		return (no_pipe_exec(exec));
 	pids = init_pids(exec->n_pipes);

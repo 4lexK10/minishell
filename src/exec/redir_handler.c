@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:48:19 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/12 16:27:36 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:15:45 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,29 @@ static	t_data	*go_to_cmd(t_exec *exec, int i_cmd)
 	return (temp);
 }
 
+static void	syntax_check(t_exec *exec, t_data *temp)
+{
+	if (temp && temp->next && temp->next->token >= IN && temp->next->token <= H_DOC)
+		ft_error("syntax error near unexpected token `newline'", NULL, MY_MSG);
+	else
+		return ;
+	free_exec(exec);
+	exit(258);
+}
+
 int needs_preRedir(t_exec *exec, int i_cmd)
 {
 	int		fd_in;
 	t_data	*temp;
 
 	temp = go_to_cmd(exec, i_cmd);
+	syntax_check(exec, temp);
  	while (temp && temp->token != IN && temp->token != PIPE)
 		temp = temp->next;
 	if (!temp || temp->token == PIPE)
 		return (-1);
 	if (access(temp->next->word, R_OK) == -1)
-		return (ft_error(temp->next->word, NULL, MY_MSG));
+		return (ft_error(temp->next->word, NULL, OG_MSG));
 	fd_in = open(temp->next->word, O_RDONLY);
 	if (fd_in == -1)
 		return (ft_error("open: ", temp->next->word, OG_MSG));
@@ -56,6 +67,7 @@ int	needs_postRedir(t_exec *exec, int i_cmd)
 	int		fd_out;
 
 	temp = go_to_cmd(exec, i_cmd);
+	syntax_check(exec, temp);
 	while (temp && temp->token != OUT && temp->token != OUT_AP && temp->token != PIPE)
 		temp = temp->next;
 	if (!temp || temp->token == PIPE)

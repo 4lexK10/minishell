@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:52:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/14 17:55:50 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:52:04 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,13 @@ int is_built(t_exec *exec, int i)
 	int		res;
 
 	temp = skipTo_cmd(*(exec->data), i);
- 
 	if (!temp)
     {
         free_exec(exec);
         exit(0);
     }
+    while (temp && temp->token != PIPE && temp->token != BUILT)
+        temp= temp->next;
     if (temp->token != BUILT)
 		return (-1);
 	res = built_handler(exec, i);
