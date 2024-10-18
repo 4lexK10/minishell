@@ -6,18 +6,18 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:47:18 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/07 23:39:26 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/15 19:51:21 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**get_cmd(t_data **data, int cmd_i)
+char	**get_cmd(t_data **data, int cmd_i)
 {
 	t_data	*temp;
-    char	**cmd;
+	char	**cmd;
 	int		cnt;
-	int 	i;
+	int		i;
 
 	temp = *data;
 	cnt = 0;
@@ -26,15 +26,12 @@ static char	**get_cmd(t_data **data, int cmd_i)
 	cnt = cnt_words(temp);
 	cmd = (char **)(malloc)((cnt + 1) * sizeof(char *));
 	if (!cmd)
-		return (NULL);
+		return (ft_error("malloc", NULL, OG_MSG), NULL);
 	while (++i < cnt)
 	{
 		cmd[i] = ft_strdup(temp->word);
 		if (!cmd[i])
-		{
-			free_ptr_arr(&cmd);
-			return (ft_error("malloc", NULL, OG_MSG), NULL);
-		}
+			return (free_ptr_arr(&cmd), ft_error("malloc", NULL, OG_MSG), NULL);
 		temp = temp->next;
 	}
 	cmd[i] = NULL;
@@ -53,7 +50,7 @@ static char	*put_slash(char *cmd)
 
 static int	*check_cmd(char *cmd, char *cmd_path, char **path, int *i)
 {
-	char *str;
+	char	*str;
 
 	*i = 0;
 	while (path[++(*i)])
@@ -79,6 +76,8 @@ static char	*get_path(char **cmd, char **env)
 	i = 0;
 	while (env[i] && !ft_strnstr(env[i], "PATH=", 6))
 		++i;
+	if (!env[i])
+		return (ft_error(*cmd, ": command not found\n", MY_MSG), NULL);
 	path = ft_split(&env[i][5], ':');
 	if (!path)
 	{
@@ -106,9 +105,12 @@ int	executioner(t_exec *exec, int i)
 	ret = is_built(exec, i);
 	if (ret != -1)
 		return (ret);
+	ret = absolute_cmd_handler(exec, i);
+	if (ret != -1)
+		return (ret);
 	cmd = get_cmd(exec->data, i);
 	if (!cmd)
-		return (free_exec(exec), ft_error("malloc", NULL, OG_MSG));
+		return (free_exec(exec));
 	path = get_path(cmd, exec->env);
 	if (!path)
 	{
@@ -118,9 +120,6 @@ int	executioner(t_exec *exec, int i)
 	}
 	pre_exec_free(exec);
 	execve(path, cmd, exec->env);
-	free_exec(exec);
-	free(path);
-	path = NULL;
-	ft_error("execve", NULL, OG_MSG);
+	exec_fail(exec, &path);
 	return (1);
 }

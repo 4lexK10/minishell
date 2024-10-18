@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/07 18:33:58 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:53:34 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <stddef.h>
+#include <errno.h>
 # define TOKEN	0
 # define WORD	1
 
@@ -49,7 +50,7 @@
 // readablitlty defines
 
 # define OG_MSG		0
-# define MY_MSG		1
+# define MY_MSG		6
 # define FIRST		0
 # define LAST		1
 # define SINGLE		0
@@ -78,8 +79,6 @@ typedef struct	s_exec
 
 int	g_last_val;
 
-t_data *lexer(char *arg); // <=----- DELETE!
-
 void	converter(t_data **data);
 int		initializer(t_exec *exec, t_data **data);
 int		process_handler(t_exec *exec);
@@ -93,8 +92,8 @@ void	free_int_arr(int ***arr, int sub_arr_nbr);
 void	free_data(t_data **data);
 void	free_ptr_arr(char ***s);
 int		pipe_cleaner(int **pipes, int n_pipes);
-int		needs_preRedir(t_exec *exec, int i_cmd);
-int		needs_postRedir(t_exec *exec, int i_cmd);
+int		needs_pre_redir(t_exec *exec, int i_cmd);
+int		needs_post_redir(t_exec *exec, int i_cmd);
 int		ft_open(char *outfile, int type);
 t_data	*skipTo_cmd(t_data *temp, int cmd_i);
 int		is_built(t_exec *exec, int i);
@@ -104,8 +103,9 @@ char	*init_first(char **env);
 char	*get_last(char **env);
 void	init_env(t_exec *exec, char **envp);
 int		need_sort_env(t_exec *exec);
-void	my_free(char **ptr);
+int		my_free(char **ptr);
 void	rl_replace_line (const char *text, int clear_undo);
+void	incr_shlvl(t_exec *exec);
 /* void	rl_clear_history (void); */
 int		swap_env_var(char **env, char *str);
 int		change_env_var(t_exec *exec, char *str, int (*f)(char **, char *));
@@ -114,6 +114,16 @@ int		cnt_words(t_data *temp);
 void	pre_exec_free(t_exec *exec);
 int		add_quotes(char *str);
 void	free_env(t_exec *exec);
+int		here_doc_handler(t_exec *exec);
+int		setup_here_doc(t_data *temp, char **path, int cnt);
+int		reset_redir(t_data *temp, char *path);
+int		init_here_doc(char **path, int cnt);
+int		here_doc(char *limiter, char **path, int cnt);
+void    is_cmd_valid(t_exec *exec, int cmd_i);
+void	exec_fail(t_exec *exec, char **path);
+char	**get_cmd(t_data **data, int cmd_i);
+int		absolute_cmd_handler(t_exec *exec, int i);
+char	*ft_getenv(char **env, char *var);
 
 int		ft_unset(t_exec *exec, t_data *data);
 int		ft_pwd(t_exec *exec);

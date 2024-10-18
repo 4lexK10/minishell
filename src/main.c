@@ -6,7 +6,11 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/10/08 17:28:45 by akloster         ###   ########.fr       */
+=======
+/*   Updated: 2024/10/16 16:25:07 by akloster         ###   ########.fr       */
+>>>>>>> akloster
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +28,46 @@ static void	signal_handler(int sig)
 	else
 	{
 		rl_replace_line("", 0);
-	    rl_redisplay();
+		rl_redisplay();
 	}
+}
+
+void	incr_shlvl(t_exec *exec)
+{
+	char	*str;
+	char	*temp;
+	int		nbr;
+
+	str = ft_getenv(exec->env, "SHLVL");
+	if (!str)
+		return ;
+	nbr = ft_atoi(str);
+	temp = ft_itoa(++nbr);
+	if (!temp)
+	{
+		ft_error("malloc", NULL, OG_MSG);
+		exit(1);
+	}
+	str = ft_strjoin("SHLVL=", temp);
+	my_free(&temp);
+	if (!str)
+	{
+		ft_error("malloc", NULL, OG_MSG);
+		exit(1);
+	}
+	if (change_env_var(exec, str, swap_env_var) && my_free(&str))
+		exit(1);
+	my_free(&str);
+}
+
+static void	ctrl_D(t_exec *exec, char **arg)
+{
+	my_free(arg);
+	free_exec(exec);
+/* 	rl_replace_line("", 0);
+	rl_redisplay(); */
+	write(1, "exit\n", 5);
+	exit(0);
 }
 
 static int	interactive_mode(t_exec *exec, char **envp)
@@ -35,27 +77,34 @@ static int	interactive_mode(t_exec *exec, char **envp)
 	struct sigaction	act;
 
 	act.sa_handler = &signal_handler;
-	init_env(exec, envp);
 	sigaction(SIGQUIT, &act, NULL);
 	sigaction(SIGINT, &act, NULL);
+	init_env(exec, envp);
 	if (!(exec->env))
 		return (1);
 	while (1)
 	{
 		arg = readline("minish-2.0$ ");
-/* 		ft_printf("%d\n", arg[0]); */
 		if (!arg)
-			ft_exit(exec, NULL);
+			ctrl_D(exec, &arg);
 		if (arg && *arg)
 			add_history(arg);
 		data = parsing(arg, exec->env);
+<<<<<<< HEAD
 		converter(&data);
 /*  		data = parsing(arg, exec->env);
 		printf("hello\n");
 		converter(&data);
 		for (t_data *temp = data; temp; temp = temp->next)
 			ft_printf("word->%s token->%d\n", temp->word, temp->token); */
+=======
+		if (!data)
+			continue ;
+>>>>>>> akloster
 		my_free(&arg);
+		converter(&data);
+/* 		for (t_data *temp = data; temp; temp = temp->next)
+			ft_printf("|%s|  %d\n", temp->word, temp->token); */
 		initializer(exec, &data);
 	}
 	return (0);

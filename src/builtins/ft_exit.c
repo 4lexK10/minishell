@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 19:31:43 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/02 17:42:43 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:34:31 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,29 @@ int	free_exec(t_exec *exec)
 	return (0);
 }
 
-static int	check_word(t_data *data)
+static int	is_zero(t_data *data)
+{
+	char	*str;
+	int		i;
+
+	str = NULL;
+	i = -1;
+	if (!data || !(data->word))
+		return (1);
+	str = data->word;
+	while (str[++i])
+	{
+		if (str[i] == '-')
+			continue ;
+		while (str[i] == '0')
+			++i;
+		if (str[i] == '\0')
+			return (1);
+	}
+	return (0);
+}
+
+static int	is_num(t_data *data)
 {
 	char	*str;
 	int		i;
@@ -41,12 +63,12 @@ static int	check_word(t_data *data)
 	{
 		if (str[i] == '-')
 			continue ;
-		while (str[i] == '0')
+		while (ft_isdigit(str[i]))
 			++i;
 	}
 	if (str[i] == '\0')
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 void	ft_exit(t_exec *exec, t_data *data)
@@ -54,20 +76,21 @@ void	ft_exit(t_exec *exec, t_data *data)
 	int	tmp;
 	
 	tmp = 0;
-	if (data && data->word)
-		tmp = ft_atol(data->word);
-	dup2(exec->std_out, STDOUT_FILENO);
-	free_exec(exec);
-	/* rl_clear_history(); */
 	write(STDOUT_FILENO, "exit\n", 5);
-	if (check_word(data))
+	if (!data || !data->word)
+		exit(0);
+	tmp = ft_atol(data->word);
+	/* rl_clear_history(); */
+	if (is_num(data) && !ft_atol(data->word) && !is_zero(data))
 	{
-		write(STDOUT_FILENO, "minsh: ", 7);
-		write(STDOUT_FILENO, data->word, ft_strlen(data->word));
-		write(STDOUT_FILENO, ": numeric argument required\n", 28);
-		tmp = 255;
+		write(STDERR_FILENO, "minsh: ", 7);
+		write(STDERR_FILENO, data->word, ft_strlen(data->word));
+		write(STDERR_FILENO, ": numeric argument required\n", 28);
+		free_exec(exec);
+		exit(255);
 	}
 /* 	signal(SIGINT, SIG_DFL);
 	kill(0, SIGINT); */
+	free_exec(exec);
 	exit(tmp % 256);
 }
