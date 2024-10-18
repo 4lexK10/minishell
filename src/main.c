@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/18 17:43:59 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/18 18:48:15 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ static int	interactive_mode(t_exec *exec, char **envp)
 		if (!data)
 			continue ;
 		my_free(&arg);
-		initializer(exec, &data, &act);
+		if (initializer(exec, &data, &act))
+			continue ;
 	}
 	return (0);
 }

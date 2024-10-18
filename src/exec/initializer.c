@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/18 17:50:24 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/18 18:48:08 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	initializer(t_exec *exec, t_data **data, struct sigaction *act)
 		if (!pipes)
 		{
 			free_data(data);
-			exit(1);
+			return (1);
 		}
 	}
 	init_exec(exec, data, n_pipes, pipes);
