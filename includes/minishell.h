@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
+/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/18 17:18:20 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/18 18:35:19 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <readline/history.h>
+# include <errno.h>
 # include <sys/wait.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
 # include <stddef.h>
-#include <errno.h>
 # define TOKEN	0
 # define WORD	1
 
@@ -43,14 +43,14 @@
 # define OUT_AP		4
 # define H_DOC		5
 # define STRING		6
-# define NUMBER		6
+# define NUMBER		7
 # define BUILT		8
 # define ABS_PATH	9
 
 // readablitlty defines
 
 # define OG_MSG		0
-# define MY_MSG		6
+# define MY_MSG		1
 # define FIRST		0
 # define LAST		1
 # define SINGLE		0
@@ -71,6 +71,7 @@ typedef struct	s_exec
 	char				**env;
 	t_data				**data;
 	int					**pipes;
+	struct sigaction	act;
 	int					n_pipes;
 	int					*pid;
 	int					std_in;
@@ -79,8 +80,9 @@ typedef struct	s_exec
 
 int	g_last_val;
 
+t_data *lexer(char *arg); // <=----- DELETE!
 void	converter(t_data **data);
-int		initializer(t_exec *exec, t_data **data);
+int		initializer(t_exec *exec, t_data **data, struct sigaction *act);
 int		process_handler(t_exec *exec);
 t_data	*parsing(char *av, char **envp);
 int		ft_error(char *str, char *name, int need);
@@ -96,7 +98,9 @@ int		needs_pre_redir(t_exec *exec, int i_cmd);
 int		needs_post_redir(t_exec *exec, int i_cmd);
 int		ft_open(char *outfile, int type);
 t_data	*skipTo_cmd(t_data *temp, int cmd_i);
+char	*ft_getenv(char **env, char *var);
 int		is_built(t_exec *exec, int i);
+int		absolute_cmd_handler(t_exec *exec, int i);
 t_data	*find_built(t_data *data);
 int		built_handler(t_exec *exec, int i);
 char	*init_first(char **env);
@@ -104,26 +108,23 @@ char	*get_last(char **env);
 void	init_env(t_exec *exec, char **envp);
 int		need_sort_env(t_exec *exec);
 int		my_free(char **ptr);
+void	exec_fail(t_exec *exec, char **path);
+int		setup_here_doc(t_data *temp, char **path, int cnt);
+void    is_cmd_valid(t_exec *exec, int cmd_i);
 void	rl_replace_line (const char *text, int clear_undo);
-void	incr_shlvl(t_exec *exec);
 /* void	rl_clear_history (void); */
+int		here_doc_handler(t_exec *exec);
 int		swap_env_var(char **env, char *str);
 int		change_env_var(t_exec *exec, char *str, int (*f)(char **, char *));
 int		free_exec(t_exec *exec);
+char	**get_cmd(t_data **data, int cmd_i);
 int		cnt_words(t_data *temp);
+void	incr_shlvl(t_exec *exec);
+int		here_doc(char *limiter, char **path, int cnt);
+int		reset_redir(t_data *temp, char *path);
 void	pre_exec_free(t_exec *exec);
 int		add_quotes(char *str);
 void	free_env(t_exec *exec);
-int		here_doc_handler(t_exec *exec);
-int		setup_here_doc(t_data *temp, char **path, int cnt);
-int		reset_redir(t_data *temp, char *path);
-int		init_here_doc(char **path, int cnt);
-int		here_doc(char *limiter, char **path, int cnt);
-void    is_cmd_valid(t_exec *exec, int cmd_i);
-void	exec_fail(t_exec *exec, char **path);
-char	**get_cmd(t_data **data, int cmd_i);
-int		absolute_cmd_handler(t_exec *exec, int i);
-char	*ft_getenv(char **env, char *var);
 
 int		ft_unset(t_exec *exec, t_data *data);
 int		ft_pwd(t_exec *exec);

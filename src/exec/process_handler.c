@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/18 16:13:52 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/18 18:16:31 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ static int	parent_close_wait(t_exec *exec)
 				if (g_last_val == 255)
 					g_last_val += 3;
 			}
-		/* ft_printf("i-> %d exit value-> %d\n",i, g_last_val); */
 	}
 	free_pipes(exec, exec->n_pipes);
 	free(exec->pid);
@@ -120,6 +119,8 @@ int process_handler(t_exec *exec)
 	exec->pid = pids;
 	while (++i <= exec->n_pipes)
 	{
+/* 		sigaction(SIGQUIT, SIG_DFL, NULL);
+		sigaction(SIGINT, SIG_DFL, NULL); */
 		pids[i] = fork();
 		if (pids[i] == -1)
 			return (1);

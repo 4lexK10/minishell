@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/14 22:25:57 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:50:24 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int	pipe_check(t_data **data)
 	return (cnt);
 }
 
-int	initializer(t_exec *exec, t_data **data)
+int	initializer(t_exec *exec, t_data **data, struct sigaction *act)
 {
 	int		n_pipes;
 	int		**pipes;
@@ -105,5 +105,6 @@ int	initializer(t_exec *exec, t_data **data)
 		}
 	}
 	init_exec(exec, data, n_pipes, pipes);
+	exec->act = *act;
 	return (process_handler(exec));
 }

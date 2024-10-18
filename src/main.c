@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
+/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/18 17:29:52 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/18 17:43:59 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static void	signal_handler(int sig)
 	if (sig == SIGINT)
 	{
 		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
 		rl_replace_line("", 0);
+		rl_on_new_line();
     	rl_redisplay();
 	}
 	else
@@ -91,10 +91,7 @@ static int	interactive_mode(t_exec *exec, char **envp)
 		if (!data)
 			continue ;
 		my_free(&arg);
-		converter(&data);
-/* 		for (t_data *temp = data; temp; temp = temp->next)
-			ft_printf("|%s|  %d\n", temp->word, temp->token); */
-		initializer(exec, &data);
+		initializer(exec, &data, &act);
 	}
 	return (0);
 }
