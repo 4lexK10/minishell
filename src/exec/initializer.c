@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/18 18:48:08 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/18 19:42:04 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static int	**init_pipes(int n_pipes)
 		{
 			free_int_arr(&pipes, i + 1);
 			ft_error("pipe", NULL, OG_MSG); // BAD EXIT NEEDS t_data free !!!!
+			return (NULL);
 		}
 	}
 	return (pipes);
@@ -95,6 +96,8 @@ int	initializer(t_exec *exec, t_data **data, struct sigaction *act)
 
 	pipes = NULL;
 	n_pipes = pipe_check(data);
+	if (n_pipes > 200)
+		return (1);
 	if (n_pipes > 0)
 	{
 		pipes = init_pipes(n_pipes);
