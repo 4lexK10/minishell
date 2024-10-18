@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/16 16:24:58 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:13:52 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,17 @@ static int	no_pipe_exec(t_exec *exec)
 	}
 	if (pid == 0)
 	{
-		if (needs_preRedir(exec, 0) == 1 || needs_postRedir(exec, 0) == 1)
+		if (needs_pre_redir(exec, 0) == 1 || needs_post_redir(exec, 0) == 1)
 			exit(1);
 		is_cmd_valid(exec, 0);
 		executioner(exec, 0);
 	}
 	free_data(exec->data);
 	if (pid)
+	{
 		waitpid(pid, &status, 0);
-	g_last_val = WEXITSTATUS(status);
+		g_last_val = WEXITSTATUS(status);
+	}
 	return (0);
 }
 
@@ -66,8 +68,12 @@ static int	parent_close_wait(t_exec *exec)
 	while (++i <= exec->n_pipes)
 	{
 		waitpid((exec->pid)[i], &status, 0);
-			if (i == exec->n_pipes && status)
+			if (i == exec->n_pipes)
+			{
 				g_last_val = WEXITSTATUS(status);
+				if (g_last_val == 255)
+					g_last_val += 3;
+			}
 		/* ft_printf("i-> %d exit value-> %d\n",i, g_last_val); */
 	}
 	free_pipes(exec, exec->n_pipes);

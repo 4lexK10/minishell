@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:24:08 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/16 16:41:37 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:56:35 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	ft_error(char *str, char *name, int need)
 		ft_putstr_fd(str, STDERR_FILENO);
 		if (name)
 			ft_putstr_fd(name, STDERR_FILENO);
-		else
-			write(2, "\n", 1);
 		return (1);
 	}
 	if (name)
@@ -45,7 +43,7 @@ int	ft_error(char *str, char *name, int need)
 		ft_putstr_fd(str, STDERR_FILENO);
 		perror(name);
 	}
-	else
+	else if (need == OG_MSG)
 		perror(str);
 	return (1);
 }

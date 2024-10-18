@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/16 16:22:01 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:53:34 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static int	extrma_fork(t_exec *exec, int last) // factorise into two function ca
 
 	if (last)
 	{
-		in_check = needs_preRedir(exec, exec->n_pipes);
-		out_check = needs_postRedir(exec, exec->n_pipes);
+		in_check = needs_pre_redir(exec, exec->n_pipes);
+		out_check = needs_post_redir(exec, exec->n_pipes);
 		if (in_check == FOUND)
 			return (FOUND);
 		if (in_check == FAILED || out_check == FAILED)
@@ -29,8 +29,8 @@ static int	extrma_fork(t_exec *exec, int last) // factorise into two function ca
 			return (ft_error("dup2", NULL, OG_MSG));
 		return (EXIT_SUCCESS);
 	}
-	in_check = needs_preRedir(exec, 0);
-	out_check = needs_postRedir(exec, 0);
+	in_check = needs_pre_redir(exec, 0);
+	out_check = needs_post_redir(exec, 0);
 	if (in_check == FAILED || out_check == FAILED)
 		return (FAILED);
 	if (out_check == FOUND)
@@ -45,8 +45,8 @@ static int	body_fork(int i, t_exec *exec)
 	int	in_check;
 	int	out_check;
 
-	in_check = needs_preRedir(exec, i);
-	out_check = needs_postRedir(exec, i);
+	in_check = needs_pre_redir(exec, i);
+	out_check = needs_post_redir(exec, i);
 	if (in_check == FAILED || out_check == FAILED)
 		return (FAILED);
 	if (in_check == FOUND && out_check == FOUND)

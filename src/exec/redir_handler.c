@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:48:19 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/16 16:15:45 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:20:04 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,18 @@ static	t_data	*go_to_cmd(t_exec *exec, int i_cmd)
 	return (temp);
 }
 
-static void	syntax_check(t_exec *exec, t_data *temp)
-{
-	if (temp && temp->next && temp->next->token >= IN && temp->next->token <= H_DOC)
-		ft_error("syntax error near unexpected token `newline'", NULL, MY_MSG);
-	else
-		return ;
-	free_exec(exec);
-	exit(258);
-}
-
-int needs_preRedir(t_exec *exec, int i_cmd)
+int needs_pre_redir(t_exec *exec, int i_cmd)
 {
 	int		fd_in;
 	t_data	*temp;
 
 	temp = go_to_cmd(exec, i_cmd);
-	syntax_check(exec, temp);
+	if (temp && temp->next && temp->next->token >= IN
+		&& temp->next->token <= H_DOC)
+	{
+		if (!temp->next->next)
+			return (EXIT_FAILURE);
+	}
  	while (temp && temp->token != IN && temp->token != PIPE)
 		temp = temp->next;
 	if (!temp || temp->token == PIPE)
@@ -61,20 +56,25 @@ int needs_preRedir(t_exec *exec, int i_cmd)
 	return (EXIT_SUCCESS);
 }
 
-int	needs_postRedir(t_exec *exec, int i_cmd)
+int	needs_post_redir(t_exec *exec, int i_cmd)
 {
 	t_data *temp;
 	int		fd_out;
 
 	temp = go_to_cmd(exec, i_cmd);
-	syntax_check(exec, temp);
+	if (temp && temp->next && temp->next->token >= IN
+		&& temp->next->token <= H_DOC)
+	{
+		if (!temp->next->next)
+			return (EXIT_FAILURE);
+	}
 	while (temp && temp->token != OUT && temp->token != OUT_AP && temp->token != PIPE)
 		temp = temp->next;
 	if (!temp || temp->token == PIPE)
 		return (-1);
 	fd_out = ft_open(temp->next->word, temp->token);
 	if (fd_out == -1)
-		return (1);
+		return (EXIT_FAILURE);
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 		return (ft_error("dup2", NULL, OG_MSG));
 	if (close(fd_out) == -1)

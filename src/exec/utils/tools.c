@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:50:03 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/12 17:14:54 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:31:54 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,25 +82,19 @@ int	setup_here_doc(t_data *temp, char **path, int cnt)
 {
 	if (!(temp->next))
 	{
-		my_free(path);
-		return (ft_error(
-			"syntax error near unexpected token", "'newline'", MY_MSG));
+		g_last_val = 258;
+		return (my_free(path), ft_error(
+			"syntax error near unexpected token 'newline'\n", NULL, MY_MSG));
 	}
 	else if (temp->next->token != STRING)
 	{
-		my_free(path);
-		return (ft_error(
+		g_last_val = 258;
+		return (my_free(path), ft_error(
 			"syntax error near unexpected token", NULL, temp->next->token));
 	}
 	if (here_doc(temp->next->word, path, cnt))
-	{
-		my_free(path);
-		return (1);
-	}
+		return (my_free(path), 1);
 	if (reset_redir(temp, *path))
-	{
-		my_free(path);
-		return (1);
-	}
+		return (my_free(path), 1);
 	return (0);
 }
