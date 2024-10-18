@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/18 18:35:19 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/18 21:06:05 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 // readablitlty defines
 
 # define OG_MSG		0
-# define MY_MSG		1
+# define MY_MSG		10
 # define FIRST		0
 # define LAST		1
 # define SINGLE		0
