@@ -6,13 +6,10 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/10/08 17:28:45 by akloster         ###   ########.fr       */
-=======
-/*   Updated: 2024/10/16 16:25:07 by akloster         ###   ########.fr       */
->>>>>>> akloster
+/*   Updated: 2024/10/18 17:04:28 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -90,17 +87,14 @@ static int	interactive_mode(t_exec *exec, char **envp)
 		if (arg && *arg)
 			add_history(arg);
 		data = parsing(arg, exec->env);
-<<<<<<< HEAD
 		converter(&data);
 /*  		data = parsing(arg, exec->env);
 		printf("hello\n");
 		converter(&data);
 		for (t_data *temp = data; temp; temp = temp->next)
 			ft_printf("word->%s token->%d\n", temp->word, temp->token); */
-=======
 		if (!data)
 			continue ;
->>>>>>> akloster
 		my_free(&arg);
 		converter(&data);
 /* 		for (t_data *temp = data; temp; temp = temp->next)
