@@ -6,9 +6,10 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/18 17:17:21 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/18 17:24:14 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -87,6 +88,10 @@ static int	interactive_mode(t_exec *exec, char **envp)
 			add_history(arg);
 		data = parsing(arg, exec->env);
 		converter(&data);
+		for (t_data *temp = data; temp; temp = temp->next)
+			ft_printf("word->%s token->%d\n", temp->word, temp->token); */
+		if (!data)
+			continue ;
 		my_free(&arg);
 		converter(&data);
 /* 		for (t_data *temp = data; temp; temp = temp->next)
