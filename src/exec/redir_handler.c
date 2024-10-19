@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:48:19 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/18 16:20:04 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/19 16:35:02 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ int needs_pre_redir(t_exec *exec, int i_cmd)
 	temp = go_to_cmd(exec, i_cmd);
 	if (temp && temp->next && temp->next->token >= IN
 		&& temp->next->token <= H_DOC)
-	{
 		if (!temp->next->next)
 			return (EXIT_FAILURE);
-	}
  	while (temp && temp->token != IN && temp->token != PIPE)
 		temp = temp->next;
 	if (!temp || temp->token == PIPE)
@@ -53,7 +51,7 @@ int needs_pre_redir(t_exec *exec, int i_cmd)
 		return (ft_error("dup2", NULL, OG_MSG));
 	if (close(fd_in) == -1)
 		return (ft_error("close", NULL, OG_MSG));
-	return (EXIT_SUCCESS);
+	return (printf("Coucou\n"), EXIT_SUCCESS);
 }
 
 int	needs_post_redir(t_exec *exec, int i_cmd)
@@ -64,10 +62,8 @@ int	needs_post_redir(t_exec *exec, int i_cmd)
 	temp = go_to_cmd(exec, i_cmd);
 	if (temp && temp->next && temp->next->token >= IN
 		&& temp->next->token <= H_DOC)
-	{
 		if (!temp->next->next)
 			return (EXIT_FAILURE);
-	}
 	while (temp && temp->token != OUT && temp->token != OUT_AP && temp->token != PIPE)
 		temp = temp->next;
 	if (!temp || temp->token == PIPE)

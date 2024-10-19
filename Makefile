@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
+#    By: akiener <akiener@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/10/18 20:05:07 by akloster         ###   ########.fr        #
+#    Updated: 2024/10/19 16:28:59 by akiener          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ CFLAGS			=	-Iincludes -Wall -Wextra -Werror
 
 NAME			=	minishell
 
-$(NAME):		$(OBJ_DIR) $(OBJ) #-g -fsanitize=address  
+$(NAME):		$(OBJ_DIR) $(OBJ) 
 				make -C./libft
 				$(CC) $(CFLAGS) $(OBJ) $(LIBft) -lreadline -L /Users/$(shell whoami)/homebrew/Cellar/readline/8.2.13/lib 	\
 				-I /Users/$(shell whoami)/homebrew/Cellar/readline/8.2.13/include -o $@
