@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/18 20:57:29 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/19 17:03:50 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,22 @@ static pid_t	*init_pids(int n_pipes)
 static int	no_pipe_exec(t_exec *exec)
 {
 	int		pid;
-	t_data	*ret;
 	int		status;
 
 	pid = 0;
-	ret = find_built(*(exec->data));
 	status = 0;
-	if (!ret)
+	
+	if (!find_built(*(exec->data)))
 	{
+		ft_printf("tetttt\n");
 		pid = fork();
 		if (pid == -1)
-			exit(1);
+			return (ft_error("fork", NULL, OG_MSG));
 	}
 	if (pid == 0)
 	{
 		if (needs_pre_redir(exec, 0) == 1 || needs_post_redir(exec, 0) == 1)
-			exit(1);
+			return (1);
 		is_cmd_valid(exec, 0);
 		executioner(exec, 0);
 	}
@@ -123,7 +123,7 @@ int process_handler(t_exec *exec)
 		sigaction(SIGINT, SIG_DFL, NULL); */
 		pids[i] = fork();
 		if (pids[i] == -1)
-			return (1);
+			return (ft_error("fork", NULL, OG_MSG));
 		if (pids[i] == 0)
 			exec_child(exec, i);
 	}
