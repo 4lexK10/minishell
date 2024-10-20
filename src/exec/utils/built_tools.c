@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:52:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/16 17:50:38 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/19 16:56:17 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 t_data	*find_built(t_data *data)
 {
-	while (data)
+	while (data && data->token != PIPE)
 	{
 		if (data->token == BUILT)
-			break ;
+			return (data);
 		data = data->next;
 	}
-	if (data)
-		return (data);
 	return (NULL);
 }
 
@@ -78,6 +76,7 @@ void    is_cmd_valid(t_exec *exec, int cmd_i)
 	temp = skipTo_cmd(*exec->data, cmd_i);
 	if (!temp || !temp->word)
 	{
+		ft_printf("hello\n");
 		free_exec(exec);
 		exit(0);
 	}

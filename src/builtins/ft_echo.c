@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
+/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:53:35 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/10 14:39:49 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/19 17:05:31 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//check for redir if redir and no pipe print nothing
 
 int	ft_echo(t_exec *exec, t_data *data)
 {
 	bool	n_flag;
 
 	n_flag = false;
+	if ()
 	if (data && !ft_strncmp(data->word, "-n", 3))
 	{
 		n_flag = true;

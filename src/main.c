@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/18 20:47:30 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/19 14:45:52 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int	interactive_mode(t_exec *exec, char **envp)
 int	main(int ac, char **av, char **envp)
 {
 	t_exec				exec;
-	
+
 	(void)ac;
 	(void)av;
 	g_last_val = 0;

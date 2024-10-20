@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/18 20:56:30 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/19 14:39:02 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,10 @@ static int	**init_pipes(int n_pipes)
 	{
 		pipes[i] = (int *)malloc(sizeof(int) * 2);
 		if (!pipes[i])
-			free_int_arr(&pipes, i);
+			return (pipe_cleaner(pipes, i), free_int_arr(&pipes, i), NULL);
 		if (pipe(pipes[i]) == -1)
 		{
+			pipe_cleaner(pipes, i);
 			free_int_arr(&pipes, i + 1);
 			ft_error("pipe", NULL, OG_MSG); // BAD EXIT NEEDS t_data free !!!!
 			return (NULL);
@@ -96,16 +97,11 @@ int	initializer(t_exec *exec, t_data **data, struct sigaction *act)
 
 	pipes = NULL;
 	n_pipes = pipe_check(data);
-	if (n_pipes > 200)
-		return (1);
 	if (n_pipes > 0)
 	{
 		pipes = init_pipes(n_pipes);
 		if (!pipes)
-		{
-			free_data(data);
-			return (1);
-		}
+			return (free_data(data), 1);
 	}
 	init_exec(exec, data, n_pipes, pipes);
 	exec->act = *act;
