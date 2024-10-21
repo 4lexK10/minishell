@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/19 17:03:50 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:36:45 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,32 +28,18 @@ static pid_t	*init_pids(int n_pipes)
 
 static int	no_pipe_exec(t_exec *exec)
 {
-	int		pid;
 	int		status;
 
-	pid = 0;
 	status = 0;
-	
-	if (!find_built(*(exec->data)))
+	if (!find_built(*exec->data))
 	{
-		ft_printf("tetttt\n");
-		pid = fork();
-		if (pid == -1)
-			return (ft_error("fork", NULL, OG_MSG));
+		if (cmd_exec(exec))
+			return (free_data(exec->data), 1);
 	}
-	if (pid == 0)
-	{
-		if (needs_pre_redir(exec, 0) == 1 || needs_post_redir(exec, 0) == 1)
-			return (1);
-		is_cmd_valid(exec, 0);
-		executioner(exec, 0);
-	}
+	else
+		if (built_exec(exec))
+			return (free_data(exec->data), 1);
 	free_data(exec->data);
-	if (pid)
-	{
-		waitpid(pid, &status, 0);
-		g_last_val = WEXITSTATUS(status);
-	}
 	return (0);
 }
 
