@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:53:35 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/19 17:05:31 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:06:11 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	ft_echo(t_exec *exec, t_data *data)
 	bool	n_flag;
 
 	n_flag = false;
-	if ()
 	if (data && !ft_strncmp(data->word, "-n", 3))
 	{
 		n_flag = true;
