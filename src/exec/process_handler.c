@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/19 17:03:50 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/24 12:46:48 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static int	no_pipe_exec(t_exec *exec)
 	
 	if (!find_built(*(exec->data)))
 	{
-		ft_printf("tetttt\n");
 		pid = fork();
 		if (pid == -1)
 			return (ft_error("fork", NULL, OG_MSG));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:52:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/19 16:56:17 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/24 12:51:15 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int is_built(t_exec *exec, int i)
 		exit(0);
 	}
 	while (temp && temp->token != PIPE && temp->token != BUILT)
-		temp= temp->next;
+		temp = temp->next;
 	if (!temp || temp->token != BUILT)
 		return (-1);
 	res = built_handler(exec, i);
@@ -76,7 +76,6 @@ void    is_cmd_valid(t_exec *exec, int cmd_i)
 	temp = skipTo_cmd(*exec->data, cmd_i);
 	if (!temp || !temp->word)
 	{
-		ft_printf("hello\n");
 		free_exec(exec);
 		exit(0);
 	}

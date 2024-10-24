@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:36:20 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/18 17:22:48 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/24 12:46:01 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ static char	*red_to_string(char *arg, int *i)
 	y = 0;
 	str[y++] = arg[*i];
 	if (arg[*i] == arg[*i + 1])
-	{
 		str[y++] = arg[(*i)++];
-		(*i)++;
-	}
 	str[y] = '\0';
 	return (str);
 }

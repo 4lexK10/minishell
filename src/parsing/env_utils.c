@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:01:21 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/01 14:29:45 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/24 13:22:46 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ char	*check_special_env(char *str, int *i)
 	res = NULL;
 	if (str[*i + 1] == '0')
 	{
-		res = put_str_in_str(str, *i, "minishell");
+		res = put_str_in_str(str, *i, "minish");
 		if (!res)
 			return (free(str), NULL);
-		*i += ft_strlen("minishell");
+		*i += ft_strlen("minish");
 	}
 	else if (str[*i + 1] == '?')
 		if (for_last_value(&res, str, i) == -1)
