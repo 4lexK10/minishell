@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:43:17 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/19 17:12:20 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/24 14:57:09 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_data	*parsing(char *av, char **envp)
 	while (link)
 	{
 		link->token = which_token(link->word, link->flag_not_red_pipe);
-		// printf("Word = %s, token = %d\n", link->word, link->token);
+		printf("Word = %s, token = %d\n", link->word, link->token);
 		link = link->next;
 	}
 	return (data);
