@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/24 14:18:55 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/24 14:31:38 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ typedef struct	s_exec
 
 int	g_last_val;
 
-t_data *lexer(char *arg); // <=----- DELETE!
 void	converter(t_data **data);
 int		initializer(t_exec *exec, t_data **data, struct sigaction *act);
 int		process_handler(t_exec *exec);
@@ -115,6 +114,8 @@ void	rl_replace_line (const char *text, int clear_undo);
 /* void	rl_clear_history (void); */
 int		here_doc_handler(t_exec *exec);
 int		swap_env_var(char **env, char *str);
+int		built_exec(t_exec *exec);
+int		cmd_exec(t_exec *exec);
 int		change_env_var(t_exec *exec, char *str, int (*f)(char **, char *));
 int		free_exec(t_exec *exec);
 char	**get_cmd(t_data **data, int cmd_i);
@@ -125,6 +126,7 @@ int		reset_redir(t_data *temp, char *path);
 void	pre_exec_free(t_exec *exec);
 int		add_quotes(char *str);
 void	free_env(t_exec *exec);
+int		reset_std_io(t_exec *exec);
 
 int		ft_unset(t_exec *exec, t_data *data);
 int		ft_pwd(t_exec *exec);

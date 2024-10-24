@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:52:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/24 12:51:15 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/24 14:33:56 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ int	built_handler(t_exec *exec, int i)
 	if (res && i == exec->n_pipes)
 		g_last_val = res;
 	return (res);
+}
+
+int	reset_std_io(t_exec *exec)
+{
+	if (dup2(exec->std_out, STDOUT_FILENO) == -1
+		|| dup2(exec->std_in, STDIN_FILENO) == -1)
+		return (ft_error("dup2", NULL, OG_MSG));
+	return (0);
 }
 
 int is_built(t_exec *exec, int i)

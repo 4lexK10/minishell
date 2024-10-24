@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:03:07 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/16 16:52:42 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:54:26 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_data	*skipTo_cmd(t_data *temp, int cmd_i)
 		if (temp)
 			temp = temp->next;
 	}
-	if (temp && temp->token == IN)
+	if (temp && (temp->token == IN || temp->token == H_DOC))
 	{
 		if (temp->next->next && temp->next->next->token != PIPE)
 			temp = temp->next->next;
