@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:22:11 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/24 14:09:36 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/24 16:09:14 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,36 @@ static int	is_in_env(char *name, char **env, int *i)
 {
 	while (env[++(*i)])
 	{
-		// printf("Test = %s\n", env[*i]);
 		if (compar_env(name, env[*i]) == 0)
 			break ;
 	}
 	if (!env[*i])
 		return (0);
-	// printf("Yes : %s !\n", env[*i]);
 	return (1);
+}
+
+int	change_last_arg(char ***envp, char *str)
+{
+	int	i;
+	int	y;
+	int	z;
+
+	i = -1;
+	while (envp[0][++i])
+		if (compar_env("_", envp[0][i]) == 1)
+			break ;
+	free(envp[0][i]);
+	envp[0][i] = malloc(sizeof (char) * (ft_strlen(str) + 3));
+	if (!envp[0][i])
+		return (-1);
+	envp[0][i][0] = '_';
+	envp[0][i][1] = '=';
+	y = 1;
+	z = -1;
+	while (str[++z])
+		envp[0][i][++y] = str[z];
+	envp[0][i][++y] = '\0';
+	return (0);
 }
 
 int	check_our_env(char *name, char **res, char **env, int *flag)

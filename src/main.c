@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/24 14:31:50 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/24 16:10:09 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	signal_handler(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
     	rl_redisplay();
+		g_last_val = 1;
 	}
 	else
 	{
@@ -86,7 +87,8 @@ static int	interactive_mode(t_exec *exec, char **envp)
 			ctrl_D(exec, &arg);
 		if (arg && *arg)
 			add_history(arg);
-		data = parsing(arg, exec->env);
+		data = parsing(arg, &(exec->env));
+		g_last_val = 0;
 		converter(&data);
 		if (!data)
 			continue ;
