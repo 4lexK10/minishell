@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:52:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/21 15:55:02 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:50:17 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int is_built(t_exec *exec, int i)
 		exit(0);
 	}
 	while (temp && temp->token != PIPE && temp->token != BUILT)
-		temp= temp->next;
+		temp = temp->next;
 	if (!temp || temp->token != BUILT)
 		return (-1);
 	res = built_handler(exec, i);
