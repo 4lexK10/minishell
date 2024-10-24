@@ -6,21 +6,36 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:22:11 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/12 14:07:53 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/24 14:09:36 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-static int	is_in_env(char *name, char **env, int len_name, int *i)
+static int	compar_env(char *name, char *env)
+{
+	int	i;
+
+	i = -1;
+	while (name[++i])
+		if (name[i] != env[i])
+			return (-1);
+	if (!env[i] || env[i] != '=')
+		return (-1);
+	return (0);
+}
+
+static int	is_in_env(char *name, char **env, int *i)
 {
 	while (env[++(*i)])
 	{
-		if (ft_strnstr(env[*i], name, len_name))
+		// printf("Test = %s\n", env[*i]);
+		if (compar_env(name, env[*i]) == 0)
 			break ;
 	}
 	if (!env[*i])
 		return (0);
+	// printf("Yes : %s !\n", env[*i]);
 	return (1);
 }
 
@@ -33,7 +48,7 @@ int	check_our_env(char *name, char **res, char **env, int *flag)
 
 	y = ft_strlen(name);
 	i = -1;
-	if (is_in_env(name, env, y, &i) == 0)
+	if (is_in_env(name, env, &i) == 0)
 		return (0);
 	len = ft_strlen(env[i]) - y - 1;
 	*res = malloc(sizeof (char) * (len + 1));

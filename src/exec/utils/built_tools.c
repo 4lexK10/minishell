@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:52:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/24 14:05:51 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:33:56 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@ int	built_handler(t_exec *exec, int i)
 	return (res);
 }
 
+int	reset_std_io(t_exec *exec)
+{
+	if (dup2(exec->std_out, STDOUT_FILENO) == -1
+		|| dup2(exec->std_in, STDIN_FILENO) == -1)
+		return (ft_error("dup2", NULL, OG_MSG));
+	return (0);
+}
+
 int is_built(t_exec *exec, int i)
 {
 	t_data	*temp;
@@ -76,7 +84,6 @@ void    is_cmd_valid(t_exec *exec, int cmd_i)
 	temp = skipTo_cmd(*exec->data, cmd_i);
 	if (!temp || !temp->word)
 	{
-		ft_printf("hello\n");
 		free_exec(exec);
 		exit(0);
 	}
