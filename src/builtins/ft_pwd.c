@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 19:41:30 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/21 15:54:11 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:51:10 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,7 @@ int ft_pwd(t_exec *exec)
 		return (ft_error("write", NULL, OG_MSG));
 	free(pathname);
 	pathname = NULL;
-	return (reset_std_io(exec));
+	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
+		return (ft_error("dup2", NULL, OG_MSG));
+	return (0);
 }

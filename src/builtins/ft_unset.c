@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 08:03:58 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/21 15:53:55 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/12 13:42:33 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ int ft_unset(t_exec *exec, t_data *data)
 	int		i;
 
 	if (!data || data->token != STRING)
-		return (reset_std_io(exec));
+		return (0);
 	i = -1;
 	while ((exec->env)[++i])
 	{
 		if (ft_strncmp((exec->env)[i], data->word, (ft_strlen(data->word) + 1)) == '=')
-			return (remove_env_var(exec, data->word), reset_std_io(exec));
+			return (remove_env_var(exec, data->word));
 	}
-	return (reset_std_io(exec));
+	return (0);
 }

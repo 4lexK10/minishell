@@ -6,7 +6,7 @@
 #    By: akloster <akloster@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 17:39:13 by akloster          #+#    #+#              #
-#    Updated: 2024/10/21 16:37:45 by akloster         ###   ########.fr        #
+#    Updated: 2024/10/18 20:05:07 by akloster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ SRC				=	main.c exec/utils/error_handler.c					\
 					builtins/ft_env.c builtins/ft_export.c				\
 					exec/utils/env_tools.c builtins/ft_unset.c			\
 					exec/utils/tools.c	exec/here_doc_handler.c			\
-					exec/utils/process_tools.c										\
 					parsing/check_envp.c								\
 					parsing/parsing.c parsing/error.c					\
 					parsing/lexer_tok.c parsing/list_data.c				\

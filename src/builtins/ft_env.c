@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/21 15:54:38 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:07:11 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ int	ft_env(t_exec *exec, t_data *data)
 
 	i = -1;
 	if (data && data->token == 6)
-		return (ft_putendl_fd("env: too many arguments", STDOUT_FILENO), reset_std_io(exec));
+		return (ft_putendl_fd("env: too many arguments", STDOUT_FILENO));
 	while ((exec->env)[++i])
 		ft_putendl_fd((exec->env)[i], STDOUT_FILENO);
-	return (reset_std_io(exec));
+	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
+		return (ft_error("dup2", NULL, OG_MSG));
+	return (0);
 }

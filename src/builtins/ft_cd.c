@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 23:23:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/21 15:54:51 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:19:15 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,7 @@ int	ft_cd(t_exec *exec, t_data *data)
 	if (chdir(data->word) == -1)
 		return (ft_error("cd: ", data->word, OG_MSG));
 	update_env(exec);
-	return (reset_std_io(exec));
+	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
+		return (ft_error("dup2", NULL, OG_MSG));
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:00:08 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/21 15:54:21 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/14 22:13:27 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,12 @@ int	change_env_var(t_exec *exec, char *str, int (*f)(char **, char *))
 int	ft_export(t_exec *exec, t_data *data)
 {
 	if (exec->n_pipes)
-		return (reset_std_io(exec));
+		return (0);
 	if (!data || data->token != STRING)
-			return (need_sort_env(exec), reset_std_io(exec));
+			return (need_sort_env(exec));
 	if (ft_strnstr(data->word, "+=", ft_strlen(data->word + 1)))
-		return (change_env_var(exec, data->word, app_env_var), reset_std_io(exec));
+		return (change_env_var(exec, data->word, app_env_var));
 	else if (ft_strnstr(data->word, "=", ft_strlen(data->word + 1)))
-		return (change_env_var(exec, data->word, swap_env_var), reset_std_io(exec));
-	return (reset_std_io(exec));
+		return (change_env_var(exec, data->word, swap_env_var));
+	return (0);
 }
