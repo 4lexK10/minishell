@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:53:35 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/21 14:06:11 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:16:38 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	ft_echo(t_exec *exec, t_data *data)
 		n_flag = true;
 		data = data->next;
 	}
-	while (data && data->token == STRING)
+	while (data && (data->token == STRING || data->token == ABS_PATH
+		|| data->token == BUILT))
 	{
 		if (ft_putstr_fd(data->word, STDOUT_FILENO))
 			return (ft_error("write", NULL, OG_MSG));
