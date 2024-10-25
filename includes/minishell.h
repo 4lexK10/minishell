@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/24 16:10:45 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/25 15:22:45 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	g_last_val;
 void	converter(t_data **data);
 int		initializer(t_exec *exec, t_data **data, struct sigaction *act);
 int		process_handler(t_exec *exec);
-t_data	*parsing(char *av, char ***envp);
+t_data	*parsing(char *av, t_exec *exec);
 int		ft_error(char *str, char *name, int need);
 void	pipe_handler(t_exec *exec, int i);
 int		executioner(t_exec *exec, int i);

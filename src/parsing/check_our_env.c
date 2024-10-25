@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:22:11 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/24 16:09:14 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/25 15:45:39 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,15 @@ static int	is_in_env(char *name, char **env, int *i)
 	return (1);
 }
 
-int	change_last_arg(char ***envp, char *str)
+int	change_last_arg(t_exec *exec, char *str)
 {
-	int	i;
-	int	y;
-	int	z;
+	char	*for_export;
 
-	i = -1;
-	while (envp[0][++i])
-		if (compar_env("_", envp[0][i]) == 1)
-			break ;
-	free(envp[0][i]);
-	envp[0][i] = malloc(sizeof (char) * (ft_strlen(str) + 3));
-	if (!envp[0][i])
+	for_export = ft_strjoin("_=", str);
+	if (!for_export)
 		return (-1);
-	envp[0][i][0] = '_';
-	envp[0][i][1] = '=';
-	y = 1;
-	z = -1;
-	while (str[++z])
-		envp[0][i][++y] = str[z];
-	envp[0][i][++y] = '\0';
+	change_env_var(exec, for_export, swap_env_var);
+	free(for_export);
 	return (0);
 }
 

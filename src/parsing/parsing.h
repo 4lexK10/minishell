@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:32:09 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/24 16:09:36 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/25 15:21:44 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_arg
 
 t_data	*new_node(char *arg);
 t_data	*last_in_stack(t_data *list);
-t_data	*parsing(char *av, char ***envp);
+t_data	*parsing(char *av, t_exec *exec);
 char	*ft_all_string(t_data **data, t_arg line, int *i);
 char	*ft_append_word(t_data **data, t_arg line, int *i, char *str);
 char	*new_ft_join(char *str, char *temp);
@@ -39,6 +39,6 @@ int		which_token(char *arg, int is_str);
 int		compar_comm(char *arg, char *comm);
 int		for_last_value(char **res, char *str, int *i);
 int		check_our_env(char *name, char **res, char **env, int *flag);
-int		change_last_arg(char ***envp, char *str);
+int		change_last_arg(t_exec *exec, char *str);
 
 #endif
