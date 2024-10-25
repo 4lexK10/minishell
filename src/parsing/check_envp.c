@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:29:00 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/24 13:47:25 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/25 16:05:26 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ static char	*inside_env(char *word, int i, char **env, int *flag)
 		&& word[temp] != '\'')
 		env_name[++y] = word[temp++];
 	env_name[++y] = '\0';
-	printf("env = %s\n", env_name);
 	if (check_our_env(env_name, &env_var, env, flag) == 0)
 		env_var = "";
 	free(env_name);
