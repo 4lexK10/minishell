@@ -73,7 +73,7 @@ char	*ft_mod_strjoin(char const *s1, char const *s2)
 	j = -1;
 	if (!s1 || !s2)
 		return (NULL);
-	str = (char *)malloc((ft_mod_strlen(s1) + ft_mod_strlen(s2) + 1) * sizeof(char));
+	str = malloc((ft_mod_strlen(s1) + ft_mod_strlen(s2) + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
 	while (s1[++i] != '\0')

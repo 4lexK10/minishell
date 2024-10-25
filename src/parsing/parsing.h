@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:32:09 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/25 15:21:44 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/25 17:56:24 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,5 @@ int		which_token(char *arg, int is_str);
 int		compar_comm(char *arg, char *comm);
 int		for_last_value(char **res, char *str, int *i);
 int		check_our_env(char *name, char **res, char **env, int *flag);
-int		change_last_arg(t_exec *exec, char *str);
 
 #endif

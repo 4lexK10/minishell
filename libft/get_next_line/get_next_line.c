@@ -92,7 +92,7 @@ char	*get_next_line(int fd)
 	char		*nl;
 	int			cnt;
 
-	if (BUFFER_SIZE >= INT_MAX || fd < 0 || BUFFER_SIZE < 1) 
+	if (BUFFER_SIZE >= INT_MAX || fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	cnt = BUFFER_SIZE;
 	if (!str)

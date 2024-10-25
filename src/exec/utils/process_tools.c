@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_tools.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:24:54 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/25 16:48:54 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 17:42:31 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,12 @@ static void	parent_handler(int pid)
 
 	g_last_val = -21;
 	waitpid(pid, &status, 0);
-	if (status == 2)
+	if (status == 3)
+	{
+		g_last_val = 131;
+		write(STDOUT_FILENO, "Quit: 3\n", 8);
+	}
+	else if (status == 2)
 		g_last_val = 130;
 	else
 		g_last_val = WEXITSTATUS(status);

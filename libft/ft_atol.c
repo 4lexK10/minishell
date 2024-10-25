@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 22:16:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/02 00:13:45 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 17:18:14 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 long	ft_atol(const char *str)
 {
-	int		i;
+	int			i;
 	long long	sign;
 	long long	nb;
 	long long	temp;
