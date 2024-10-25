@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 16:22:11 by akiener           #+#    #+#             */
-/*   Updated: 2024/10/25 15:45:39 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/25 16:37:13 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@ static int	is_in_env(char *name, char **env, int *i)
 {
 	while (env[++(*i)])
 	{
+		// printf("Test = %s\n", env[*i]);
+		if (compar_env(name, env[*i]) == 0)
 		if (compar_env(name, env[*i]) == 0)
 			break ;
 	}
 	if (!env[*i])
 		return (0);
+	// printf("Yes : %s !\n", env[*i]);
 	return (1);
 }
 

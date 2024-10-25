@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:50:03 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/16 18:31:54 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 15:38:46 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@ void free_int_arr(int ***arr, int sub_arr_nbr)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	if (!arr || !(*arr))
 		return ;
-	while (++i < sub_arr_nbr)
+	while ((*arr)[i] && i < sub_arr_nbr)
 	{
 		free((*arr)[i]);
 		(*arr)[i] = NULL;
+		++i;
 	}
 	free(*arr);
 	*arr = NULL;

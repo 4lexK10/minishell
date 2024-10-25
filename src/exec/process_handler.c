@@ -6,7 +6,7 @@
 /*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/24 14:33:23 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/25 16:35:41 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ static int	no_pipe_exec(t_exec *exec)
 			return (free_data(exec->data), 1);
 	}
 	else
+	{
 		if (built_exec(exec))
 			return (free_data(exec->data), 1);
+	}
 	free_data(exec->data);
 	return (0);
 }
@@ -59,6 +61,8 @@ static int	parent_close_wait(t_exec *exec)
 				g_last_val = WEXITSTATUS(status);
 				if (g_last_val == 255)
 					g_last_val += 3;
+				if (status == 2)
+					g_last_val = 130;
 			}
 	}
 	free_pipes(exec, exec->n_pipes);
@@ -70,7 +74,7 @@ static int	parent_close_wait(t_exec *exec)
 
 static void	exec_child(t_exec *exec, int i)
 {
-	signal(SIGINT, SIG_DFL);
+	// signal(SIGINT, SIG_DFL);
 	pipe_handler(exec, i); //need correct exit code and free
 	is_cmd_valid(exec, i);
 	if (!executioner(exec, i))
