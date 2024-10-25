@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 01:17:40 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/15 23:14:01 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:50:25 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	pipe_cleaner(int **pipes, int n_pipes)
 
 int	ft_open(char *outfile, int type)
 {
-	int output;
+	int	output;
 
 	if (access(outfile, F_OK) == -1)
 		output = open(outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);

@@ -6,13 +6,13 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 19:41:30 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/21 15:54:11 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 17:07:24 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_pwd(t_exec *exec)
+int	ft_pwd(t_exec *exec)
 {
 	char	*pathname;
 

@@ -6,13 +6,13 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:30:13 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/19 14:37:28 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:53:11 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	extrma_fork(t_exec *exec, int last) // factorise into two function calls ?
+static int	extrma_fork(t_exec *exec, int last)
 {
 	int	in_check;
 	int	out_check;
@@ -69,7 +69,7 @@ static int	body_fork(int i, t_exec *exec)
 	return (EXIT_SUCCESS);
 }
 
-void pipe_handler(t_exec *exec, int i)
+void	pipe_handler(t_exec *exec, int i)
 {
 	if (i == 0)
 	{
@@ -80,7 +80,7 @@ void pipe_handler(t_exec *exec, int i)
 	{
 		if (extrma_fork(exec, LAST))
 			exit(1);
-	}	
+	}
 	else
 	{
 		if (body_fork(i, exec))

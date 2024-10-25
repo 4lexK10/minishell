@@ -6,13 +6,13 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:24:08 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/16 17:56:35 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:46:01 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void special_case(int need)
+static void	special_case(int need)
 {
 	if (need == PIPE)
 		ft_error("syntax error near unexpected token", "'|'", MY_MSG);

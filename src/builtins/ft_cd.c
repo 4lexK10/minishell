@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 23:23:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/21 15:54:51 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 17:04:46 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	update_env(t_exec *exec)
 static int	incomplete_dir(t_exec *exec, t_data *data)
 {
 	char	*dir;
-	
+
 	dir = getenv("HOME");
 	if (!data || !data->word || !ft_strncmp(data->word, "~", 2)
 		|| !ft_strncmp(data->word, "~/", 3))
@@ -95,7 +95,8 @@ int	ft_cd(t_exec *exec, t_data *data)
 		return (ft_error("cd: ", data->word, OG_MSG));
 	if (!ft_strncmp(data->word, ".", 2))
 		return (0);
-	if (data->next && (data->next->token == STRING || data->next->token == ABS_PATH))
+	if (data->next && (data->next->token == STRING
+			|| data->next->token == ABS_PATH))
 		return (ft_error("cd: too many arguments\n", NULL, MY_MSG));
 	if (chdir(data->word) == -1)
 		return (ft_error("cd: ", data->word, OG_MSG));

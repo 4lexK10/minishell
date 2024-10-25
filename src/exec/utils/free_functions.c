@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:55:06 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/25 15:37:22 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:47:48 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	free_data(t_data **data)
 	if (!data || !(*data))
 		return ;
 	temp = *data;
-	/* ft_printf("test\n") */
 	while (temp)
 	{
 		temp = temp->next;
@@ -35,7 +34,7 @@ void	free_data(t_data **data)
 	*data = NULL;
 }
 
-void free_ptr_arr(char ***s)
+void	free_ptr_arr(char ***s)
 {
 	int	i;
 
@@ -54,7 +53,7 @@ void free_ptr_arr(char ***s)
 	*s = NULL;
 }
 
-void free_pipes(t_exec *exec, int max)
+void	free_pipes(t_exec *exec, int max)
 {
 	int	i;
 
@@ -83,7 +82,7 @@ char	*free_all_path_info(char **str, char ***arr)
 	return (NULL);
 }
 
-int		my_free(char **ptr)
+int	my_free(char **ptr)
 {
 	if (!ptr || !(*ptr))
 		return (1);

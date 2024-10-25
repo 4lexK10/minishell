@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
+/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:53:35 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/24 14:32:53 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/25 17:05:03 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//check for redir if redir and no pipe print nothing
 
 int	ft_echo(t_exec *exec, t_data *data)
 {
@@ -25,7 +23,7 @@ int	ft_echo(t_exec *exec, t_data *data)
 		data = data->next;
 	}
 	while (data && (data->token == STRING || data->token == ABS_PATH
-		|| data->token == BUILT))
+			|| data->token == BUILT))
 	{
 		if (ft_putstr_fd(data->word, STDOUT_FILENO))
 			return (ft_error("write", NULL, OG_MSG));

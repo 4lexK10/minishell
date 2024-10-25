@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 21:24:27 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/07 18:28:48 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:45:42 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*put_env(char *str)
 {
-	char *res;
+	char	*res;
 
 	res = ft_strjoin("declare -x ", str);
 	if (!res)
@@ -52,7 +52,7 @@ char	*init_first(char **env)
 
 char	*get_last(char **env)
 {
-	char	*last; 
+	char	*last;
 	int		i;
 
 	i = 0;
@@ -60,7 +60,7 @@ char	*get_last(char **env)
 	while (env[++i])
 	{
 		if (ft_strncmp(last, env[i], (ft_strlen(last) + 1)) < 0)
-			last = env[i]; 
+			last = env[i];
 	}
 	return (last);
 }
@@ -69,15 +69,12 @@ static int	put_all_env(t_exec *exec, char *prev)
 {
 	char	*str;
 	char	**env;
-	int		i, j;
+	int		i;
 
-	j = 0;
 	env = exec->env;
 	while (1)
 	{
 		str = get_last(env);
-		if (j == 10)
-			break ;
 		i = -1;
 		while ((env[++i]))
 		{
@@ -103,7 +100,5 @@ int	need_sort_env(t_exec *exec)
 		return (1);
 	if (put_all_env(exec, prev))
 		return (1);
-/* 	if (dup2(exec->std_out, STDOUT_FILENO) == -1)
-		return (ft_error("dup2", NO_EXIT)); */
- 	return (0);
+	return (0);
 }

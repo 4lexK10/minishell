@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
+/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:48:19 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/24 14:56:06 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/25 16:55:42 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static void	get_next(t_data **temp, int type)
 {
 	if (type == IN)
 	{
-	 	while (*temp && (*temp)->token != IN && (*temp)->token != PIPE)
-			*temp = (*temp)->next;	
+		while (*temp && (*temp)->token != IN && (*temp)->token != PIPE)
+			*temp = (*temp)->next;
 	}
 	else
 	{
@@ -43,14 +43,14 @@ static void	get_next(t_data **temp, int type)
 	}
 }
 
-int needs_pre_redir(t_exec *exec, int i_cmd)
+int	needs_pre_redir(t_exec *exec, int i_cmd)
 {
 	int		fd_in;
 	t_data	*temp;
 
 	temp = go_to_cmd(exec, i_cmd);
 	if ((temp && temp->next && temp->next->token >= IN
-		&& temp->next->token <= H_DOC) && !temp->next->next)
+			&& temp->next->token <= H_DOC) && !temp->next->next)
 		return (EXIT_FAILURE);
 	get_next(&temp, IN);
 	if (!temp || temp->token == PIPE)
@@ -74,12 +74,12 @@ int needs_pre_redir(t_exec *exec, int i_cmd)
 
 int	needs_post_redir(t_exec *exec, int i_cmd)
 {
-	t_data *temp;
+	t_data	*temp;
 	int		fd_out;
 
 	temp = go_to_cmd(exec, i_cmd);
 	if ((temp && temp->next && temp->next->token >= IN
-		&& temp->next->token <= H_DOC) && !temp->next->next)
+			&& temp->next->token <= H_DOC) && !temp->next->next)
 		return (EXIT_FAILURE);
 	get_next(&temp, OUT);
 	if (!temp || temp->token == PIPE)
@@ -92,7 +92,7 @@ int	needs_post_redir(t_exec *exec, int i_cmd)
 		if (dup2(fd_out, STDOUT_FILENO) == -1)
 			return (ft_error("dup2", NULL, OG_MSG));
 		if (close(fd_out) == -1)
-			return(ft_error("close", NULL, OG_MSG));
+			return (ft_error("close", NULL, OG_MSG));
 		temp = temp->next;
 		get_next(&temp, OUT);
 	}

@@ -6,24 +6,24 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:05:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/19 14:39:02 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 17:03:57 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_env(t_exec *exec, char **envp)
+int	init_env(t_exec *exec, char **envp)
 {
 	int		i;
 
 	if (!envp || !(*envp))
-		return ;
+		return (1);
 	i = 0;
 	while (envp[i])
 		++i;
 	exec->env = (char **)malloc(sizeof(char *) * (i + 1));
 	if (!(exec->env) && ft_error("malloc", NULL, OG_MSG))
-		return ;
+		return (1);
 	i = -1;
 	while (envp[++i])
 	{
@@ -31,15 +31,14 @@ void	init_env(t_exec *exec, char **envp)
 		if (!(exec->env)[i])
 		{
 			free_env(exec);
-			ft_error("malloc", NULL, OG_MSG);
-			return ;
+			return (ft_error("malloc", NULL, OG_MSG));
 		}
 	}
 	(exec->env)[i] = NULL;
-	incr_shlvl(exec);
+	return (incr_shlvl(exec));
 }
 
-static void init_exec(t_exec *exec, t_data **data, int n_pipes, int **pipes)
+static void	init_exec(t_exec *exec, t_data **data, int n_pipes, int **pipes)
 {
 	exec->data = data;
 	exec->n_pipes = n_pipes;
@@ -57,7 +56,7 @@ static int	**init_pipes(int n_pipes)
 	i = -1;
 	pipes = (int **)malloc(sizeof(int *) * n_pipes);
 	if (!pipes)
-		ft_error("malloc", NULL, OG_MSG);  // BAD EXIT NEEDS t_data free !!!!
+		ft_error("malloc", NULL, OG_MSG);
 	while (++i < n_pipes)
 	{
 		pipes[i] = (int *)malloc(sizeof(int) * 2);
@@ -67,7 +66,7 @@ static int	**init_pipes(int n_pipes)
 		{
 			pipe_cleaner(pipes, i);
 			free_int_arr(&pipes, i + 1);
-			ft_error("pipe", NULL, OG_MSG); // BAD EXIT NEEDS t_data free !!!!
+			ft_error("pipe", NULL, OG_MSG);
 			return (NULL);
 		}
 	}
@@ -83,7 +82,7 @@ static int	pipe_check(t_data **data)
 	cnt = 0;
 	while (temp)
 	{
-		if (temp->token == PIPE) // needs correctiom: pipe token number
+		if (temp->token == PIPE)
 			++cnt;
 		temp = temp->next;
 	}

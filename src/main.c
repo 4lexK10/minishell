@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
+/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/25 16:35:04 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/25 17:10:49 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -18,7 +17,7 @@ static void	signal_handler(int sig)
 	if (sig == SIGINT)
 	{
 		write(STDOUT_FILENO, "\n", 1);
-    	if (g_last_val != -21)
+		if (g_last_val != -21)
 			rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -31,7 +30,7 @@ static void	signal_handler(int sig)
 	}
 }
 
-void	incr_shlvl(t_exec *exec)
+int	incr_shlvl(t_exec *exec)
 {
 	char	*str;
 	char	*temp;
@@ -39,32 +38,31 @@ void	incr_shlvl(t_exec *exec)
 
 	str = ft_getenv(exec->env, "SHLVL");
 	if (!str)
-		return ;
+		return (0);
 	nbr = ft_atoi(str);
 	temp = ft_itoa(++nbr);
 	if (!temp)
 	{
 		ft_error("malloc", NULL, OG_MSG);
-		exit(1);
+		return (1);
 	}
 	str = ft_strjoin("SHLVL=", temp);
 	my_free(&temp);
 	if (!str)
 	{
 		ft_error("malloc", NULL, OG_MSG);
-		exit(1);
+		return (1);
 	}
 	if (change_env_var(exec, str, swap_env_var) && my_free(&str))
-		exit(1);
+		return (1);
 	my_free(&str);
+	return (0);
 }
 
-static void	ctrl_D(t_exec *exec, char **arg)
+static void	ctrl_d(t_exec *exec, char **arg)
 {
 	my_free(arg);
 	free_exec(exec);
-/* 	rl_replace_line("", 0);
-	rl_redisplay(); */
 	write(1, "exit\n", 5);
 	exit(0);
 }
@@ -75,8 +73,7 @@ static int	interactive_mode(t_exec *exec, char **envp)
 	t_data				*data;
 	struct sigaction	act;
 
-	init_env(exec, envp);
-	if (!(exec->env))
+	if (init_env(exec, envp))
 		return (1);
 	while (1)
 	{
@@ -85,16 +82,15 @@ static int	interactive_mode(t_exec *exec, char **envp)
 		sigaction(SIGINT, &act, NULL);
 		arg = readline("minish-2.0$ ");
 		if (!arg)
-			ctrl_D(exec, &arg);
+			ctrl_d(exec, &arg);
 		if (arg && *arg)
 			add_history(arg);
 		data = parsing(arg, exec);
 		g_last_val = 0;
-		converter(&data);
+		converter(&data, &arg);
 		g_last_val = 0;
 		if (!data)
 			continue ;
-		my_free(&arg);
 		initializer(exec, &data, &act);
 	}
 	return (0);

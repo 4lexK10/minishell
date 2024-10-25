@@ -6,13 +6,13 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 00:50:03 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/25 15:38:46 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:50:03 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void free_int_arr(int ***arr, int sub_arr_nbr)
+void	free_int_arr(int ***arr, int sub_arr_nbr)
 {
 	int	i;
 
@@ -29,7 +29,7 @@ void free_int_arr(int ***arr, int sub_arr_nbr)
 	*arr = NULL;
 }
 
-void pre_exec_free(t_exec *exec)
+void	pre_exec_free(t_exec *exec)
 {
 	if (exec->n_pipes > 0)
 	{
@@ -85,13 +85,14 @@ int	setup_here_doc(t_data *temp, char **path, int cnt)
 	{
 		g_last_val = 258;
 		return (my_free(path), ft_error(
-			"syntax error near unexpected token 'newline'\n", NULL, MY_MSG));
+				"syntax error near unexpected token 'newline'\n"
+				, NULL, MY_MSG));
 	}
 	else if (temp->next->token != STRING)
 	{
 		g_last_val = 258;
 		return (my_free(path), ft_error(
-			"syntax error near unexpected token", NULL, temp->next->token));
+				"syntax error near unexpected token", NULL, temp->next->token));
 	}
 	if (here_doc(temp->next->word, path, cnt))
 		return (my_free(path), 1);

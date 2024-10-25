@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 15:21:39 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/16 17:53:01 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:51:54 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	reset_redir(t_data *temp, char *path)
 
 int	init_here_doc(char **path, int cnt)
 {
-	int	fd_Hdoc;
+	int	fd_hdoc;
 	int	i;
 
 	i = 0;
@@ -39,19 +39,19 @@ int	init_here_doc(char **path, int cnt)
 			++((*path)[18]);
 		}
 	}
-	fd_Hdoc = open(*path, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	if (fd_Hdoc == -1)
+	fd_hdoc = open(*path, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	if (fd_hdoc == -1)
 		return (ft_error("open: ", *path, OG_MSG));
-	return (fd_Hdoc);
+	return (fd_hdoc);
 }
 
 int	here_doc(char *limiter, char **path, int cnt)
 {
 	char	*line;
-	int		fd_Hdoc;
+	int		fd_hdoc;
 
-	fd_Hdoc = init_here_doc(path, cnt);
-	if (fd_Hdoc == -1)
+	fd_hdoc = init_here_doc(path, cnt);
+	if (fd_hdoc == -1)
 		return (1);
 	while (1)
 	{
@@ -65,10 +65,10 @@ int	here_doc(char *limiter, char **path, int cnt)
 			line = NULL;
 			break ;
 		}
-		ft_putstr_fd(line, fd_Hdoc);
+		ft_putstr_fd(line, fd_hdoc);
 		free(line);
 	}
-	close(fd_Hdoc);
+	close(fd_hdoc);
 	return (0);
 }
 
@@ -97,7 +97,7 @@ static int	get_here_doc(t_data **data, int *cnt)
 
 int	here_doc_handler(t_exec *exec)
 {
-	t_data *temp;
+	t_data	*temp;
 	int		cmd_i;
 
 	temp = *(exec->data);

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 16:47:18 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/18 21:06:24 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:46:44 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**get_cmd(t_data **data, int cmd_i)
 	temp = *data;
 	cnt = 0;
 	i = -1;
-	temp = skipTo_cmd(temp, cmd_i);
+	temp = skip_to_cmd(temp, cmd_i);
 	cnt = cnt_words(temp);
 	cmd = (char **)(malloc)((cnt + 1) * sizeof(char *));
 	if (!cmd)

@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 19:31:43 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/14 17:34:31 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 17:05:49 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,12 @@ static int	is_num(t_data *data)
 void	ft_exit(t_exec *exec, t_data *data)
 {
 	int	tmp;
-	
+
 	tmp = 0;
 	write(STDOUT_FILENO, "exit\n", 5);
 	if (!data || !data->word)
 		exit(0);
 	tmp = ft_atol(data->word);
-	/* rl_clear_history(); */
 	if (is_num(data) && !ft_atol(data->word) && !is_zero(data))
 	{
 		write(STDERR_FILENO, "minsh: ", 7);
@@ -89,8 +88,6 @@ void	ft_exit(t_exec *exec, t_data *data)
 		free_exec(exec);
 		exit(255);
 	}
-/* 	signal(SIGINT, SIG_DFL);
-	kill(0, SIGINT); */
 	free_exec(exec);
 	exit(tmp % 256);
 }

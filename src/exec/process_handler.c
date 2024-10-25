@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
+/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/25 16:35:41 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/25 16:54:02 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ static int	parent_close_wait(t_exec *exec)
 	while (++i <= exec->n_pipes)
 	{
 		waitpid((exec->pid)[i], &status, 0);
-			if (i == exec->n_pipes)
-			{
-				g_last_val = WEXITSTATUS(status);
-				if (g_last_val == 255)
-					g_last_val += 3;
-				if (status == 2)
-					g_last_val = 130;
-			}
+		if (i == exec->n_pipes)
+		{
+			g_last_val = WEXITSTATUS(status);
+			if (g_last_val == 255)
+				g_last_val += 3;
+			if (status == 2)
+				g_last_val = 130;
+		}
 	}
 	free_pipes(exec, exec->n_pipes);
 	free(exec->pid);
@@ -74,8 +74,7 @@ static int	parent_close_wait(t_exec *exec)
 
 static void	exec_child(t_exec *exec, int i)
 {
-	// signal(SIGINT, SIG_DFL);
-	pipe_handler(exec, i); //need correct exit code and free
+	pipe_handler(exec, i);
 	is_cmd_valid(exec, i);
 	if (!executioner(exec, i))
 	{
@@ -89,7 +88,7 @@ static void	exec_child(t_exec *exec, int i)
 	exit(1);
 }
 
-int process_handler(t_exec *exec)
+int	process_handler(t_exec *exec)
 {
 	pid_t	*pids;
 	int		i;
@@ -98,9 +97,6 @@ int process_handler(t_exec *exec)
 	pids = NULL;
 	if (here_doc_handler(exec))
 		return (1);
-/* 	ft_printf("\n AFTER HEREDOC\n");
-	for (t_data *temp = *(exec->data); temp; temp = temp->next)
-		ft_printf("|%s|   %d\n", temp->word, temp->token); */
 	if (exec->n_pipes == 0)
 		return (no_pipe_exec(exec));
 	pids = init_pids(exec->n_pipes);
@@ -109,8 +105,6 @@ int process_handler(t_exec *exec)
 	exec->pid = pids;
 	while (++i <= exec->n_pipes)
 	{
-/* 		sigaction(SIGQUIT, SIG_DFL, NULL);
-		sigaction(SIGINT, SIG_DFL, NULL); */
 		pids[i] = fork();
 		if (pids[i] == -1)
 			return (ft_error("fork", NULL, OG_MSG));

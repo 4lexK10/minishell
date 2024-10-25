@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
+/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:52:57 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/24 14:33:56 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/25 16:46:44 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	built_handler(t_exec *exec, int i)
 	int		res;
 
 	res = 0;
-	builtin = skipTo_cmd(*(exec->data), i);
+	builtin = skip_to_cmd(*(exec->data), i);
 	builtin = find_built(builtin);
 	if (!ft_strncmp(builtin->word, "cd", 3))
 		res = ft_cd(exec, builtin->next);
@@ -58,12 +58,12 @@ int	reset_std_io(t_exec *exec)
 	return (0);
 }
 
-int is_built(t_exec *exec, int i)
+int	is_built(t_exec *exec, int i)
 {
 	t_data	*temp;
 	int		res;
 
-	temp = skipTo_cmd(*(exec->data), i);
+	temp = skip_to_cmd(*(exec->data), i);
 	if (!temp)
 	{
 		free_exec(exec);
@@ -77,11 +77,11 @@ int is_built(t_exec *exec, int i)
 	return (res);
 }
 
-void    is_cmd_valid(t_exec *exec, int cmd_i)
+void	is_cmd_valid(t_exec *exec, int cmd_i)
 {
-	t_data *temp;
+	t_data	*temp;
 
-	temp = skipTo_cmd(*exec->data, cmd_i);
+	temp = skip_to_cmd(*exec->data, cmd_i);
 	if (!temp || !temp->word)
 	{
 		free_exec(exec);

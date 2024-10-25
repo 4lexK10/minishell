@@ -6,13 +6,13 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:03:07 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/21 14:54:26 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:57:53 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	*skipTo_cmd(t_data *temp, int cmd_i)
+t_data	*skip_to_cmd(t_data *temp, int cmd_i)
 {
 	while (cmd_i-- > 0)
 	{
@@ -44,11 +44,12 @@ int	cnt_words(t_data *temp)
 	return (cnt);
 }
 
-void	converter(t_data **data)
+void	converter(t_data **data, char **arg)
 {
-	t_data *temp;
+	t_data	*temp;
 
 	temp = *data;
+	my_free(arg);
 	while (temp)
 	{
 		if (temp->token >= PIPE && temp->token <= H_DOC)
@@ -76,7 +77,7 @@ int	absolute_cmd_handler(t_exec *exec, int i)
 	t_data	*temp;
 	char	*path;
 
-	temp = skipTo_cmd(*exec->data, i);
+	temp = skip_to_cmd(*exec->data, i);
 	if (temp->token != ABS_PATH)
 		return (-1);
 	cmd = get_cmd(exec->data, i);
