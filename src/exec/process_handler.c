@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:03:29 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/25 16:10:47 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:26:42 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	parent_close_wait(t_exec *exec)
 
 static void	exec_child(t_exec *exec, int i)
 {
-	signal(SIGINT, SIG_DFL);
+	// signal(SIGINT, SIG_DFL);
 	pipe_handler(exec, i); //need correct exit code and free
 	is_cmd_valid(exec, i);
 	if (!executioner(exec, i))
