@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:24:54 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/21 17:45:15 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/25 16:05:02 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,29 @@ int built_exec(t_exec *exec)
 	return (0);
 }
 
+/* static void	signal_handler_child(int sig)
+{
+	if (sig == SIGINT)
+	{
+		
+		g_last_val = 130;
+	}
+} */
+
+static void parent_handler(int pid)
+{
+	int	status;
+	
+	waitpid(pid, &status, 0);
+	if (status == 2)
+		g_last_val = 130;
+	else
+		g_last_val = WEXITSTATUS(status);
+}
+
 int cmd_exec(t_exec *exec)
 {
 	int	pid;
-	int	status;
 	int	ret_pre;
 	int	ret_post;
 
@@ -48,9 +67,6 @@ int cmd_exec(t_exec *exec)
 		executioner(exec, 0);
 	}
 	else
-	{
-		waitpid(pid, &status, 0);
-		g_last_val = WEXITSTATUS(status);
-	}
+		parent_handler(pid);
 	return (0);
 }

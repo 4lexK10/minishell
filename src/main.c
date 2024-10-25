@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
+/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:23 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/24 14:31:50 by akiener          ###   ########.fr       */
+/*   Updated: 2024/10/25 16:04:41 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static void	signal_handler(int sig)
 	if (sig == SIGINT)
 	{
 		write(STDOUT_FILENO, "\n", 1);
-		rl_replace_line("", 0);
 		rl_on_new_line();
+		rl_replace_line("", 0);
     	rl_redisplay();
 	}
 	else
@@ -73,14 +73,14 @@ static int	interactive_mode(t_exec *exec, char **envp)
 	t_data				*data;
 	struct sigaction	act;
 
-	act.sa_handler = &signal_handler;
-	sigaction(SIGQUIT, &act, NULL);
-	sigaction(SIGINT, &act, NULL);
 	init_env(exec, envp);
 	if (!(exec->env))
 		return (1);
 	while (1)
 	{
+		act.sa_handler = &signal_handler;
+		sigaction(SIGQUIT, &act, NULL);
+		sigaction(SIGINT, &act, NULL);
 		arg = readline("minish-2.0$ ");
 		if (!arg)
 			ctrl_D(exec, &arg);
