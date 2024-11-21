@@ -6,7 +6,7 @@
 /*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:34:49 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/25 17:09:47 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/26 15:18:06 by akloster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,6 @@
 # include <stddef.h>
 # define TOKEN	0
 # define WORD	1
-
-// token definition
-
 # define PIPE		1
 # define IN			2
 # define OUT		3
@@ -46,9 +43,6 @@
 # define NUMBER		7
 # define BUILT		8
 # define ABS_PATH	9
-
-// readablitlty defines
-
 # define OG_MSG		0
 # define MY_MSG		10
 # define FIRST		0
@@ -126,7 +120,6 @@ void	pre_exec_free(t_exec *exec);
 int		add_quotes(char *str);
 void	free_env(t_exec *exec);
 int		reset_std_io(t_exec *exec);
-
 int		ft_unset(t_exec *exec, t_data *data);
 int		ft_pwd(t_exec *exec);
 void	ft_exit(t_exec *exec, t_data *data);

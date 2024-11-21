@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akloster <akloster@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akiener <akiener@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:03:07 by akloster          #+#    #+#             */
-/*   Updated: 2024/10/25 16:57:53 by akloster         ###   ########.fr       */
+/*   Updated: 2024/10/26 14:56:24 by akiener          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ int	absolute_cmd_handler(t_exec *exec, int i)
 	if (!cmd)
 		return (free_exec(exec));
 	if (temp && !ft_strncmp(temp->word, "./minishell", 12))
-		path = "/Users/akloster/Documents/minishell/./minishell";
+		path = getenv("_");
 	else
 		path = temp->word;
 	if (access(path, X_OK))
 	{
 		free_exec(exec);
-		ft_error(path, ": No such file or directory", MY_MSG);
+		ft_error(path, ": No such file or directory\n", MY_MSG);
 		exit(127);
 	}
 	execve(path, cmd, exec->env);
